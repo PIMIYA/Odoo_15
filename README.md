@@ -1,3 +1,6 @@
+python版本 3.9
+postgresql版本 13
+
 ## Pull images from docker hub ##
 
 ### odoo ###
