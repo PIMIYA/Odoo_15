@@ -12,7 +12,4 @@ postgres
 
 `docker-compose up -d`
 
-## Mount custom addons ##
-
-`docker run -v /path/to/addons:/mnt/extra-addons -p 8069:8069 --name odoo --link db:db -t odoo`
 
