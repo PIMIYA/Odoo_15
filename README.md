@@ -1,4 +1,4 @@
-##Pull images from docker hub##
+## Pull images from docker hub ##
 
 odoo
 
@@ -8,11 +8,11 @@ postgres
 
 `docker push pimiya/postgres`
 
-##start an Odoo instance##
+## start an Odoo instance ##
 
 `docker-compose up -d`
 
-##Mount custom addons##
+## Mount custom addons ##
 
 `docker run -v /path/to/addons:/mnt/extra-addons -p 8069:8069 --name odoo --link db:db -t odoo`
 
