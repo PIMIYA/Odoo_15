@@ -1,15 +1,22 @@
 ## Pull images from docker hub ##
 
-odoo
+### odoo ###
 
 `docker push pimiya/odoo`
 
-postgres
+### postgres ###
 
 `docker push pimiya/postgres`
 
-## start an Odoo instance ##
+## Start an Odoo instance ##
 
 `docker-compose up -d`
+
+You can find the detail in docker-compose.yml file.
+
+#### once you start the odoo instance, the addons and config folder will be created. ####
+
+You can start to create custom addons and interactive with it.
+
 
 
