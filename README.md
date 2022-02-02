@@ -10,6 +10,8 @@
 
 ## Start an Odoo instance ##
 
+in directory /odoo/
+
 `docker-compose up -d`
 
 You can find the detail in docker-compose.yml file.
