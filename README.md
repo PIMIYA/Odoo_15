@@ -20,7 +20,7 @@ in directory /odoo/
 
 You can find the detail in docker-compose.yml file.
 
-已移除使用secret file, 可是情況補上。
+已移除使用secret file, 可視情況補上。
 
 ```
 version: '3.1'
