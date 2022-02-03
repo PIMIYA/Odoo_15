@@ -6,11 +6,11 @@ postgresql版本 13
 
 ### odoo ###
 
-`docker push pimiya/odoo`
+`docker pull pimiya/odoo`
 
 ### postgres ###
 
-`docker push pimiya/postgres`
+`docker pull pimiya/postgres`
 
 ## Start an Odoo instance ##
 
