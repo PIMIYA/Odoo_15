@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- dolimi User Group -->
+    <record id="dolimi_group_user" model="res.groups">
+        <field name="name">Dolimi User</field>
+        <field name="category_id" ref="base.module_category_inventory_argriculture"/>
+        <field name="implied_ids" eval="[(4, dolimi_group_user.id)]"/>
+        <field name="users" 
+             eval="[(4, ref('base.user_root')),
+                    (4, ref('base.user_admin'))]"/>
+    </record>
+
+</odoo>
