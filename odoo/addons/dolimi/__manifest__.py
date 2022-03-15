@@ -24,10 +24,11 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-        'security/dolimi_security.xml',
+        'views/dolimi_menu.xml',
+        # 'security/ir.model.access.csv',
+        # 'security/dolimi_security.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

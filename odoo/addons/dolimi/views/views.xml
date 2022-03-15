@@ -1,10 +1,6 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-    <!-- dolimi App Menu -->
-    <menuitem
-      id="menu_dolimi_app"
-      name="Dolimi Argiculture" />
 <!--
     <record model="ir.ui.view" id="dolimi.list">
       <field name="name">Dolimi list</field>
