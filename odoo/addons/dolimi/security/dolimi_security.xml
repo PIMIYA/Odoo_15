@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <!-- dolimi User Group -->
-    <record id="dolimi_group_manager" model="res.groups">
-        <field name="name">Manager</field>
-        <field name="category_id" ref="base.module_category_inventory_argriculture"/>
-        <field name="implied_ids" eval="[(4, dolimi_group_user)]"/>
-        <field name="users" 
-             eval="[(4, ref('base.user_root')),
-                    (4, ref('base.user_admin'))]"/>
-    </record>
+    <data>
+         <!-- Dolimi User Group  -->
+        
+    </data>
 
 </odoo>

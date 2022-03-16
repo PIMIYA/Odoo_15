@@ -4,6 +4,6 @@
     <!-- dolimi App Menu -->
     <menuitem
       id="menu_dolimi"
-      name="Dolimi Argiculture" />
+      name="Dolimi App" />
 
 </odoo>
