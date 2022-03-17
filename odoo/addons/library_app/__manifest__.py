@@ -16,7 +16,7 @@
         "views/book_list_template.xml",
         "reports/library_book_report.xml",
         "reports/library_publisher_report.xml",
-        ],
+    ],
     "demo": [
         "data/res.partner.csv",
         "data/library.book.csv",

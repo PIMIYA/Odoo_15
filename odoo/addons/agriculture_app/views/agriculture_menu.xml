@@ -1,0 +1,6 @@
+<odoo>
+
+    <!-- dolimi App Menu -->
+    <menuitem id="menu_agriculture" name="Agriculture" />
+
+</odoo>
