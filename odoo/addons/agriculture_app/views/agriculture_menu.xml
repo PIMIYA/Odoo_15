@@ -2,5 +2,24 @@
 
     <!-- dolimi App Menu -->
     <menuitem id="menu_agriculture" name="Agriculture" />
-
+    
+    <!-- Action to open the Book list -->
+    <record id="action_agriculture_crop" model="ir.actions.act_window">
+        <field name="name">Crops</field>
+        <field name="res_model">agriculture.crop</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    <!-- Menu item to open the Book list -->
+    <menuitem id="menu_agriculture_crop"
+        name="Crops" 
+        parent="menu_agriculture"
+        action="action_agriculture_crop"
+    />
+    
+    <menuitem id="menu_agriculture_configuration"
+        name="Configuration"
+        parent="menu_agriculture"
+    />
 </odoo>
+

@@ -9,6 +9,7 @@
     <field name="res_model">library.book</field>
     <field name="view_mode">tree,form</field>
   </record>
+  
   <!-- Old act_wndow, deprecated
   <act_window id="action_library_book"
     name="Library Books"
