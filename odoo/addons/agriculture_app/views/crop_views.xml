@@ -1,15 +1,33 @@
 <odoo>
-  <data>
+  <record id="view_form_crop" model="ir.ui.view">
+    <field name="name">Crop Form</field>
+    <field name="model">agriculture.crop</field>
+    <field name="arch" type="xml">
+
+    <form>
+      <sheet>
+        <group name="group_top">
+          <group name="group_left">
+        <field name="crop_name" />
+        <field name="crop_type" />
+          </group>
+        </group>
+      </sheet>
+    </form>
+
+    </field>
+  </record>
+
     <!-- explicit list view definition -->
     <record id="view_tree_crop" model="ir.ui.view">
       <field name="name">Crop List</field>
       <field name="model">agriculture.crop</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="name"/>
+          <field name="crop_name"/>
+          <field name="crop_type"/>
         </tree>
       </field>
     </record>
 
-  </data>
 </odoo>

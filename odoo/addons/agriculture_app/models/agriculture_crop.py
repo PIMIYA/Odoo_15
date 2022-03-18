@@ -8,7 +8,9 @@ class Crop(models.Model):
     _name = "agriculture.crop"
     _description = "Crop"
 
-    name = fields.Char('Crop Name', required=True)
+    crop_name = fields.Char('Crop Name', required=True)
+    crop_type = fields.Char('Crop Type', required=True)
+    active = fields.Boolean("Active?", default=True)
 
     # value = fields.Integer()
     # value2 = fields.Float(compute="_value_pc", store=True)
