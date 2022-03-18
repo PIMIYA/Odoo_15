@@ -1,5 +1,15 @@
 <odoo>
     <data>
+    <template id="crop_list_template" name="Crop List">
+      <div id="wrap" class="container">
+        <h1>Crops</h1>
+          <t t-foreach="crops" t-as="crop">
+            <div class="row">
+              <span t-field="crop.name" />,
+            </div>
+          </t>
+      </div>
+    </template>
 <!--
         <template id="listing">
           <ul>

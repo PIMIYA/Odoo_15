@@ -8,8 +8,7 @@ class Crop(models.Model):
     _name = "agriculture.crop"
     _description = "Crop"
 
-    crop_name = fields.Char('Crop Name', required=True)
-    crop_type = fields.Char('Crop Type', required=True)
+    name = fields.Char('Crop Name', required=True)
 
     # value = fields.Integer()
     # value2 = fields.Float(compute="_value_pc", store=True)

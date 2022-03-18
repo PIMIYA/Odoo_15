@@ -1,3 +1,16 @@
+from odoo import http
+
+
+class Crops(http.Controller):
+
+    @http.route("/agriculture/crops")
+    def list(self, **kwargs):
+        Crop = http.request.env["agriculture.crop"]
+        crops = Crop.search([])
+        return http.request.render(
+            "agriculture_app.crop_list_template",
+            {"crops": crops}
+        )
 # -*- coding: utf-8 -*-
 # from odoo import http
 
