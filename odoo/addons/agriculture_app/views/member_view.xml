@@ -1,25 +1,25 @@
 <odoo>
   <data>
-    
+
     <record id="view_form_member" model="ir.ui.view">
       <field name="name">Agriculture Form</field>
       <field name="model">agriculture.member</field>
       <field name="arch" type="xml">
-      <form>
-        <sheet>
-          <group name="group_top">
-            <group name="group_left">
-              <field name="SellerName" />
-              <field name="SellerId" /> 
+        <form>
+          <sheet>
+            <group name="group_top">
+              <group name="group_left">
+                <field name="SellerName" />
+                <field name="SellerId" />
+              </group>
+              <group name="group_right">
+                <field name="Region" />
+                <field name="AuxId" />
+              </group>
             </group>
-            <group name="group_right">
-              <field name="Region" />
-              <field name="AuxId" /> 
-            </group>
-          </group>
-        </sheet>
-      </form>
-    </field>
+          </sheet>
+        </form>
+      </field>
     </record>
 
     <!-- explicit list view definition -->
@@ -37,14 +37,14 @@
       </field>
     </record>
 
-     <!-- explicit search view definition -->
+    <!-- explicit search view definition -->
     <record id="view_search_member" model="ir.ui.view">
       <field name="name">Member Filters</field>
       <field name="model">agriculture.member</field>
       <field name="arch" type="xml">
         <search>
-          <field name="SellerName"/>
-          <field name="SellerId"/>
+          <field name="SellerName" />
+          <field name="SellerId" />
           <field name="Region" />
         </search>
       </field>
@@ -58,7 +58,7 @@
       <field name="res_model">agriculture_app.member</field>
       <field name="view_mode">tree,form</field>
     </record>
- -->
+    -->
     <!-- Top menu item -->
 
     <!-- <menuitem name="Agriculture Member" id="agriculture_member_app.menu_root" /> -->

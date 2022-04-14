@@ -2,20 +2,15 @@
 
     <!-- dolimi App Menu -->
     <menuitem id="menu_agriculture" name="Agriculture" />
-    
+
     <!-- Action to open the Crop list -->
     <record id="action_agriculture_crop" model="ir.actions.act_window">
         <field name="name">Crops</field>
         <field name="res_model">agriculture.crop</field>
         <field name="view_mode">tree,form</field>
     </record>
-    
     <!-- Menu item to open the Crop list -->
-    <menuitem id="menu_agriculture_crop"
-        name="Crops" 
-        parent="menu_agriculture"
-        action="action_agriculture_crop"
-    />
+    <menuitem id="menu_agriculture_crop" name="Crops" parent="menu_agriculture" action="action_agriculture_crop" />
 
     <!-- Action to open the Mnmber list -->
     <record id="action_agriculture_member" model="ir.actions.act_window">
@@ -23,30 +18,24 @@
         <field name="res_model">agriculture.member</field>
         <field name="view_mode">tree,form</field>
     </record>
-     
     <!-- Menu item to open the Member list -->
-    <menuitem id="menu_agriculture_member"
-        name="Members"
-        parent="menu_agriculture"
-        action="action_agriculture_member"
-    />    
+    <menuitem id="menu_agriculture_member" name="Members" parent="menu_agriculture" action="action_agriculture_member" />
+
     <!-- Action to open the EST  list -->
     <record id="action_agriculture_estimate" model="ir.actions.act_window">
         <field name="name">Estimate</field>
         <field name="res_model">agriculture.estimate</field>
         <field name="view_mode">tree,form</field>
-    </record> 
+    </record>
     <!-- Menu item to open the EST list -->
-    <menuitem id="menu_agriculture_estimate"
-        name="Estimate"
-        parent="menu_agriculture"
-        action="action_agriculture_estimate"
-    />    
+    <menuitem id="menu_agriculture_estimate" name="Estimate" parent="menu_agriculture" action="action_agriculture_estimate" />
 
-
-    <!-- <menuitem id="menu_agriculture_configuration"
-        name="Configuration"
-        parent="menu_agriculture"
-    /> -->
+    <!-- Action to open the Archived list -->
+    <record id="action_agriculture_archived" model="ir.actions.act_window">
+        <field name="name">Archived</field>
+        <field name="res_model">agriculture.archived</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Menu item to open the Archived -->
+    <menuitem id="menu_agriculture_archived" name="Archived" parent="menu_agriculture" action="action_agriculture_archived" />
 </odoo>
-

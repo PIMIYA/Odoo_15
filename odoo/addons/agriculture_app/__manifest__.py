@@ -24,6 +24,7 @@
         "views/crop_list_template.xml",
         "views/member_view.xml",
         "views/member_list_template.xml",
+        "views/archived_view.xml",
     ],
     # only loaded in demonstration mode
     "demo": [
