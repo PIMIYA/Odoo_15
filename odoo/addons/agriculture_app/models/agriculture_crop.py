@@ -53,7 +53,7 @@ class Crop(models.Model):
     StartTime = fields.Datetime('Start Time', required=True)
     EndTime = fields.Datetime('End Time', required=True)
 
-    # active = fields.Boolean("Active?", default=True)
+    active = fields.Boolean("Active?", default=True)
 
     # value = fields.Integer()
     # value2 = fields.Float(compute="_value_pc", store=True)

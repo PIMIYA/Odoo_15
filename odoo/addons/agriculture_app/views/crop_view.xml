@@ -15,7 +15,8 @@
             <field name="CropType" />
             <field name="StartTime" />
             <field name="EndTime" />
-
+          </group>
+          <group name="group_right">
             <field name="Region" />
             <field name="AuxId" />
             <field name="FarmerType" />
@@ -29,7 +30,6 @@
             <field name="dry_crop_cubic_weight" />
             <field name="crop_conversion_rate" />
             <field name="dry_crop_weight" />
-
           </group>
         </group>
       </sheet>
@@ -45,6 +45,7 @@
       <field name="arch" type="xml">
         <tree>
           <!-- <field name="active"/> -->
+          <field name="active" />
           <field name="SeqNumber" />
           <field name="SellerName" />
           <field name="CropVariety" />
@@ -61,12 +62,12 @@
         <search>
           <field name="SellerName"/>
           <field name="CropVariety"/>
-          <!-- <filter name="filter_inactive"
+          <filter name="filter_inactive"
                   string="InEstimated"
                   domain="[('active','=',True)]"/>
           <filter name="filter_active"
                   string="Estimated"
-                  domain="[('active','=',False)]"/> -->
+                  domain="[('active','=',False)]"/>
         </search>
       </field>
     </record>
