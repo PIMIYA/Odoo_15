@@ -12,7 +12,8 @@ class Crop(models.Model):
     SeqNumber = fields.Char("SeqNumber", required=True)
     SellerId = fields.Char("SellerId", required=True)
     SellerId1 = fields.Char("SellerId1", required=False)
-    SellerName = fields.Char("SellerName", required=True)
+    SellerName = fields.Many2one(
+        "agriculture.member", string="SellerName", required=True)
     Region = fields.Char("Region", required=True)
     AuxId = fields.Char("AuxId", required=True)
     # 農夫的資訊從member中取得
