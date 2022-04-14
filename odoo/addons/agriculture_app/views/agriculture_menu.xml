@@ -16,7 +16,22 @@
         parent="menu_agriculture"
         action="action_agriculture_crop"
     />
-    
+
+    <!-- Action to open the Mnmber list -->
+    <record id="action_agriculture_member" model="ir.actions.act_window">
+        <field name="name">Members</field>
+        <field name="res_model">agriculture.member</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+     
+    <!-- Menu item to open the Member list -->
+    <menuitem id="menu_agriculture_member"
+        name="Members"
+        parent="menu_agriculture"
+        action="action_agriculture_member"
+    />    
+
+
     <!-- <menuitem id="menu_agriculture_configuration"
         name="Configuration"
         parent="menu_agriculture"

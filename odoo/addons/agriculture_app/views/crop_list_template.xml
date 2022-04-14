@@ -5,7 +5,7 @@
         <h1>Crops</h1>
           <t t-foreach="crops" t-as="crop">
             <div class="row">
-              <span t-field="crop.name" />,
+              <span t-field="crop.name" />
             </div>
           </t>
       </div>

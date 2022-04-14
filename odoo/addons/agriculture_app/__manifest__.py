@@ -20,8 +20,10 @@
         "security/agriculture_security.xml",
         "security/ir.model.access.csv",
         "views/agriculture_menu.xml",
-        # "views/crop_views.xml",
-        # "views/crop_list_template.xml",
+        "views/crop_view.xml",
+        "views/crop_list_template.xml",
+        "views/member_view.xml",
+        "views/member_list_template.xml",
     ],
     # only loaded in demonstration mode
     "demo": [

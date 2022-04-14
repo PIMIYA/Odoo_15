@@ -1,7 +1,7 @@
 from odoo import http
 
 
-class Crops(http.Controller):
+class Dolimi(http.Controller):
 
     @http.route("/agriculture/crops")
     def list(self, **kwargs):
@@ -10,6 +10,15 @@ class Crops(http.Controller):
         return http.request.render(
             "agriculture_app.crop_list_template",
             {"crops": crops}
+        )
+
+    @http.route("/agriculture/members")
+    def list(self, **kwargs):
+        Member = http.request.env["agriculture.member"]
+        members = Member.search([])
+        return http.request.render(
+            "agriculture_app.member_list_template",
+            {"members": members}
         )
 # -*- coding: utf-8 -*-
 # from odoo import http
