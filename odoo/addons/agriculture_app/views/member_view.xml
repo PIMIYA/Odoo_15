@@ -1,9 +1,9 @@
 <odoo>
   <data>
     
-    <record id="view_form_crop" model="ir.ui.view">
-      <field name="name">Crop Form</field>
-      <field name="model">agriculture.crop</field>
+    <record id="view_form_member" model="ir.ui.view">
+      <field name="name">Agriculture Form</field>
+      <field name="model">agriculture.member</field>
       <field name="arch" type="xml">
       <form>
         <sheet>
