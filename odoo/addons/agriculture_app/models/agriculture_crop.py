@@ -65,6 +65,8 @@ class Crop(models.Model):
         print("hello underworld")
         return True
 
+    archived_id = fields.Many2one("agriculture.archived")
+
     # value = fields.Integer()
     # value2 = fields.Float(compute="_value_pc", store=True)
     # description = fields.Text()
