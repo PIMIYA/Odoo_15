@@ -1,21 +1,20 @@
 <odoo>
   <data>
-    
-    <record id="view_form_crop" model="ir.ui.view">
+
+    <record id="view_form_member" model="ir.ui.view">
       <field name="name">Member Form</field>
       <field name="model">agriculture.member</field>
       <field name="arch" type="xml">
-      <form>
-        <sheet>
-          <group name="group_top">
+        <form>
+          <sheet>
             <group name="group_left">
               <field name="SellerName" />
-              <field name="SellerId" /> 
+              <field name="SellerId" />
               <field name="FarmerType" />
             </group>
             <group name="group_right">
               <field name="Region" />
-              <field name="AuxId" /> 
+              <field name="AuxId" />
             </group>
           </sheet>
         </form>
@@ -44,8 +43,8 @@
       <field name="model">agriculture.member</field>
       <field name="arch" type="xml">
         <search>
-          <field name="SellerName"/>
-          <field name="SellerId"/>
+          <field name="SellerName" />
+          <field name="SellerId" />
           <field name="FarmerType" />
           <field name="Region" />
           <field name="AuxId" />
