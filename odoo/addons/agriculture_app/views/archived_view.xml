@@ -26,6 +26,7 @@
       <field name="model">agriculture.archived</field>
       <field name="arch" type="xml">
         <tree>
+          <field name="member" />
           <field name="seq_numbers" />
           <field name="additional_items" />
         </tree>
@@ -38,6 +39,7 @@
       <field name="model">agriculture.archived</field>
       <field name="arch" type="xml">
         <search>
+          <field name="member" />
           <field name="seq_numbers" />
           <field name="additional_items" />
         </search>

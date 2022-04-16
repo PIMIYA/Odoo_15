@@ -25,6 +25,9 @@
         "views/member_view.xml",
         "views/member_list_template.xml",
         "views/archived_view.xml",
+        "views/archived_additional_item.xml",
+        "report/agriculture_archived_reports.xml",
+        "report/agriculture_archived_templates.xml"
     ],
     # only loaded in demonstration mode
     "demo": [

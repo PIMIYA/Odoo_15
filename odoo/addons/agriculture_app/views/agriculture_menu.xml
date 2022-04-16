@@ -38,4 +38,11 @@
     </record>
     <!-- Menu item to open the Archived -->
     <menuitem id="menu_agriculture_archived" name="Archived" parent="menu_agriculture" action="action_agriculture_archived" />
+
+    <!-- Action to open the Additional Item list -->
+    <record id="action_agriculture_additional_item" model="ir.actions.act_window">
+        <field name="name">Archived Additional Item</field>
+        <field name="res_model">agriculture.archived_additional_item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 </odoo>

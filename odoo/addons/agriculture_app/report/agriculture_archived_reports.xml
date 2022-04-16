@@ -1,0 +1,12 @@
+<odoo>
+
+  <record id="action_agriculture_archived_billing_report" model="ir.actions.report">
+    <field name="name">Archived billing</field>
+    <field name="model">agriculture.archived</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">agriculture_app.archived_billing_report</field>
+    <field name="binding_model_id" ref="model_agriculture_archived" />
+    <field name="binding_type">report</field>
+  </record>
+
+</odoo>

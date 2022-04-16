@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <template id="archived_billing_report">
+    <t t-set="total_expenditure" t-value="0" />
+    <t t-set="total_income" t-value="0" />
+
+    <t t-foreach="docs" t-as="doc">
+      <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+          <div class="page">
+            <!-- Title -->
+            <h2>
+              Billing
+            </h2>
+            <!-- Member information -->
+            <div class="row">
+              <div class="col-6">
+                <h5>
+                  <span class="mt-1">名字:</span>
+                  <span t-field="doc.member.SellerName" />
+                </h5>
+              </div>
+            </div>
+
+            <!-- 應付款 -->
+            <div class="row mt-5">
+              <h5>應付款:</h5>
+            </div>
+            <div>
+              <table class="table table-bordered text-center">
+                <thead>
+                  <tr>
+                    <th>交易日期</th>
+                    <th>貨品(摘要)</th>
+                    <th>稻穀重量</th>
+                    <th>單價</th>
+                    <th>金額</th>
+                    <th>烘乾補助</th>
+                    <th>搬運補助</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <t t-set="crops" t-value="doc.mapped('seq_numbers')" />
+                  <tr t-foreach="crops" t-as="crop">
+                    <t t-set="total_expenditure" t-value="total_expenditure+crop.first_estimated_price" />
+                    <td>
+                      <span t-field="crop.StartTime" widget="date" t-field-options="{'format': 'dd/MM/yyyy'}" />
+                    </td>
+                    <td>
+                      <span t-field="crop.CropType" />
+                    </td>
+                    <td>
+                      <span t-field="crop.total_weight_vehicle" />
+                    </td>
+                    <td>
+                      <span t-field="crop.first_estimated_price" />
+                    </td>
+                    <td>
+                      <span t-field="crop.first_estimated_price" />
+                    </td>
+                    <td>
+                      <span t-field="crop.first_estimated_price" />
+                    </td>
+                    <td>
+                      <span t-field="crop.first_estimated_price" />
+                    </td>
+                  </tr>
+                  <!-- 小記 -->
+                  <tr>
+                    <td colspan="2">小記</td>
+                    <!-- 重量 -->
+                    <td>
+                      <span t-esc="total_expenditure" />
+                    </td>
+                    <td></td>
+                    <!-- 金額 -->
+                    <td>
+                      <span t-esc="total_expenditure" />
+                    </td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <!-- 應付總額 -->
+                  <tr>
+                    <td colspan="4">應付金額合計</td>
+                    <!-- 金額 -->
+                    <td>
+                      <span t-esc="total_expenditure" />
+                    </td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 應收款 -->
+            <div class="row mt-5">
+              <h5>應收款:</h5>
+            </div>
+            <div>
+              <table class="table table-bordered text-center">
+                <thead>
+                  <tr>
+                    <th>交易日期</th>
+                    <th>貨品(摘要)</th>
+                    <th>數量</th>
+                    <th>單價</th>
+                    <th>金額</th>
+                    <th>應收利息</th>
+                    <th>備註說明</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <t t-set="add_items" t-value="doc.mapped('additional_items')" />
+                  <tr t-foreach="add_items" t-as="add_item">
+                    <t t-set="total_income" t-value="total_income+add_item.total_price" />
+                    <td>
+                      <span t-field="add_item.datetime" widget="date" t-field-options="{'format': 'dd/MM/yyyy'}" />
+                    </td>
+                    <td>
+                      <span t-field="add_item.item_name" />
+                    </td>
+                    <td>
+                      <span t-field="add_item.amount" />
+                    </td>
+                    <td>
+                      <span t-field="add_item.unit_price" />
+                    </td>
+                    <td>
+                      <span t-field="add_item.total_price" />
+                    </td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 應付 應收 實付 -->
+            <br />
+            <div>
+              <table class="table table-bordered text-center">
+                <thead>
+                  <tr>
+                    <th>應付金額</th>
+                    <th>應收金額</th>
+                    <th>實付金額</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span t-esc="total_expenditure" />
+                    </td>
+                    <td>
+                      <span t-esc="total_income" />
+                    </td>
+                    <td>
+                      <span t-esc="total_expenditure-total_income" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+
+</odoo>
