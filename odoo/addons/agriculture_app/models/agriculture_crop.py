@@ -60,7 +60,7 @@ class Crop(models.Model):
 
     # active = fields.Boolean("Active?", default=True)
 
-    def button_save(self):
+    def button_test(self):
         self.ensure_one()
         print("hello underworld")
         return True
