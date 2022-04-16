@@ -2,10 +2,11 @@
 <odoo>
 
   <template id="archived_billing_report">
-    <t t-set="total_expenditure" t-value="0" />
-    <t t-set="total_income" t-value="0" />
-
     <t t-foreach="docs" t-as="doc">
+      <t t-set="total_expenditure" t-value="0" />
+      <t t-set="total_income" t-value="0" />
+      <t t-set="add_items" t-value="doc.mapped('additional_items')" />
+
       <t t-call="web.html_container">
         <t t-call="web.external_layout">
           <div class="page">
@@ -45,7 +46,7 @@
                   <tr t-foreach="crops" t-as="crop">
                     <t t-set="total_expenditure" t-value="total_expenditure+crop.first_estimated_price" />
                     <td>
-                      <span t-field="crop.StartTime" widget="date" t-field-options="{'format': 'dd/MM/yyyy'}" />
+                      <span t-field="crop.StartTime" widget="date" t-field-options="{'format': 'YYYY-MM-DD'}" />
                     </td>
                     <td>
                       <span t-field="crop.CropType" />
@@ -64,6 +65,30 @@
                     </td>
                     <td>
                       <span t-field="crop.first_estimated_price" />
+                    </td>
+                  </tr>
+                  <tr t-foreach="add_items.filtered(lambda x: x.item_kind == 'expenditure')" t-as="add_item">
+                    <t t-set="total_expenditure" t-value="total_expenditure+add_item.total_price" />
+                    <td>
+                      <span t-field="add_item.datetime" widget="date" t-field-options="{'format': 'YYYY-MM-DD'}" />
+                    </td>
+                    <td>
+                      <span t-field="add_item.item_name" />
+                    </td>
+                    <td>
+                      <span t-field="add_item.amount" />
+                    </td>
+                    <td>
+                      <span t-field="add_item.unit_price" />
+                    </td>
+                    <td>
+                      <span t-field="add_item.total_price" />
+                    </td>
+                    <td>
+                      <span t-field="add_item.drying_allowance" />
+                    </td>
+                    <td>
+                      <span t-field="add_item.transport_allowance" />
                     </td>
                   </tr>
                   <!-- 小記 -->
@@ -113,11 +138,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <t t-set="add_items" t-value="doc.mapped('additional_items')" />
-                  <tr t-foreach="add_items" t-as="add_item">
+                  <tr t-foreach="add_items.filtered(lambda x: x.item_kind == 'income')" t-as="add_item">
                     <t t-set="total_income" t-value="total_income+add_item.total_price" />
                     <td>
-                      <span t-field="add_item.datetime" widget="date" t-field-options="{'format': 'dd/MM/yyyy'}" />
+                      <span t-field="add_item.datetime" widget="date" t-field-options="{'format': 'YYYY-MM-DD'}" />
                     </td>
                     <td>
                       <span t-field="add_item.item_name" />
@@ -131,8 +155,12 @@
                     <td>
                       <span t-field="add_item.total_price" />
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                      <span t-field="add_item.interest" />
+                    </td>
+                    <td>
+                      <span t-field="add_item.comment" />
+                    </td>
                   </tr>
                 </tbody>
               </table>
