@@ -9,10 +9,11 @@
         <form>
           <sheet>
             <group name="group_top">
-              <field name="seq_numbers" />
+              <field name="member" widget="many2one" />
             </group>
             <group name="group_bottom">
-              <field name="additional_items" />
+              <field name="seq_numbers" widget="many2many" domain="[('SellerName', '=', member)]" />
+              <field name="additional_items" widget="many2many" />
             </group>
           </sheet>
         </form>

@@ -55,6 +55,8 @@ class Crop(models.Model):
 
     active = fields.Boolean("Active?", default=True)
 
+    archived_id = fields.Many2one("agriculture.archived")
+
     # value = fields.Integer()
     # value2 = fields.Float(compute="_value_pc", store=True)
     # description = fields.Text()
