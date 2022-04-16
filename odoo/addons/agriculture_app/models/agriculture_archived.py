@@ -1,4 +1,4 @@
-from odoo import api, models, fields
+from odoo import api, models, fields, exceptions
 
 
 class Archived(models.Model):
@@ -18,9 +18,5 @@ class Archived(models.Model):
     def _onchange_member(self):
         for seq in self.seq_numbers:
             if seq.SellerName.id != self.member.id:
-                return {
-                    'warning': {
-                        'title': "Crops invalid",
-                        'message': "The seller incompatible",
-                    }
-                }
+                raise exceptions.ValidationError(
+                    'Sorry, Seller\'s id not matched')
