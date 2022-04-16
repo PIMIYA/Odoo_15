@@ -7,18 +7,23 @@ from odoo.exceptions import ValidationError
 class Crop(models.Model):
     _name = "agriculture.crop"
     _description = "Crop"
+    _order = "EndTime desc"
 
     # ******主要使用資料******
+    # ******流水號******
     SeqNumber = fields.Char("SeqNumber", required=True)
-    SellerId = fields.Char("SellerId", required=True)
-    SellerId1 = fields.Char("SellerId1", required=False)
+    # ******農夫的資訊從member中取得******
     SellerName = fields.Many2one(
-        "agriculture.member", "SellerName", required=True)
-    Region = fields.Char("Region", required=True)
-    AuxId = fields.Char("AuxId", required=True)
-    # 農夫的資訊從member中取得
+        "agriculture.member", string="SellerName", required=True)
+    SellerId = fields.Char(
+        "SellerId", related="SellerName.SellerId", required=True)
+    SellerId1 = fields.Char("SellerId1", required=False)
+    Region = fields.Char("Region", related="SellerName.Region", required=False)
+    AuxId = fields.Char("AuxId", related="SellerName.AuxId", required=False)
     FarmerType = fields.Selection(
-        [('non_contract', '非契作農民'), ('contract', '契作農民')], string='FarmerType', required=True)
+        "FarmerType", related="SellerName.FarmerType", required=True)
+    # *******************************************
+    # ******農作物資料******
     FarmingMethod = fields.Selection([('conventional', '慣行農法'), (
         'organic', '有機耕作'), ('tgap', 'TGAP')], string='FarmingMethod', required=True)
     CropVariety = fields.Char('CropVariety', required=True)
@@ -53,7 +58,12 @@ class Crop(models.Model):
     StartTime = fields.Datetime('Start Time', required=True)
     EndTime = fields.Datetime('End Time', required=True)
 
-    active = fields.Boolean("Active?", default=True)
+    # active = fields.Boolean("Active?", default=True)
+
+    def button_save(self):
+        self.ensure_one()
+        print("hello underworld")
+        return True
 
     # value = fields.Integer()
     # value2 = fields.Float(compute="_value_pc", store=True)

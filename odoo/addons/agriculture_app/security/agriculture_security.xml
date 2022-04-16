@@ -23,9 +23,9 @@
     <record id="crop_user_rule" model="ir.rule"> 
       <field name="name">Crop User Access</field> 
       <field name="model_id" ref="model_agriculture_crop"/> 
-      <field name="domain_force">
+      <!-- <field name="domain_force">
         [('active', '=', True)] 
-      </field> 
+      </field>  -->
       <field name="groups" eval="[(4, ref('agriculture_group_user'))]"/> 
     </record> 
   </data>

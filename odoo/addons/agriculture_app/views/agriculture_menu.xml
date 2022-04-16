@@ -32,13 +32,13 @@
     />    
     <!-- Action to open the EST  list -->
     <record id="action_agriculture_estimate" model="ir.actions.act_window">
-        <field name="name">Estimate</field>
+        <field name="name">Estimates</field>
         <field name="res_model">agriculture.estimate</field>
         <field name="view_mode">tree,form</field>
     </record> 
     <!-- Menu item to open the EST list -->
     <menuitem id="menu_agriculture_estimate"
-        name="Estimate"
+        name="Estimates"
         parent="menu_agriculture"
         action="action_agriculture_estimate"
     />    

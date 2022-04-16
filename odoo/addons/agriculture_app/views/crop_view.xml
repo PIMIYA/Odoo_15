@@ -5,6 +5,9 @@
     <field name="arch" type="xml">
 
     <form>
+      <header>
+        <button name="button_save" type="object" string="save" />
+      </header>
       <sheet>
         <group name="group_top">
           <group name="group_left">
@@ -38,38 +41,38 @@
     </field>
   </record>
 
-    <!-- explicit list view definition -->
-    <record id="view_tree_crop" model="ir.ui.view">
-      <field name="name">Crop List</field>
-      <field name="model">agriculture.crop</field>
-      <field name="arch" type="xml">
-        <tree>
-          <!-- <field name="active"/> -->
-          <field name="active" />
-          <field name="SeqNumber" />
-          <field name="SellerName" />
-          <field name="CropVariety" />
-          <field name="CropType" />
-        </tree>
-      </field>
-    </record>
+  <!-- explicit list view definition -->
+  <record id="view_tree_crop" model="ir.ui.view">
+    <field name="name">Crop List</field>
+    <field name="model">agriculture.crop</field>
+    <field name="arch" type="xml">
+      <tree>
+        <!-- <field name="active"/> -->
+        <field name="SeqNumber" />
+        <field name="SellerName" />
+        <field name="CropVariety" />
+        <field name="CropType" />
+        <field name="EndTime" />
+      </tree>
+    </field>
+  </record>
 
-    <!-- explicit search view definition -->
-    <record id="view_search_crop" model="ir.ui.view">
-      <field name="name">Crop Filters</field>
-      <field name="model">agriculture.crop</field>
-      <field name="arch" type="xml">
-        <search>
-          <field name="SellerName"/>
-          <field name="CropVariety"/>
-          <filter name="filter_inactive"
+  <!-- explicit search view definition -->
+  <record id="view_search_crop" model="ir.ui.view">
+    <field name="name">Crop Filters</field>
+    <field name="model">agriculture.crop</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="SellerName"/>
+        <field name="CropVariety"/>
+          <!-- <filter name="filter_inactive"
                   string="InEstimated"
                   domain="[('active','=',True)]"/>
           <filter name="filter_active"
                   string="Estimated"
-                  domain="[('active','=',False)]"/>
-        </search>
-      </field>
-    </record>
+                  domain="[('active','=',False)]"/> -->
+      </search>
+    </field>
+  </record>
 
 </odoo>
