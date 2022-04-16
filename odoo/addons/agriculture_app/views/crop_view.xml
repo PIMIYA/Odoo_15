@@ -6,7 +6,7 @@
 
     <form>
       <header>
-        <button name="button_save" type="object" string="save" />
+        <button name="button_test" type="object" string="save" />
       </header>
       <sheet>
         <group name="group_top">

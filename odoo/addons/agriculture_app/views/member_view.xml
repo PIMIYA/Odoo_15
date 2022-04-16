@@ -16,6 +16,7 @@
               <field name="Region" />
               <field name="AuxId" />
             </group>
+          </group>
           </sheet>
         </form>
       </field>
