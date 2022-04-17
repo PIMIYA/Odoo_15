@@ -1,4 +1,5 @@
 from odoo import api, models, fields, exceptions
+from .pycnnum import num2cn
 
 
 class Archived(models.Model):
@@ -20,3 +21,6 @@ class Archived(models.Model):
             if seq.SellerName.id != self.member.id:
                 raise exceptions.ValidationError(
                     'Sorry, Seller\'s id not matched')
+
+    def get_cn_num(self, input):
+        return num2cn(input, capitalize=True, traditional=True)

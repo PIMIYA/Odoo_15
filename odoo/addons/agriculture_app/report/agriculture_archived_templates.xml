@@ -198,4 +198,110 @@
     </t>
   </template>
 
+  <!-- receipt -->
+  <template id="archived_receipt_report">
+    <t t-foreach="docs" t-as="doc">
+      <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+          <div class="page">
+            <!-- Begin -->
+            <t t-set="now_date" t-value="datetime.datetime.now()" />
+
+            <!-- Title -->
+            <div class="text-center mb-3">
+              <h5>池上多力米股份有限公司</h5>
+              <h5>農民出售農產物收據</h5>
+              <h5 t-esc="'中華民國 {:02d} 年 {:02d} 月 {:02d} 日'.format(now_date.year-1911,now_date.month,now_date.day)"></h5>
+            </div>
+
+            <!-- Company -->
+            <div>
+              <table class="table table-bordered m-0">
+                <thead></thead>
+                <tbody>
+                  <tr>
+                    <td class="text-center">購貨商號名稱</td>
+                    <td class="text-center">池上多力米股份有限公司</td>
+                    <td class="text-center">地址</td>
+                    <td>台東縣池上鄉中山路 193-1 號 1 樓</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Receipt -->
+            <t t-set="total_expenditure" t-value="0" />
+            <div>
+              <table class="table table-bordered text-center m-0">
+                <thead>
+                  <tr>
+                    <th>品名</th>
+                    <th>數量</th>
+                    <th>單價</th>
+                    <th>金額</th>
+                    <th>備註</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <t t-set="crops" t-value="doc.mapped('seq_numbers')" />
+                  <tr t-foreach="crops" t-as="crop">
+                    <t t-set="total_expenditure" t-value="total_expenditure+crop.first_estimated_price" />
+                    <td>
+                      <span t-field="crop.CropType" />
+                    </td>
+                    <td>
+                      <span t-field="crop.total_weight_vehicle" />
+                    </td>
+                    <td>
+                      <span t-field="crop.first_estimated_price" />
+                    </td>
+                    <td>
+                      <span t-field="crop.first_estimated_price" />
+                    </td>
+                    <td>
+                      <span t-field="crop.first_estimated_price" />
+                    </td>
+                  </tr>
+                  <!-- 小記 -->
+                  <tr>
+                    <td>小記</td>
+                    <td></td>
+                    <td></td>
+                    <!-- 金額 -->
+                    <td>
+                      <span t-esc="total_expenditure" />
+                    </td>
+                    <td></td>
+                  </tr>
+                  <!-- 合計新台幣 -->
+                  <tr>
+                    <td colspan="5" class="text-left">
+                      <span t-esc="'合計新台幣： {} 元整'.format(doc.get_cn_num(total_expenditure))" />
+                    </td>
+                  </tr>
+                  <!-- Other -->
+                  <tr>
+                    <th rowspan="2" class="align-middle">此欄稽徵機關填寫</th>
+                    <th>收入金額</th>
+                    <th>必要費用</th>
+                    <th>所得淨額</th>
+                    <th>稅籍號碼</th>
+                  </tr>
+                  <tr>
+                    <td style="height: 25px;"></td>
+                    <td style="height: 25px;"></td>
+                    <td style="height: 25px;"></td>
+                    <td style="height: 25px;"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- End -->
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+
 </odoo>

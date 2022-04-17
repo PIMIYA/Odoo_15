@@ -1,10 +1,19 @@
 <odoo>
 
   <record id="action_agriculture_archived_billing_report" model="ir.actions.report">
-    <field name="name">Archived billing</field>
+    <field name="name">對帳單</field>
     <field name="model">agriculture.archived</field>
     <field name="report_type">qweb-pdf</field>
     <field name="report_name">agriculture_app.archived_billing_report</field>
+    <field name="binding_model_id" ref="model_agriculture_archived" />
+    <field name="binding_type">report</field>
+  </record>
+
+  <record id="action_agriculture_archived_receipt_report" model="ir.actions.report">
+    <field name="name">收據</field>
+    <field name="model">agriculture.archived</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">agriculture_app.archived_receipt_report</field>
     <field name="binding_model_id" ref="model_agriculture_archived" />
     <field name="binding_type">report</field>
   </record>

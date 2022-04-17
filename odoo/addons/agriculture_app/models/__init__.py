@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from . import pycnnum
 from . import agriculture_crop
 from . import argriculture_member
 from . import agriculture_est
