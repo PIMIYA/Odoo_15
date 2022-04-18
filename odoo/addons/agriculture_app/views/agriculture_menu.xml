@@ -10,16 +10,8 @@
         <field name="view_mode">tree,form</field>
     </record>
     <!-- Menu item to open the Crop list -->
-    <menuitem id="menu_agriculture_crop" name="Crops" parent="menu_agriculture" action="action_agriculture_crop" />
+    <menuitem id="menu_agriculture_crop" name="Crops" parent="menu_agriculture" action="action_agriculture_crop" sequence="2" />
 
-    <!-- Action to open the Mnmber list -->
-    <record id="action_agriculture_member" model="ir.actions.act_window">
-        <field name="name">Members</field>
-        <field name="res_model">agriculture.member</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-    <!-- Menu item to open the Member list -->
-    <menuitem id="menu_agriculture_member" name="Members" parent="menu_agriculture" action="action_agriculture_member" />
 
     <!-- Action to open the EST  list -->
     <record id="action_agriculture_estimate" model="ir.actions.act_window">
@@ -28,11 +20,7 @@
         <field name="view_mode">tree,form</field>
     </record>
     <!-- Menu item to open the EST list -->
-    <menuitem id="menu_agriculture_estimate"
-        name="Estimates"
-        parent="menu_agriculture"
-        action="action_agriculture_estimate"
-    />    
+    <menuitem id="menu_agriculture_estimate" name="Estimates" parent="menu_agriculture" action="action_agriculture_estimate" sequence="4" />    
 
 
     <!-- Action to open the Archived list -->
@@ -42,7 +30,7 @@
         <field name="view_mode">tree,form</field>
     </record>
     <!-- Menu item to open the Archived -->
-    <menuitem id="menu_agriculture_archived" name="Archived" parent="menu_agriculture" action="action_agriculture_archived" />
+    <menuitem id="menu_agriculture_archived" name="Archived" parent="menu_agriculture" action="action_agriculture_archived" sequence="6" />
 
     <!-- Action to open the Additional Item list -->
     <record id="action_agriculture_additional_item" model="ir.actions.act_window">
@@ -50,4 +38,28 @@
         <field name="res_model">agriculture.archived_additional_item</field>
         <field name="view_mode">tree,form</field>
     </record>
+
+
+
+    <!-- Action to open the Mnmber list -->
+    <record id="action_agriculture_member" model="ir.actions.act_window">
+        <field name="name">Members</field>
+        <field name="res_model">agriculture.member</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Menu item to open the Member list -->
+    <menuitem id="menu_agriculture_member" name="Members" parent="menu_agriculture" action="action_agriculture_member" sequence="8" />
+
+
+    <!-- Action to open the CropVariety list -->
+    <record id="action_agriculture_crop_variety" model="ir.actions.act_window">
+        <field name="name">CropVariety</field>
+        <field name="res_model">agriculture.cropvariety</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Menu item to open the CropVariety list -->
+    <menuitem id="menu_agriculture_crop_variety" name="CropVariety" parent="menu_agriculture" action="action_agriculture_crop_variety" sequence="10" />
+
+
+
 </odoo>

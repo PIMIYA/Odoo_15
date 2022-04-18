@@ -6,33 +6,63 @@
 
     <form>
       <header>
-        <button name="button_test" type="object" string="save" />
+        <button name="button_processEstimate" type="object" string="Estimate" />
       </header>
       <sheet>
         <group name="group_top">
           <group name="group_left">
+            <h3>單號</h3>
             <field name="SeqNumber" />
-            <field name="SellerId" />
-            <field name="SellerName" />
-            <field name="CropVariety" />
-            <field name="CropType" />
-            <field name="StartTime" />
-            <field name="EndTime" />
           </group>
           <group name="group_right">
+            <h3>農友基本資料</h3>
+            <field name="SellerName" />
+            <field name="SellerId" />
+            <field name="FarmerType" />
             <field name="Region" />
             <field name="AuxId" />
-            <field name="FarmerType" />
+          </group>
+        </group>
+        <group name="group_bottom">
+          <group name="group_left">
+          <h3>稻米基本資料</h3>
+            <field name="LastCreationTime" />
+            <field name="HarvestYear" />
+            <field name="CropVariety" />
             <field name="FarmingMethod" />
-            <field name="first_estimated_price" />
-            <field name="total_weight_vehicle" />
-            <field name="unload_weight_vehicle" />
+            <field name="CropType" />
+            <field name="CropStatus" />
             <field name="CropWeight" />
-            <field name="crop_humility" />
-            <field name="crop_humility_type" />
-            <field name="dry_crop_cubic_weight" />
-            <field name="crop_conversion_rate" />
-            <field name="dry_crop_weight" />
+            <field name="TasteRating" />
+            <field name="VolumeWeight" />
+            <field name="BrownIntactRatio" />
+            <field name="RawHumidity" />
+            <field name="PrimeYield" />
+          </group>
+          <group name="group_right">
+          <h3>稻米詳細評估資料</h3>
+            <field name="StartTime" />
+            <field name="EndTime" />
+            <field name="BrownYield" />
+            <field name="HullYield" />
+            <field name="BranYield" />
+            <field name="BBRiceYield" />
+            <field name="SBRiceYield" />
+            <field name="BrownHumidity" />
+            <field name="RiceHumidity" />
+            <field name="BrownCrackedRatio" />
+            <field name="BrownImmatureRatio" />
+            <field name="BrownPestsRatio" />
+            <field name="BrownColoredRatio" />
+            <field name="BrownDeadRatio" />
+            <field name="Protein" />
+            <field name="BrownMoisture" />
+            <field name="BrownAmylose" />
+            <field name="CarCropWeight" />
+            <field name="CarWeight" />
+            <field name="HarvestPeriod" />
+            <field name="DryerId" />
+            <field name="StorageId" />
           </group>
         </group>
       </sheet>
@@ -47,12 +77,14 @@
     <field name="model">agriculture.crop</field>
     <field name="arch" type="xml">
       <tree>
-        <!-- <field name="active"/> -->
         <field name="SeqNumber" />
         <field name="SellerName" />
         <field name="CropVariety" />
+        <field name="FarmingMethod" /> 
         <field name="CropType" />
-        <field name="EndTime" />
+        <field name="CropStatus" />
+        <field name="CropWeight" />
+        <field name="LastCreationTime" />
       </tree>
     </field>
   </record>
@@ -65,6 +97,7 @@
       <search>
         <field name="SellerName"/>
         <field name="CropVariety"/>
+        <field name="LastCreationTime"/>
           <!-- <filter name="filter_inactive"
                   string="InEstimated"
                   domain="[('active','=',True)]"/>
