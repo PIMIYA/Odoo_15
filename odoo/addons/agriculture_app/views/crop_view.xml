@@ -80,12 +80,13 @@
     <field name="arch" type="xml">
       <tree>
         <field name="SeqNumber" />
+        <field name="PriceState" />
         <field name="SellerName" />
         <field name="CropVariety" />
         <field name="FarmingMethod" /> 
         <field name="CropType" />
         <field name="CropStatus" />
-        <field name="CropWeight" />
+        <field name="FinalPrice" />
         <field name="LastCreationTime" />
       </tree>
     </field>
@@ -100,12 +101,8 @@
         <field name="SellerName"/>
         <field name="CropVariety"/>
         <field name="LastCreationTime"/>
-          <!-- <filter name="filter_inactive"
-                  string="InEstimated"
-                  domain="[('active','=',True)]"/>
-          <filter name="filter_active"
-                  string="Estimated"
-                  domain="[('active','=',False)]"/> -->
+        <filter name="filter_active" string="Done" domain="[('PriceState', '=', 'done')]"/>
+        <filter name="filter_active" string="Draft" domain="[('PriceState', '=', 'draft')]"/>
       </search>
     </field>
   </record>
