@@ -5,9 +5,6 @@
     <field name="arch" type="xml">
 
     <form>
-      <header>
-        <button name="button_processEstimate" type="object" string="Estimate" />
-      </header>
       <sheet>
         <group name="group_top">
           <group name="group_left">
@@ -30,6 +27,7 @@
             <field name="HarvestYear" />
             <field name="CropVariety" />
             <field name="FarmingMethod" />
+            <field name="FarmingAdaption" />
             <field name="CropType" />
             <field name="CropStatus" />
             <field name="CropWeight" />
@@ -38,6 +36,10 @@
             <field name="BrownIntactRatio" />
             <field name="RawHumidity" />
             <field name="PrimeYield" />
+            <field name="isTAGP" />
+          <h3>計價</h3>
+            <field name="PriceState" />
+            <field name="FinalPrice" />
           </group>
           <group name="group_right">
           <h3>稻米詳細評估資料</h3>

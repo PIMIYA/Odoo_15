@@ -15,6 +15,7 @@
             <group name="group_right">
               <field name="Region" />
               <field name="AuxId" />
+              <field name="OrganicVerifyDate" />
             </group>
           </sheet>
         </form>

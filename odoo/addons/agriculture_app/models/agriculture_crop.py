@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from ast import Store
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+import logging
+
+
+_logger = logging.getLogger(__name__)
 
 
 class Crop(models.Model):
@@ -25,16 +30,25 @@ class Crop(models.Model):
     # *******************************************
     # ******農作物資料******
     FarmingMethod = fields.Selection([('conventional', '慣行農法'), (
-        'organic', '有機耕作'), ('tgap', 'TGAP')], string='FarmingMethod', required=True)
+        'organic', '有機耕作')], string='FarmingMethod', required=True)
 
     CropVariety = fields.Many2one(
-        'agriculture.cropvariety', string='CropVariety', required=True)  # 品種
+        'agriculture.cropvariety', string='CropVariety', required=True)  # 品種 不同品種有不同的加成
+
+    CropVariety_bonus = fields.Integer(
+        'CropVariety_bonus', related="CropVariety.CropVariety_bonus", required=True)  # 品種加成bonus
 
     CropStatus = fields.Selection(
         [('dry', '乾穀'), ('humi', '濕穀')], 'CropStatus', required=True)  # 乾穀 濕穀
 
     CropType = fields.Selection([('a', '越光米'), (
         'b', '黑糯米'), ('c', '紅糯米')], string='CropType', required=False)  # 特殊米種
+
+    isTAGP = fields.Boolean(
+        string="isTAGP", default=False)  # 是否TAGP yes = +100
+
+    FarmingAdaption = fields.Selection(
+        [('a', '有機轉型'), ('b', '隔離帶')], string='FarmingAdaption', required=False)  # 農業轉型
 
     BrownYield = fields.Float('BrownYield', required=True)  # 糙米成品率
 
@@ -103,19 +117,102 @@ class Crop(models.Model):
     EndTime = fields.Datetime('End Time', required=True)
 
     # active = fields.Boolean("Active?", default=True)
-
-    def button_processEstimate(self):
-        self.ensure_one()
-        print("hello underworld")
-        return True
-
     archived_id = fields.Many2one("agriculture.archived")
 
-    # value = fields.Integer()
-    # value2 = fields.Float(compute="_value_pc", store=True)
-    # description = fields.Text()
+    # ******計價資料*****
+    # 以計算完成定價
+    PriceState = fields.Selection(
+        [('draft', '草稿'), ('done', '完成計價')], string='PriceState', default='draft')
+    # 底價判斷
 
-    # @api.depends("value")
-    # def _value_pc(self):
-    #     for record in self:
-    #         record.value2 = float(record.value) / 100
+    FinalPrice = fields.Float(
+        "FinalPrice", compute="_compute_final_price", store=True)
+
+    @ api.depends('FarmerType', 'CropType', 'FarmingMethod', 'CropVariety_bonus', 'VolumeWeight', 'PrimeYield', 'TasteRating', 'BrownIntactRatio', 'FarmingAdaption', 'isTAGP')
+    def _compute_final_price(self):
+        for record in self:
+            if self._check_nValue(record.VolumeWeight, record.PrimeYield, record.TasteRating, record.BrownIntactRatio):
+                if record.FarmerType == 'contract':
+                    # 契約農民
+                    # 特殊米種
+                    if record.CropType == 'a':
+                        # 越光米
+                        record.FinalPrice = 2600
+
+                    elif record.CropType == 'b' or record.CropType == 'c':
+                        # 黑糯米或紅糯米
+                        record.FinalPrice = 1700
+                    else:
+                        # 其他
+                        # 有機米
+                        if record.FarmingMethod == 'organic':
+                            v = True if record.VolumeWeight > 610 else False
+                            v2 = True if record.VolumeWeight < 610 and record.VolumeWeight > 560 else False
+                            if v is False and v2 is False:
+                                record.FinalPrice = 2300
+                            elif v is False and v2 is True:
+                                record.FinalPrice = 2400
+                            elif v is True and record.PrimeYield > 70:
+                                record.FinalPrice = 2600
+                            elif v is True and record.PrimeYield < 70:
+                                record.FinalPrice = 2400
+                        else:
+                            # 有機轉型或隔離帶
+                            if record.FarmingAdaption == 'a' or record.FarmingAdaption == 'b':
+                                record.FinalPrice = 2300
+                            else:
+                                # 慣行耕作
+                                compare_list = [self._get_quality_level(record.TasteRating), self._get_quality_level(
+                                    record.VolumeWeight), self._get_quality_level(record.BrownIntactRatio)]
+                                min_value = min(compare_list)
+                                bonus = self._get_compare_price(
+                                    min_value, record.PrimeYield) + record.CropVariety_bonus
+                                if record.isTAGP:
+                                    record.FinalPrice = bonus + 100
+                                else:
+                                    record.FinalPrice = bonus
+
+                else:
+                    # 非契約農民
+                    record.FinalPrice = 1400
+
+                record.PriceState = 'done'
+            else:
+                record.FinalPrice = 0
+                record.PriceState = 'draft'
+
+    def _get_quality_level(self, expValue):
+        p_list = [609.0, 590.0, 560.0, 540.0]
+        x1 = expValue - p_list[3]
+        x2 = expValue - p_list[0]
+        x3 = expValue - p_list[1]
+        x4 = expValue - p_list[2]
+
+        lx1 = 1 if x1 >= 0 else -1
+        lx2 = 1 if x2 > 0 else 0
+        lx3 = 1 if x3 > 0 else 0
+        lx4 = 1 if x4 > 0 else 0
+
+        return lx1 + lx2 + lx3 + lx4
+
+    def _get_compare_price(self, min, PrimeYield):
+        # base_price 1550
+        if min == 4:
+            bonus = 1550 + 180
+            return bonus
+        elif min == 3:
+            bonus = 1550 + 120
+            return bonus
+        elif min == 2:
+            bonus = 1550 + 60
+            return bonus
+        elif min == 1:
+            bonus = 1550
+            return bonus
+        elif min == -1:
+            v = PrimeYield - 63
+            bonus = 1550 - v
+            return bonus
+
+    def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio):
+        return True if VolumeWeight != 0 and PrimeYield != 0 and TasteRating != 0 and BrownIntactRatio != 0 else False
