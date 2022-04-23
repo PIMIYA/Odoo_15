@@ -215,4 +215,4 @@ class Crop(models.Model):
             return bonus
 
     def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio):
-        return True if VolumeWeight != 0 and PrimeYield != 0 and TasteRating != 0 and BrownIntactRatio != 0 else False
+        return True if VolumeWeight != 0 or PrimeYield != 0 or TasteRating != 0 or BrownIntactRatio != 0 else False
