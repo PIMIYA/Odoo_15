@@ -44,7 +44,7 @@
                 <tbody>
                   <t t-set="crops" t-value="doc.mapped('seq_numbers')" />
                   <tr t-foreach="crops" t-as="crop">
-                    <t t-set="total_expenditure" t-value="total_expenditure+crop.first_estimated_price" />
+                    <t t-set="total_expenditure" t-value="total_expenditure+crop.TotalPrice" />
                     <td>
                       <span t-field="crop.StartTime" widget="date" t-field-options="{'format': 'YYYY-MM-DD'}" />
                     </td>
@@ -52,19 +52,19 @@
                       <span t-field="crop.CropType" />
                     </td>
                     <td>
-                      <span t-field="crop.total_weight_vehicle" />
+                      <span t-field="crop.CropWeight" />
                     </td>
                     <td>
-                      <span t-field="crop.first_estimated_price" />
+                      <span t-field="crop.FinalPrice" />
                     </td>
                     <td>
-                      <span t-field="crop.first_estimated_price" />
+                      <span t-field="crop.TotalPrice" />
                     </td>
                     <td>
-                      <span t-field="crop.first_estimated_price" />
+                      <span />
                     </td>
                     <td>
-                      <span t-field="crop.first_estimated_price" />
+                      <span />
                     </td>
                   </tr>
                   <tr t-foreach="add_items.filtered(lambda x: x.item_kind == 'expenditure')" t-as="add_item">
@@ -245,21 +245,21 @@
                 <tbody>
                   <t t-set="crops" t-value="doc.mapped('seq_numbers')" />
                   <tr t-foreach="crops" t-as="crop">
-                    <t t-set="total_expenditure" t-value="total_expenditure+crop.first_estimated_price" />
+                    <t t-set="total_expenditure" t-value="total_expenditure+crop.TotalPrice" />
                     <td>
                       <span t-field="crop.CropType" />
                     </td>
                     <td>
-                      <span t-field="crop.total_weight_vehicle" />
+                      <span t-field="crop.CropWeight" />
                     </td>
                     <td>
-                      <span t-field="crop.first_estimated_price" />
+                      <span t-field="crop.FinalPrice" />
                     </td>
                     <td>
-                      <span t-field="crop.first_estimated_price" />
+                      <span t-field="crop.TotalPrice" />
                     </td>
                     <td>
-                      <span t-field="crop.first_estimated_price" />
+                      <span />
                     </td>
                   </tr>
                   <!-- 小記 -->
