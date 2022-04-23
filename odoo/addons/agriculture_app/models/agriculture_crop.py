@@ -254,3 +254,16 @@ class Crop(models.Model):
         for record in self:
             unit_tw = record.CropWeight / 60
             record.TotalPrice = unit_tw * record.FinalPrice
+
+    def write(self, vals):
+        res = super(Crop, self).write(vals)
+
+        key = 'archived_id'
+        if key in vals:
+            archivedId = vals[key]
+            if archivedId == 0:
+                self.PriceState = 'done'
+            else:
+                self.PriceState = 'archived'
+
+        return res
