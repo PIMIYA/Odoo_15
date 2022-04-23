@@ -1,5 +1,8 @@
 from pkg_resources import require
 from odoo import api, models, fields
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class ArchivedAdditionalItem(models.Model):
@@ -32,3 +35,14 @@ class ArchivedAdditionalItem(models.Model):
     @api.onchange('amount', 'total_price')
     def _onchange_unit_price(self):
         self.unit_price = self.total_price / self.amount
+
+    def write(self, vals):
+        res = super(ArchivedAdditionalItem, self).write(vals)
+
+        key = 'archived_id'
+        if key in vals:
+            pass
+            # _logger.info('agriculture.archived_additional_item::%s', key)
+            # _logger.info('%d', vals[key])
+
+        return res

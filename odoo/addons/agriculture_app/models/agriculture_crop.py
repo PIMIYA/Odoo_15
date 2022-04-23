@@ -140,7 +140,7 @@ class Crop(models.Model):
     # ******計價資料*****
     # 以計算完成定價
     PriceState = fields.Selection(
-        [('draft', '草稿'), ('done', '完成計價')], string='PriceState', default='draft')
+        [('draft', '草稿'), ('done', '完成計價'), ('archived', '完成出單')], string='PriceState', default='draft')
     # 底價判斷   底價 / 百台斤
     FinalPrice = fields.Float(
         "FinalPrice", compute="_compute_final_price", store=True)
