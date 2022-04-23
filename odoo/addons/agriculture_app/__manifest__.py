@@ -28,7 +28,8 @@
         "report/agriculture_archived_templates.xml",
         "views/member_view.xml",
         "views/member_list_template.xml",
-        "views/crop_variety_view.xml"
+        "views/crop_variety_view.xml",
+        "data/crop_stage_data.xml",
     ],
     # only loaded in demonstration mode
     "demo": [

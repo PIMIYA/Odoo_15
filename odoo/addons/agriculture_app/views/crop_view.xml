@@ -5,6 +5,18 @@
     <field name="arch" type="xml">
 
     <form>
+      <!-- <header>
+          <field name="state" invisible="True" />
+          <button name="button_refresh"
+            type="object"
+            string="refresh"
+            attrs="{'invisible': [('state', 'in', ['new', 'done'])]}"
+            states="open"
+            class="oe_highlight" />
+          <field name="stage_id"
+            widget="statusbar"
+            options="{'clickable': True, 'fold_field': 'fold'}" />
+      </header>  -->
       <sheet>
         <group name="group_top">
           <group name="group_left">
@@ -38,8 +50,9 @@
             <field name="PrimeYield" />
             <field name="isTAGP" />
           <h3>計價</h3>
-            <field name="PriceState" />
+            <field name="PriceState" attrs="{'readonly': [('PriceState','==', 'done')]}" force_save='True'/>
             <field name="FinalPrice" />
+            <field name="TotalPrice" />
           </group>
           <group name="group_right">
           <h3>稻米詳細評估資料</h3>

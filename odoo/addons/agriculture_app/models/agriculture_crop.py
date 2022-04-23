@@ -119,14 +119,35 @@ class Crop(models.Model):
     # active = fields.Boolean("Active?", default=True)
     archived_id = fields.Many2one("agriculture.archived")
 
+    # new state
+
+    # @api.model
+    # def _default_stage(self):
+    #     Stage = self.env['crop.stage']
+    #     return Stage.search([("state", "=", "new")], limit=1)
+
+    # stage_id = fields.Many2one('crop.stage', default=_default_stage,
+    #                            copy=False, group_expand="_group_expand_stage_id")
+    # state = fields.Selection(related="stage_id.state")
+
+    # def button_refresh(self):
+    #     Stage = self.env['crop.stage']
+    #     done_stage = Stage.search([("state", "=", "done")], limit=1)
+    #     # for checkout in self:
+    #     #     checkout.stage_id = done_stage
+    #     return True
+
     # ******計價資料*****
     # 以計算完成定價
     PriceState = fields.Selection(
         [('draft', '草稿'), ('done', '完成計價')], string='PriceState', default='draft')
-    # 底價判斷
-
+    # 底價判斷   底價 / 百台斤
     FinalPrice = fields.Float(
         "FinalPrice", compute="_compute_final_price", store=True)
+
+    # 總價加成
+    TotalPrice = fields.Float(
+        "TotalPrice", compute="_compute_total_price", store=True)
 
     @ api.depends('FarmerType', 'CropType', 'FarmingMethod', 'CropVariety_bonus', 'VolumeWeight', 'PrimeYield', 'TasteRating', 'BrownIntactRatio', 'FarmingAdaption', 'isTAGP')
     def _compute_final_price(self):
@@ -216,3 +237,20 @@ class Crop(models.Model):
 
     def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio):
         return True if VolumeWeight != 0 or PrimeYield != 0 or TasteRating != 0 or BrownIntactRatio != 0 else False
+
+    @api.depends('CropWeight',
+                 'FinalPrice',
+                 'FarmerType',
+                 'CropType',
+                 'FarmingMethod',
+                 'CropVariety_bonus',
+                 'VolumeWeight',
+                 'PrimeYield',
+                 'TasteRating',
+                 'BrownIntactRatio',
+                 'FarmingAdaption',
+                 'isTAGP')
+    def _compute_total_price(self):
+        for record in self:
+            unit_tw = record.CropWeight / 60
+            record.TotalPrice = unit_tw * record.FinalPrice

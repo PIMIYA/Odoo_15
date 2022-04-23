@@ -53,5 +53,4 @@
     <menuitem id="menu_agriculture_crop_variety" name="CropVariety" parent="menu_agriculture" action="action_agriculture_crop_variety" sequence="10" />
 
 
-
 </odoo>
