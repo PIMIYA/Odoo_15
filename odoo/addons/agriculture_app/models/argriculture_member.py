@@ -1,3 +1,4 @@
+from email.policy import default
 from odoo import models, fields
 
 
@@ -13,6 +14,10 @@ class Member(models.Model):
         [('non_contract', '非契作農民'), ('contract', '契作農民')], string='FarmerType', default='non_contract')
     Region = fields.Char()
     AuxId = fields.Char()
+
+    ContractArea = fields.Float(default=0.0)
+    ChishangRArea = fields.Float(default=0.0)
+    TGAPArea = fields.Float(default=0.0)
 
     OrganicVerifyDate = fields.Date(
         'OrganicVerifyDate', required=False)  # 有機認證日期
