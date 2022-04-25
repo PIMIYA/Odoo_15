@@ -12,7 +12,7 @@
               <field name="SellerId" />
               <field name="FarmerType" />
             </group>
-            <group name="group_right">
+            <group name="group_right" attrs="{'invisible':[('FarmerType', '!=', 'contract')]}">
               <field name="Region" />
               <field name="AuxId" />
               <field name="OrganicVerifyDate" />
@@ -34,6 +34,7 @@
           <field name="FarmerType" />
           <field name="Region" />
           <field name="AuxId" />
+          <field name="OrganicVerifyDate" />
         </tree>
       </field>
     </record>
@@ -49,6 +50,7 @@
           <field name="FarmerType" />
           <field name="Region" />
           <field name="AuxId" />
+          <field name="OrganicVerifyDate" />
         </search>
       </field>
     </record>
@@ -56,23 +58,23 @@
 
     <!-- actions opening views on models -->
 
-    <!-- <record id="agriculture_member_app.action_window" model="ir.actions.act_window">
-      <field name="name">Agriculture Members</field>
-      <field name="res_model">agriculture_app.member</field>
-      <field name="view_mode">tree,form</field>
+    <!-- <record id=" agriculture_member_app.action_window" model=" ir.actions.act_window">
+      <field name=" name">Agriculture Members</field>
+      <field name=" res_model">agriculture_app.member</field>
+      <field name=" view_mode">tree,form</field>
     </record>
     -->
     <!-- Top menu item -->
 
-    <!-- <menuitem name="Agriculture Member" id="agriculture_member_app.menu_root" /> -->
+    <!-- <menuitem name=" Agriculture Member" id=" agriculture_member_app.menu_root" /> -->
 
     <!-- menu categories -->
 
-    <!-- <menuitem name="Member" id="agriculture_member_app.menu_member" parent="agriculture_member_app.menu_root" /> -->
+    <!-- <menuitem name=" Member" id=" agriculture_member_app.menu_member" parent=" agriculture_member_app.menu_root" /> -->
 
     <!-- actions -->
 
-    <!-- <menuitem name="List" id="agriculture_member_app.menu_member_list" parent="agriculture_member_app.menu_member" action="agriculture_member_app.action_window" /> -->
+    <!-- <menuitem name=" List" id=" agriculture_member_app.menu_member_list" parent=" agriculture_member_app.menu_member" action=" agriculture_member_app.action_window" /> -->
 
   </data>
 </odoo>

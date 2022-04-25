@@ -10,7 +10,7 @@ class Member(models.Model):
     SellerName = fields.Char()
     SellerId = fields.Char()
     FarmerType = fields.Selection(
-        [('non_contract', '非契作農民'), ('contract', '契作農民')], string='FarmerType')
+        [('non_contract', '非契作農民'), ('contract', '契作農民')], string='FarmerType', default='non_contract')
     Region = fields.Char()
     AuxId = fields.Char()
 
