@@ -121,26 +121,26 @@ class Crop(models.Model):
 
     # new state
 
-    # @api.model
-    # def _default_stage(self):
-    #     Stage = self.env['crop.stage']
-    #     return Stage.search([("state", "=", "new")], limit=1)
+    @api.model
+    def _default_stage(self):
+        Stage = self.env['crop.stage']
+        return Stage.search([("state", "=", "draft")], limit=1)
 
-    # stage_id = fields.Many2one('crop.stage', default=_default_stage,
-    #                            copy=False, group_expand="_group_expand_stage_id")
-    # state = fields.Selection(related="stage_id.state")
+    stage_id = fields.Many2one('crop.stage', default=_default_stage,
+                               copy=False, group_expand="_group_expand_stage_id")
+    state = fields.Selection(related="stage_id.state")
 
-    # def button_refresh(self):
-    #     Stage = self.env['crop.stage']
-    #     done_stage = Stage.search([("state", "=", "done")], limit=1)
-    #     # for checkout in self:
-    #     #     checkout.stage_id = done_stage
-    #     return True
+    def button_refresh(self):
+        Stage = self.env['crop.stage']
+        draft_stage = Stage.search([("state", "=", "draft")], limit=1)
+        # for checkout in self:
+        #     checkout.stage_id = done_stage
+        return True
 
     # ******計價資料*****
     # 以計算完成定價
     PriceState = fields.Selection(
-        [('draft', '草稿'), ('done', '完成計價'), ('archived', '完成出單')], string='PriceState', default='draft')
+        [('draft', '草稿'), ('done', '計價完成'), ('archived', '完成出單')], string='PriceState', default='draft')
     # 底價判斷   底價 / 百台斤
     FinalPrice = fields.Float(
         "FinalPrice", compute="_compute_final_price", store=True)
@@ -149,7 +149,16 @@ class Crop(models.Model):
     TotalPrice = fields.Float(
         "TotalPrice", compute="_compute_total_price", store=True)
 
-    @ api.depends('FarmerType', 'CropType', 'FarmingMethod', 'CropVariety_bonus', 'VolumeWeight', 'PrimeYield', 'TasteRating', 'BrownIntactRatio', 'FarmingAdaption', 'isTAGP')
+    @ api.depends('FarmerType',
+                  'CropType',
+                  'FarmingMethod',
+                  'CropVariety_bonus',
+                  'VolumeWeight',
+                  'PrimeYield',
+                  'TasteRating',
+                  'BrownIntactRatio',
+                  'FarmingAdaption',
+                  'isTAGP')
     def _compute_final_price(self):
         for record in self:
             if self._check_nValue(record.VolumeWeight, record.PrimeYield, record.TasteRating, record.BrownIntactRatio):

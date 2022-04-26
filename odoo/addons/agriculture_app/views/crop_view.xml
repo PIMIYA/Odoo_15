@@ -5,18 +5,18 @@
     <field name="arch" type="xml">
 
     <form>
-      <!-- <header>
+      <header>
           <field name="state" invisible="True" />
           <button name="button_refresh"
             type="object"
-            string="refresh"
-            attrs="{'invisible': [('state', 'in', ['new', 'done'])]}"
+            string="Refresh"
+            attrs="{'invisible': [('state', 'in', ['done', 'archived'])]}"
             states="open"
             class="oe_highlight" />
           <field name="stage_id"
             widget="statusbar"
             options="{'clickable': True, 'fold_field': 'fold'}" />
-      </header>  -->
+      </header> 
       <sheet>
         <group name="group_top">
           <group name="group_left">
@@ -116,6 +116,7 @@
         <field name="LastCreationTime"/>
         <filter name="filter_active" string="Done" domain="[('PriceState', '=', 'done')]"/>
         <filter name="filter_active" string="Draft" domain="[('PriceState', '=', 'draft')]"/>
+        <filter name="filter_active" string="Archived" domain="[('PriceState', '=', 'archived')]"/>
       </search>
     </field>
   </record>

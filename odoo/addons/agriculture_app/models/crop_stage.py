@@ -11,4 +11,4 @@ class CropStage(models.Model):
     fold = fields.Boolean()
     active = fields.Boolean(default=True)
     state = fields.Selection(
-        [("new", "Requested"), ("draft", "Progressing"), ("done", "Archived"), ], default="new")
+        [("draft", "Draft"), ("done", "Done"), ("archived", "Archived")], default="draft")
