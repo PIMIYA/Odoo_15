@@ -15,7 +15,7 @@
             class="oe_highlight" />
           <field name="stage_id"
             widget="statusbar"
-            options="{'clickable': True, 'fold_field': 'fold'}" />
+            options="{'clickable': False, 'fold_field': 'fold'}" />
       </header> 
       <sheet>
         <notebook>
@@ -61,6 +61,8 @@
                 <field name="PriceState" attrs="{'readonly': [('PriceState','==', 'done')]}" force_save='True'/>
                 <field name="FinalPrice" />
                 <field name="TotalPrice" />
+              </group>
+              <group name="group_right">
               </group>          
             </group>
           </page>

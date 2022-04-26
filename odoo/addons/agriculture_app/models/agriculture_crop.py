@@ -126,6 +126,16 @@ class Crop(models.Model):
         Stage = self.env['crop.stage']
         return Stage.search([("state", "=", "draft")], limit=1)
 
+    @api.model
+    def _done_stage(self):
+        Stage = self.env['crop.stage']
+        return Stage.search([("state", "=", "done")], limit=1)
+
+    @api.model
+    def _archived_stage(self):
+        Stage = self.env['crop.stage']
+        return Stage.search([("state", "=", "archived")], limit=1)
+
     stage_id = fields.Many2one('crop.stage', default=_default_stage,
                                copy=False, group_expand="_group_expand_stage_id")
     state = fields.Selection(related="stage_id.state")
@@ -207,9 +217,11 @@ class Crop(models.Model):
                     record.FinalPrice = 1400
 
                 record.PriceState = 'done'
+                self.stage_id = self._done_stage()
             else:
                 record.FinalPrice = 0
                 record.PriceState = 'draft'
+                self.stage_id = self._default_stage()
 
     def _get_quality_level(self, expValue):
         p_list = [609.0, 590.0, 560.0, 540.0]
@@ -272,7 +284,9 @@ class Crop(models.Model):
             archivedId = vals[key]
             if archivedId == 0:
                 self.PriceState = 'done'
+                self.stage_id = self._done_stage()
             else:
                 self.PriceState = 'archived'
+                self.stage_id = self._archived_stage()
 
         return res
