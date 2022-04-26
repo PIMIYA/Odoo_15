@@ -18,71 +18,85 @@
             options="{'clickable': True, 'fold_field': 'fold'}" />
       </header> 
       <sheet>
-        <group name="group_top">
-          <group name="group_left">
-            <h3>單號</h3>
-            <field name="SeqNumber" />
-          </group>
-          <group name="group_right">
-            <h3>農友基本資料</h3>
-            <field name="SellerName" />
-            <field name="SellerId" />
-            <field name="FarmerType" />
-            <field name="Region" />
-            <field name="AuxId" />
-          </group>
-        </group>
-        <group name="group_bottom">
-          <group name="group_left">
-          <h3>稻米基本資料</h3>
-            <field name="LastCreationTime" />
-            <field name="HarvestYear" />
-            <field name="CropVariety" />
-            <field name="FarmingMethod" />
-            <field name="FarmingAdaption" />
-            <field name="CropType" />
-            <field name="CropStatus" />
-            <field name="CropWeight" />
-            <field name="TasteRating" />
-            <field name="VolumeWeight" />
-            <field name="BrownIntactRatio" />
-            <field name="RawHumidity" />
-            <field name="PrimeYield" />
-            <field name="isTAGP" />
-          <h3>計價</h3>
-            <field name="PriceState" attrs="{'readonly': [('PriceState','==', 'done')]}" force_save='True'/>
-            <field name="FinalPrice" />
-            <field name="TotalPrice" />
-          </group>
-          <group name="group_right">
-          <h3>稻米詳細評估資料</h3>
-            <field name="StartTime" />
-            <field name="EndTime" />
-            <field name="BrownYield" />
-            <field name="HullYield" />
-            <field name="BranYield" />
-            <field name="BBRiceYield" />
-            <field name="SBRiceYield" />
-            <field name="BrownHumidity" />
-            <field name="RiceHumidity" />
-            <field name="BrownCrackedRatio" />
-            <field name="BrownImmatureRatio" />
-            <field name="BrownPestsRatio" />
-            <field name="BrownColoredRatio" />
-            <field name="BrownDeadRatio" />
-            <field name="Protein" />
-            <field name="BrownMoisture" />
-            <field name="BrownAmylose" />
-            <field name="CarCropWeight" />
-            <field name="CarWeight" />
-            <field name="HarvestPeriod" />
-            <field name="DryerId" />
-            <field name="StorageId" />
-          </group>
-        </group>
+        <notebook>
+          <page name="name" string="訂單基本資料">
+            <group name="group_top">
+              <group name="group_left">
+                <h3>單號</h3>
+                <field name="SeqNumber" />
+                <field name="LastCreationTime" />
+                <field name="StartTime" />
+                <field name="EndTime" />
+              </group>
+              <group name="group_right">
+                <h3>農友基本資料</h3>
+                <field name="SellerName" />
+                <field name="SellerId" />
+                <field name="FarmerType" />
+                <field name="Region" />
+                <field name="AuxId" />
+              </group>
+            </group>
+            <group name="group_bottom"> 
+              <group name="group_left">
+                <h3>稻米基本資料</h3>
+                <field name="CropVariety" />
+                <field name="FarmingMethod" />
+                <field name="FarmingAdaption" />
+                <field name="CropType" />
+                <field name="CropStatus" />
+                <field name="isTAGP" />
+              </group>
+              <group name="group_right">
+                <field name="HarvestYear" />
+                <field name="PrimeYield" />
+                <field name="RawHumidity" />
+                <field name="BrownIntactRatio" />
+                <field name="VolumeWeight" />
+                <field name="TasteRating" />
+                <field name="CropWeight" />
+              </group>
+              <group name="group_left">
+                <h3>計價完成資料</h3>
+                <field name="PriceState" attrs="{'readonly': [('PriceState','==', 'done')]}" force_save='True'/>
+                <field name="FinalPrice" />
+                <field name="TotalPrice" />
+              </group>          
+            </group>
+          </page>
+
+          <page name="name" string="其他詳細資料">
+            <group name="group_top">
+            <group name="group_left">
+              <h3>稻米詳細評估資料</h3>
+              <field name="HullYield" />
+              <field name="BranYield" />
+              <field name="BBRiceYield" />
+              <field name="SBRiceYield" />
+              <field name="BrownHumidity" />
+              <field name="BrownYield" />
+              <field name="BrownCrackedRatio" />
+              <field name="BrownImmatureRatio" />
+              <field name="BrownPestsRatio" />
+              <field name="BrownColoredRatio" />
+              <field name="BrownDeadRatio" />
+              <field name="BrownMoisture" />
+              <field name="BrownAmylose" />
+            </group>
+            <group name="group_right">
+              <field name="RiceHumidity" />
+              <field name="Protein" />
+              <field name="CarCropWeight" />
+              <field name="CarWeight" />
+              <field name="HarvestPeriod" />
+              <field name="DryerId" />
+              <field name="StorageId" />
+            </group>
+            </group>
+          </page>
+        </notebook>
       </sheet>
     </form>
-
     </field>
   </record>
 
