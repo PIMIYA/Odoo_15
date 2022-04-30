@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from ast import Store
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
 import logging
-
 
 _logger = logging.getLogger(__name__)
 
@@ -276,9 +273,11 @@ class Crop(models.Model):
             unit_tw = record.CropWeight / 60
             record.TotalPrice = unit_tw * record.FinalPrice
 
-    def write(self, vals):
-        res = super(Crop, self).write(vals)
+    def unlink_archiveItem(self):
+        self.PriceState = 'done'
+        self.stage_id = self._done_stage()
 
+    def write(self, vals):
         key = 'archived_id'
         if key in vals:
             archivedId = vals[key]
@@ -289,4 +288,4 @@ class Crop(models.Model):
                 self.PriceState = 'archived'
                 self.stage_id = self._archived_stage()
 
-        return res
+        return super(Crop, self).write(vals)
