@@ -146,21 +146,31 @@
                 <tr>
                     <td colspan="6" rowspan="2" class="align-middle">
                         <span>
-                            池上多力米股份有限公司
+                            <span t-field="res_company.name" />
                             <br />
-                            /建興碾米工廠
+                            /
+                            <span t-field="res_company.company_registry" />
                         </span>
                     </td>
                     <td colspan="6" class="text-left">
-                        <span>台東縣池上鄉中山路193-1號1樓</span>
+                        <span>
+                            <span t-field="res_company.city" />
+                            <span t-field="res_company.street" />
+                        </span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" class="text-left">
-                        <span>電話： 089861033</span>
+                        <span>
+                            電話：
+                            <span t-field="res_company.phone" />
+                        </span>
                     </td>
                     <td colspan="3" class="text-left">
-                        <span>傳真： 089865329</span>
+                        <span>
+                            傳真：
+                            <span t-field="res_company.mobile" />
+                        </span>
                     </td>
                 </tr>
             </tbody>
@@ -407,21 +417,30 @@
                 <tr>
                     <td colspan="6" rowspan="2" class="align-middle">
                         <span>
-                            池上多力米股份有限公司
+                            <span t-field="res_company.name" />
                             <br />
                             /建興碾米工廠
                         </span>
                     </td>
                     <td colspan="6" class="text-left">
-                        <span>台東縣池上鄉中山路193-1號1樓</span>
+                        <span>
+                            <span t-field="res_company.city" />
+                            <span t-field="res_company.street" />
+                        </span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" class="text-left">
-                        <span>電話： 089861033</span>
+                        <span>
+                            電話：
+                            <span t-field="res_company.phone" />
+                        </span>
                     </td>
                     <td colspan="3" class="text-left">
-                        <span>傳真： 089865329</span>
+                        <span>
+                            傳真：
+                            <span t-field="res_company.mobile" />
+                        </span>
                     </td>
                 </tr>
             </tbody>

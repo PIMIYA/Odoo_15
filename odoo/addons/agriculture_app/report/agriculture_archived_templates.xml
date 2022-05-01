@@ -209,7 +209,9 @@
 
             <!-- Title -->
             <div class="text-center mb-3">
-              <h5>池上多力米股份有限公司</h5>
+              <h5>
+                <span t-field="res_company.name" />
+              </h5>
               <h5>農民出售農產物收據</h5>
               <h5 t-esc="'中華民國 {:02d} 年 {:02d} 月 {:02d} 日'.format(now_date.year-1911,now_date.month,now_date.day)"></h5>
             </div>
@@ -221,9 +223,16 @@
                 <tbody>
                   <tr>
                     <td class="text-center">購貨商號名稱</td>
-                    <td class="text-center">池上多力米股份有限公司</td>
+                    <td class="text-center">
+                      <span t-field="res_company.name" />
+                    </td>
                     <td class="text-center">地址</td>
-                    <td>台東縣池上鄉中山路 193-1 號 1 樓</td>
+                    <td>
+                      <span>
+                        <span t-field="res_company.city" />
+                        <span t-field="res_company.street" />
+                      </span>
+                    </td>
                   </tr>
                 </tbody>
               </table>
