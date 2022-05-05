@@ -1,3 +1,4 @@
+from termios import OPOST
 from odoo import api, models, fields, exceptions
 import logging
 from .pycnnum import num2cn
