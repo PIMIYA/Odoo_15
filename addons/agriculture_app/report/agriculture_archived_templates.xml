@@ -37,8 +37,7 @@
                     <th>稻穀重量</th>
                     <th>單價</th>
                     <th>金額</th>
-                    <th>烘乾補助</th>
-                    <th>搬運補助</th>
+                    <th>備註說明</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -49,19 +48,16 @@
                       <span t-field="crop.StartTime" widget="date" t-field-options="{'format': 'YYYY-MM-DD'}" />
                     </td>
                     <td>
-                      <span t-field="crop.CropType" />
+                      <span t-field="crop.CropVariety" />
                     </td>
                     <td>
                       <span t-field="crop.CropWeight" />
                     </td>
                     <td>
-                      <span t-field="crop.FinalPrice" />
+                      <span t-esc="floor(crop.FinalPrice)" />
                     </td>
                     <td>
-                      <span t-field="crop.TotalPrice" />
-                    </td>
-                    <td>
-                      <span />
+                      <span t-esc="floor(crop.TotalPrice)" />
                     </td>
                     <td>
                       <span />
@@ -82,13 +78,10 @@
                       <span t-field="add_item.unit_price" />
                     </td>
                     <td>
-                      <span t-field="add_item.total_price" />
+                      <span t-esc="floor(add_item.total_price)" />
                     </td>
                     <td>
-                      <span t-field="add_item.drying_allowance" />
-                    </td>
-                    <td>
-                      <span t-field="add_item.transport_allowance" />
+                      <span />
                     </td>
                   </tr>
                   <!-- 小記 -->
@@ -96,14 +89,14 @@
                     <td colspan="2">小記</td>
                     <!-- 重量 -->
                     <td>
-                      <span t-esc="total_expenditure" />
+                      <span t-esc="floor(total_expenditure)" />
                     </td>
                     <td></td>
                     <!-- 金額 -->
                     <td>
-                      <span t-esc="total_expenditure" />
+                      <span t-esc="floor(total_expenditure)" />
                     </td>
-                    <td></td>
+                    <!-- comment -->
                     <td></td>
                   </tr>
                   <!-- 應付總額 -->
@@ -111,9 +104,9 @@
                     <td colspan="4">應付金額合計</td>
                     <!-- 金額 -->
                     <td>
-                      <span t-esc="total_expenditure" />
+                      <span t-esc="floor(total_expenditure)" />
                     </td>
-                    <td></td>
+                    <!-- comment -->
                     <td></td>
                   </tr>
                 </tbody>
@@ -139,7 +132,7 @@
                 </thead>
                 <tbody>
                   <tr t-foreach="add_items.filtered(lambda x: x.item_kind == 'income')" t-as="add_item">
-                    <t t-set="total_income" t-value="total_income+add_item.total_price" />
+                    <t t-set="total_income" t-value="total_income+floor(add_item.total_price)" />
                     <td>
                       <span t-field="add_item.datetime" widget="date" t-field-options="{'format': 'YYYY-MM-DD'}" />
                     </td>
@@ -150,13 +143,13 @@
                       <span t-field="add_item.amount" />
                     </td>
                     <td>
-                      <span t-field="add_item.unit_price" />
+                      <span t-esc="floor(add_item.unit_price)" />
                     </td>
                     <td>
-                      <span t-field="add_item.total_price" />
+                      <span t-esc="floor(add_item.total_price)" />
                     </td>
                     <td>
-                      <span t-field="add_item.interest" />
+                      <span t-field="add_item.interest" t-options='{"widget": "float", "precision": 2}' />
                     </td>
                     <td>
                       <span t-field="add_item.comment" />
@@ -180,13 +173,13 @@
                 <tbody>
                   <tr>
                     <td>
-                      <span t-esc="total_expenditure" />
+                      <span t-esc="floor(total_expenditure)" />
                     </td>
                     <td>
-                      <span t-esc="total_income" />
+                      <span t-esc="floor(total_income)" />
                     </td>
                     <td>
-                      <span t-esc="total_expenditure-total_income" />
+                      <span t-esc="floor(total_expenditure-total_income)" />
                     </td>
                   </tr>
                 </tbody>
@@ -254,18 +247,18 @@
                 <tbody>
                   <t t-set="crops" t-value="doc.mapped('seq_numbers')" />
                   <tr t-foreach="crops" t-as="crop">
-                    <t t-set="total_expenditure" t-value="total_expenditure+crop.TotalPrice" />
+                    <t t-set="total_expenditure" t-value="total_expenditure+floor(crop.TotalPrice)" />
                     <td>
-                      <span t-field="crop.CropType" />
+                      <span t-field="crop.CropVariety" />
                     </td>
                     <td>
                       <span t-field="crop.CropWeight" />
                     </td>
                     <td>
-                      <span t-field="crop.FinalPrice" />
+                      <span t-esc="floor(crop.FinalPrice)" />
                     </td>
                     <td>
-                      <span t-field="crop.TotalPrice" />
+                      <span t-esc="floor(crop.TotalPrice)" />
                     </td>
                     <td>
                       <span />
@@ -278,7 +271,7 @@
                     <td></td>
                     <!-- 金額 -->
                     <td>
-                      <span t-esc="total_expenditure" />
+                      <span t-esc="floor(total_expenditure)" />
                     </td>
                     <td></td>
                   </tr>

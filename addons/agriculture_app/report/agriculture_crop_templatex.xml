@@ -147,9 +147,6 @@
                     <td colspan="6" rowspan="2" class="align-middle">
                         <span>
                             <span t-field="res_company.name" />
-                            <br />
-                            /
-                            <span t-field="res_company.company_registry" />
                         </span>
                     </td>
                     <td colspan="6" class="text-left">
@@ -193,7 +190,7 @@
                         <div class="mb-3" style="border-bottom: 1px dotted #000000;"></div>
 
                         <t t-set="doc_type">
-                            <span style="position:absolute; right:30px;">備存聯</span>
+                            <span style="position:absolute; right:30px;">存根聯</span>
                         </t>
                         <t t-call="agriculture_app.crop_dry_report_doc" />
                     </div>
@@ -418,8 +415,6 @@
                     <td colspan="6" rowspan="2" class="align-middle">
                         <span>
                             <span t-field="res_company.name" />
-                            <br />
-                            /建興碾米工廠
                         </span>
                     </td>
                     <td colspan="6" class="text-left">
@@ -463,7 +458,7 @@
                         <div class="mb-3" style="border-bottom: 1px dotted #000000;"></div>
 
                         <t t-set="doc_type">
-                            <span style="position:absolute; right:30px;">備存聯</span>
+                            <span style="position:absolute; right:30px;">存根聯</span>
                         </t>
                         <t t-call="agriculture_app.crop_wet_report_doc" />
                     </div>
