@@ -19,14 +19,14 @@
       </header> 
       <sheet>
         <notebook>
-          <page name="name" string="訂單基本資料">
+          <page name="name" string="磅單基本資料">
             <group name="group_top">
               <group name="group_left">
                 <h3>單號</h3>
                 <field name="SeqNumber" />
                 <field name="LastCreationTime" />
-                <field name="StartTime" />
-                <field name="EndTime" />
+                <!-- <field name="StartTime" /> -->
+                <!-- <field name="EndTime" /> -->
               </group>
               <group name="group_right">
                 <h3>農友基本資料</h3>
@@ -34,7 +34,7 @@
                 <field name="SellerId" />
                 <field name="FarmerType" />
                 <field name="Region" />
-                <field name="AuxId" />
+                <!-- <field name="AuxId" /> -->
               </group>
             </group>
             <group name="group_bottom"> 
@@ -45,7 +45,9 @@
                 <field name="FarmingAdaption" />
                 <field name="CropType" />
                 <field name="CropStatus" />
-                <field name="isTAGP" />
+                <field name="isTGAP" />
+                <field name="CarCropWeight" />
+                <field name="CarWeight" />
               </group>
               <group name="group_right">
                 <field name="HarvestYear" />
@@ -55,6 +57,7 @@
                 <field name="VolumeWeight" />
                 <field name="TasteRating" />
                 <field name="CropWeight" />
+                <field name="HarvestPeriod" />
               </group>
               <group name="group_left">
                 <h3>計價完成資料</h3>
@@ -88,9 +91,6 @@
             <group name="group_right">
               <field name="RiceHumidity" />
               <field name="Protein" />
-              <field name="CarCropWeight" />
-              <field name="CarWeight" />
-              <field name="HarvestPeriod" />
               <field name="DryerId" />
               <field name="StorageId" />
             </group>
@@ -130,6 +130,9 @@
         <field name="SellerName"/>
         <field name="CropVariety"/>
         <field name="LastCreationTime"/>
+        <field name="CarCropWeight"/>
+        <field name="CarWeight" />
+        <field name="HarvestPeriod" /> 
         <filter name="filter_active" string="Done" domain="[('PriceState', '=', 'done')]"/>
         <filter name="filter_active" string="Draft" domain="[('PriceState', '=', 'draft')]"/>
         <filter name="filter_active" string="Archived" domain="[('PriceState', '=', 'archived')]"/>

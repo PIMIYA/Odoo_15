@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+from email.policy import default
 from odoo import api, fields, models
 import logging
 
@@ -41,7 +43,7 @@ class Crop(models.Model):
     CropType = fields.Selection([('a', '越光米'), (
         'b', '紅/黑糯米'), ('c', '糯米')], string='CropType', required=False)  # 特殊米種
 
-    isTAGP = fields.Boolean(
+    isTGAP = fields.Boolean(
         string="isTAGP", default=False)  # 是否TAGP yes = +100
 
     FarmingAdaption = fields.Selection(
@@ -95,18 +97,17 @@ class Crop(models.Model):
 
     CarWeight = fields.Float('CarWeight', required=True)  # 車重
 
-    HarvestYear = fields.Integer('HarvestYear', required=True)  # 收穫年份
+    HarvestYear = fields.Integer('HarvestYear', required=True)  # 收穫年份 民國年
 
     HarvestPeriod = fields.Integer('HarvestPeriod', required=True)  # 期數
 
     LastCreationTime = fields.Datetime(
-        'LastCreationTime', required=True)  # 收購時間
+        'LastCreationTime', default=datetime.now())  # 收購時間
 
     CropWeight = fields.Float('CropWeight', required=True)  # 稻穀總重量
 
-    DryerId = fields.Integer('DryerId', required=True)  # 烘乾機編號
-
-    StorageId = fields.Integer('StorageId', required=True)  # 存放的倉庫編號
+    StorageId = fields.Char('StorageId', required=True)  # 存放的倉庫編號
+    DryerId = fields.Char('DryerId', required=True)  # 洗米機編號
 
     # ******次要資料******
 
@@ -150,11 +151,11 @@ class Crop(models.Model):
         [('draft', '草稿'), ('done', '計價完成'), ('archived', '完成出單')], string='PriceState', default='draft')
     # 底價判斷   底價 / 百台斤
     FinalPrice = fields.Float(
-        "FinalPrice", compute="_compute_final_price", store=True)
+        "FinalPrice (/百台斤)", compute="_compute_final_price", store=True)
 
     # 總價加成
     TotalPrice = fields.Float(
-        "TotalPrice", compute="_compute_total_price", store=True)
+        "TotalPrice (新台幣)", compute="_compute_total_price", store=True)
 
     @ api.depends('FarmerType',
                   'CropType',
@@ -165,7 +166,7 @@ class Crop(models.Model):
                   'TasteRating',
                   'BrownIntactRatio',
                   'FarmingAdaption',
-                  'isTAGP')
+                  'isTGAP')
     def _compute_final_price(self):
         for record in self:
             if self._check_nValue(record.VolumeWeight, record.PrimeYield, record.TasteRating, record.BrownIntactRatio):
@@ -270,7 +271,7 @@ class Crop(models.Model):
                  'TasteRating',
                  'BrownIntactRatio',
                  'FarmingAdaption',
-                 'isTAGP')
+                 'isTGAP')
     def _compute_total_price(self):
         for record in self:
             unit_tw = record.CropWeight / 60
