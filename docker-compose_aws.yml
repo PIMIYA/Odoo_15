@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   web:
-    image: pimiya/odoo:latest
+    image: odoo:latest
     depends_on:
       - db
     ports:
@@ -11,7 +11,7 @@ services:
       - ./config:/etc/odoo
       - ./addons:/mnt/extra-addons
   db:
-    image: pimiya/postgres:latest
+    image: postgres:latest
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD=odoo
@@ -22,5 +22,3 @@ services:
 volumes:
   odoo-web-data:
   odoo-db-data:
-
-
