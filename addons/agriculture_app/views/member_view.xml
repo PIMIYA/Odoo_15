@@ -11,7 +11,7 @@
               <field name="SellerName" />
               <field name="SellerId" />
               <field name="Region" />
-              <field name="AuxId" />
+              <!-- <field name="AuxId" /> -->
               <field name="FarmerType" />
             </group>
             <group name="group_right" attrs="{'invisible':[('FarmerType', '!=', 'contract')]}">
@@ -24,6 +24,8 @@
               <group>
                 <h3>Date of Cerification</h3>
                 <field name="OrganicVerifyDate" widget="date" options="{'format': 'YYYY-MM-DD'}" />
+                <field name="OrganiCertifiedArea"/>
+                <field name="NonLeasedArea" />
               </group>
             </group>
           </sheet>
@@ -41,7 +43,7 @@
           <field name="SellerName" />
           <field name="SellerId" />
           <field name="Region" />
-          <field name="AuxId" />
+          <!-- <field name="AuxId" /> -->
           <field name="FarmerType" />
           <field name="ContractArea" />
           <field name="ChishangRArea" />
@@ -60,7 +62,7 @@
           <field name="SellerName" />
           <field name="SellerId" />
           <field name="Region" />
-          <field name="AuxId" />
+          <!-- <field name="AuxId" /> -->
           <field name="FarmerType" />
           <field name="ContractArea" />
           <field name="ChishangRArea" />

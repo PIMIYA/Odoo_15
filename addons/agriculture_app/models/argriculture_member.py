@@ -22,10 +22,15 @@ class Member(models.Model):
     OrganicVerifyDate = fields.Date(
         'OrganicVerifyDate', required=False)  # 有機認證日期
 
+    OrganiCertifiedArea = fields.Float(default=0.0)
+    NonLeasedArea = fields.Float(default=0.0) 
+
     '''
         - (If 契作農民 == True) 新增契作面積:
         - 契作面積
         - 池上R面積
         - TGAP面積
-        - (If 契作農民 == True) 有機認證日期
+        - (If 契作農民 == True) 有機認證日期:
+        - 有機認證面積
+        - 未契作面積
     '''

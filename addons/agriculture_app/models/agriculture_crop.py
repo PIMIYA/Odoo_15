@@ -39,7 +39,7 @@ class Crop(models.Model):
         [('dry', '乾穀'), ('humi', '濕穀')], 'CropStatus', required=True)  # 乾穀 濕穀
 
     CropType = fields.Selection([('a', '越光米'), (
-        'b', '黑糯米'), ('c', '紅糯米')], string='CropType', required=False)  # 特殊米種
+        'b', '紅/黑糯米'), ('c', '糯米')], string='CropType', required=False)  # 特殊米種
 
     isTAGP = fields.Boolean(
         string="isTAGP", default=False)  # 是否TAGP yes = +100
@@ -176,8 +176,11 @@ class Crop(models.Model):
                         # 越光米
                         record.FinalPrice = 2600
 
-                    elif record.CropType == 'b' or record.CropType == 'c':
+                    elif record.CropType == 'b':
                         # 黑糯米或紅糯米
+                        record.FinalPrice = 2400
+                    elif record.CropType == 'c':
+                        # 糯米
                         record.FinalPrice = 1700
                     else:
                         # 其他
