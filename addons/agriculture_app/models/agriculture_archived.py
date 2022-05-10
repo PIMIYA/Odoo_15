@@ -1,3 +1,4 @@
+import math
 from termios import OPOST
 from odoo import api, models, fields, exceptions
 import logging
@@ -27,7 +28,7 @@ class Archived(models.Model):
                     'Sorry, Seller\'s id not matched')
 
     def get_cn_num(self, input):
-        return num2cn(input, capitalize=True, traditional=True)
+        return num2cn(math.floor(input), capitalize=True, traditional=True)
 
     def unlink(self):
         for seq in self.seq_numbers:
