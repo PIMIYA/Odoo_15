@@ -208,7 +208,7 @@ class Crop(models.Model):
                                 min_value = min(compare_list)
                                 bonus = self._get_compare_price(
                                     min_value, record.PrimeYield) + record.CropVariety_bonus
-                                if record.isTAGP:
+                                if record.isTGAP:
                                     record.FinalPrice = bonus + 100
                                 else:
                                     record.FinalPrice = bonus
