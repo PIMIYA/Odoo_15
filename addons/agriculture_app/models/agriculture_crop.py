@@ -44,7 +44,7 @@ class Crop(models.Model):
         'b', '紅/黑糯米'), ('c', '糯米')], string='CropType', required=False)  # 特殊米種
 
     isTGAP = fields.Boolean(
-        string="isTAGP", default=False)  # 是否TAGP yes = +100
+        string="isTGAP", default=False)  # 是否TAGP yes = +100
 
     FarmingAdaption = fields.Selection(
         [('a', '有機轉型'), ('b', '隔離帶')], string='FarmingAdaption', required=False)  # 農業轉型
