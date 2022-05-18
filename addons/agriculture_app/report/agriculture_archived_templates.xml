@@ -43,66 +43,70 @@
                 <t t-set="crops" t-value="doc.mapped('seq_numbers')" />
                 <tr t-foreach="crops" t-as="crop">
                   <t t-set="total_expenditure" t-value="total_expenditure+crop.TotalPrice" />
-                  <td>
+                  <td class="align-middle">
                     <span t-field="crop.StartTime" widget="date" t-field-options="{'format': 'YYYY-MM-DD'}" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-field="crop.CropVariety" />
                   </td>
-                  <td>
-                    <span t-field="crop.CropWeight" />
+                  <td class="align-middle">
+                    <span t-field="crop.CropWeight" t-options='{"widget": "float", "precision": 2}' />
+                    <span>公斤</span>
+                    <br />
+                    <span t-esc="(crop.CropWeight * 1.6666666667)" t-options='{"widget": "float", "precision": 2}' />
+                    <span>台斤</span>
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-esc="floor(crop.FinalPrice)" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-esc="floor(crop.TotalPrice)" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span />
                   </td>
                 </tr>
                 <tr t-foreach="add_items.filtered(lambda x: x.item_kind == 'expenditure')" t-as="add_item">
                   <t t-set="total_expenditure" t-value="total_expenditure+add_item.total_price" />
-                  <td>
+                  <td class="align-middle">
                     <span t-field="add_item.datetime" widget="date" t-field-options="{'format': 'YYYY-MM-DD'}" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-field="add_item.item_name" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-field="add_item.amount" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-field="add_item.unit_price" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-esc="floor(add_item.total_price)" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span />
                   </td>
                 </tr>
                 <!-- 小記 -->
                 <tr>
-                  <td colspan="2">小記</td>
+                  <td class="align-middle" colspan="2">小記</td>
                   <!-- 重量 -->
-                  <td>
+                  <td class="align-middle">
                     <span t-esc="floor(total_expenditure)" />
                   </td>
-                  <td></td>
+                  <td class="align-middle"></td>
                   <!-- 金額 -->
-                  <td>
+                  <td class="align-middle">
                     <span t-esc="floor(total_expenditure)" />
                   </td>
                   <!-- comment -->
-                  <td></td>
+                  <td class="align-middle"></td>
                 </tr>
                 <!-- 應付總額 -->
                 <tr>
                   <td colspan="4">應付金額合計</td>
                   <!-- 金額 -->
-                  <td>
+                  <td class="align-middle">
                     <span t-esc="floor(total_expenditure)" />
                   </td>
                   <!-- comment -->
