@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from email.policy import default
 from odoo import api, fields, models
 import logging
+import requests
+import asyncio
 
 _logger = logging.getLogger(__name__)
 
@@ -15,14 +16,16 @@ class Crop(models.Model):
 
     # ******主要使用資料******
     # ******流水號******
-    SeqNumber = fields.Char("SeqNumber", required=True)
+    SeqNumber = fields.Char(
+        "SeqNumber", required=True, readonly=True)
     # ******農夫的資訊從member中取得******
     SellerName = fields.Many2one(
         "agriculture.member", string="SellerName", required=False)
     SellerId = fields.Char(
         "SellerId", related="SellerName.SellerId", required=False)
     SellerId1 = fields.Char("SellerId1", required=False)
-    Region = fields.Char("Region", related="SellerName.Region", required=False)
+    Region = fields.Char(
+        "Region", related="SellerName.Region", required=False)
     AuxId = fields.Char("AuxId", related="SellerName.AuxId", required=False)
     FarmerType = fields.Selection(
         "FarmerType", related="SellerName.FarmerType", required=False)
@@ -52,9 +55,11 @@ class Crop(models.Model):
     BrownYield = fields.Float(
         'BrownYield', required=True, default=0.0)  # 糙米成品率
 
-    HullYield = fields.Float('HullYield', required=True, default=0.0)  # 粗糠成品率
+    HullYield = fields.Float('HullYield', required=True,
+                             default=0.0)  # 粗糠成品率
 
-    BranYield = fields.Float('BranYield', required=True, default=0.0)  # 米糠成品率
+    BranYield = fields.Float('BranYield', required=True,
+                             default=0.0)  # 米糠成品率
 
     PrimeYield = fields.Float(
         'PrimeYield', required=True, default=0.0)  # 白米成品率
@@ -136,17 +141,17 @@ class Crop(models.Model):
 
     # new state
 
-    @api.model
+    @ api.model
     def _default_stage(self):
         Stage = self.env['crop.stage']
         return Stage.search([("state", "=", "draft")], limit=1)
 
-    @api.model
+    @ api.model
     def _done_stage(self):
         Stage = self.env['crop.stage']
         return Stage.search([("state", "=", "done")], limit=1)
 
-    @api.model
+    @ api.model
     def _archived_stage(self):
         Stage = self.env['crop.stage']
         return Stage.search([("state", "=", "archived")], limit=1)
@@ -275,18 +280,18 @@ class Crop(models.Model):
     def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio):
         return True if VolumeWeight != 0 or PrimeYield != 0 or TasteRating != 0 or BrownIntactRatio != 0 else False
 
-    @api.depends('CropWeight',
-                 'FinalPrice',
-                 'FarmerType',
-                 'CropType',
-                 'FarmingMethod',
-                 'CropVariety_bonus',
-                 'VolumeWeight',
-                 'PrimeYield',
-                 'TasteRating',
-                 'BrownIntactRatio',
-                 'FarmingAdaption',
-                 'isTGAP')
+    @ api.depends('CropWeight',
+                  'FinalPrice',
+                  'FarmerType',
+                  'CropType',
+                  'FarmingMethod',
+                  'CropVariety_bonus',
+                  'VolumeWeight',
+                  'PrimeYield',
+                  'TasteRating',
+                  'BrownIntactRatio',
+                  'FarmingAdaption',
+                  'isTGAP')
     def _compute_total_price(self):
         for record in self:
             unit_tw = record.CropWeight / 60
@@ -308,3 +313,28 @@ class Crop(models.Model):
                 self.stage_id = self._archived_stage()
 
         return super(Crop, self).write(vals)
+
+    # def _get_seqNumber(self):
+    #     url = "http://ec2-34-215-20-244.us-west-2.compute.amazonaws.com:58809/api/Record"
+
+    #     data = {"CropStatus": ""}
+    #     response = requests.post(url, json=data)
+    #     # _logger.info(response.json().get('SeqNumber'))
+    #     return response.json().get('SeqNumber')
+
+    @api.model
+    def default_get(self, default_fields):
+        res = super(Crop, self).default_get(default_fields)
+        try:
+            url = "http://ec2-34-215-20-244.us-west-2.compute.amazonaws.com:58809/api/Record"
+            data = {"CropStatus": ""}
+            response = requests.post(url, json=data)
+            # _logger.info(response.json().get('SeqNumber'))
+            seq = response.json().get('SeqNumber')
+            _logger.info(seq)
+            res['SeqNumber'] = seq
+            # res['SeqNumber'] = "123445"
+            return res
+        except KeyError as e:
+            _logger.info(e)
+            return res
