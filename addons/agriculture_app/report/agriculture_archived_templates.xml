@@ -31,6 +31,7 @@
             <table class="table table-bordered text-center">
               <thead>
                 <tr>
+                  <th>項目</th>
                   <th>交易日期</th>
                   <th>貨品(摘要)</th>
                   <th>稻穀重量</th>
@@ -40,9 +41,13 @@
                 </tr>
               </thead>
               <tbody>
+                <t t-set="idx" t-value="1" />
                 <t t-set="crops" t-value="doc.mapped('seq_numbers')" />
                 <tr t-foreach="crops" t-as="crop">
                   <t t-set="total_expenditure" t-value="total_expenditure+crop.TotalPrice" />
+                  <td class="align-middle">
+                    <span t-esc="idx" />
+                  </td>
                   <td class="align-middle">
                     <span t-field="crop.StartTime" widget="date" t-field-options="{'format': 'YYYY-MM-DD'}" />
                   </td>
@@ -65,9 +70,13 @@
                   <td class="align-middle">
                     <span />
                   </td>
+                  <t t-set="idx" t-value="idx+1" />
                 </tr>
                 <tr t-foreach="add_items.filtered(lambda x: x.item_kind == 'expenditure')" t-as="add_item">
                   <t t-set="total_expenditure" t-value="total_expenditure+add_item.total_price" />
+                  <td class="align-middle">
+                    <span t-esc="idx" />
+                  </td>
                   <td class="align-middle">
                     <span t-field="add_item.datetime" widget="date" t-field-options="{'format': 'YYYY-MM-DD'}" />
                   </td>
@@ -86,10 +95,11 @@
                   <td class="align-middle">
                     <span />
                   </td>
+                  <t t-set="idx" t-value="idx+1" />
                 </tr>
                 <!-- 小記 -->
                 <tr>
-                  <td class="align-middle" colspan="2">小記</td>
+                  <td class="align-middle" colspan="3">小記</td>
                   <!-- 重量 -->
                   <td class="align-middle">
                     <span t-esc="floor(total_expenditure)" />
@@ -104,7 +114,7 @@
                 </tr>
                 <!-- 應付總額 -->
                 <tr>
-                  <td colspan="4">應付金額合計</td>
+                  <td colspan="5">應付金額合計</td>
                   <!-- 金額 -->
                   <td class="align-middle">
                     <span t-esc="floor(total_expenditure)" />
@@ -124,6 +134,7 @@
             <table class="table table-bordered text-center">
               <thead>
                 <tr>
+                  <th>項目</th>
                   <th>交易日期</th>
                   <th>貨品(摘要)</th>
                   <th>數量</th>
@@ -134,29 +145,34 @@
                 </tr>
               </thead>
               <tbody>
+                <t t-set="idx" t-value="1" />
                 <tr t-foreach="add_items.filtered(lambda x: x.item_kind == 'income')" t-as="add_item">
                   <t t-set="total_income" t-value="total_income+floor(add_item.total_price)" />
-                  <td>
+                  <td class="align-middle">
+                    <span t-esc="idx" />
+                  </td>
+                  <td class="align-middle">
                     <span t-field="add_item.datetime" widget="date" t-field-options="{'format': 'YYYY-MM-DD'}" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-field="add_item.item_name" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-field="add_item.amount" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-esc="floor(add_item.unit_price)" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-esc="floor(add_item.total_price)" />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-field="add_item.interest" t-options='{"widget": "float", "precision": 2}' />
                   </td>
-                  <td>
+                  <td class="align-middle">
                     <span t-field="add_item.comment" />
                   </td>
+                  <t t-set="idx" t-value="idx+1" />
                 </tr>
               </tbody>
             </table>
