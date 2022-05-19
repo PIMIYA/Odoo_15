@@ -1,38 +1,28 @@
 <odoo>
-    <record id="paperformat_agriculture_crop" model="report.paperformat">
-        <field name="name">Agriculture Crop A4</field>
+    <record id="paperformat_agriculture_crop_b5" model="report.paperformat">
+        <field name="name">Agriculture Crop B5</field>
         <field name="default" eval="True" />
-        <field name="format">A4</field>
+        <field name="format">B5</field>
         <field name="page_height">0</field>
         <field name="page_width">0</field>
-        <field name="orientation">Portrait</field>
-        <field name="margin_top">4</field>
-        <field name="margin_bottom">4</field>
-        <field name="margin_left">4</field>
-        <field name="margin_right">4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">2</field>
+        <field name="margin_left">2</field>
+        <field name="margin_right">2</field>
         <field name="header_line" eval="False" />
         <field name="header_spacing">0</field>
         <field name="dpi">90</field>
     </record>
 
-    <record id="action_agriculture_crop_dry_report" model="ir.actions.report">
-        <field name="name">秤量傳票(乾穀)</field>
+    <!-- crop_receipt_report -->
+    <record id="action_agriculture_crop_receipt_report" model="ir.actions.report">
+        <field name="name">秤量傳票</field>
         <field name="model">agriculture.crop</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">agriculture_app.crop_dry_report</field>
+        <field name="report_name">agriculture_app.crop_receipt_report</field>
         <field name="binding_model_id" ref="model_agriculture_crop" />
         <field name="binding_type">report</field>
-        <field name="paperformat_id" ref="agriculture_app.paperformat_agriculture_crop" />
+        <field name="paperformat_id" ref="agriculture_app.paperformat_agriculture_crop_b5" />
     </record>
-
-    <record id="action_agriculture_crop_wet_report" model="ir.actions.report">
-        <field name="name">秤量傳票(濕穀)</field>
-        <field name="model">agriculture.crop</field>
-        <field name="report_type">qweb-pdf</field>
-        <field name="report_name">agriculture_app.crop_wet_report</field>
-        <field name="binding_model_id" ref="model_agriculture_crop" />
-        <field name="binding_type">report</field>
-        <field name="paperformat_id" ref="agriculture_app.paperformat_agriculture_crop" />
-    </record>
-
 </odoo>
