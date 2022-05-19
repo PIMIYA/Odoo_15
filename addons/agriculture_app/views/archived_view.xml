@@ -11,9 +11,26 @@
             <group name="group_top">
               <field name="member" widget="many2one" />
             </group>
-            <group name="group_bottom">
+            <group name="group_center">
               <field name="seq_numbers" widget="many2many" domain="['&amp;', '&amp;', ('SellerName', '=', member), '|', ('archived_id', '=', None), ('archived_id', '=', id), '|', ('PriceState', '=', 'done'), ('PriceState', '=', 'archived')]" />
               <field name="additional_items" widget="many2many" domain="['|', ('archived_id', '=', None), ('archived_id', '=', id)]" />
+            </group>
+            <group name="group_bottom">
+              <group name="group_left">
+                <h3>農友基本資料</h3>
+                <field name="SellerId" />
+                <field name="SellerName" />
+                <field name="FarmerType" />
+                <field name="Region" />
+              </group>
+              <group name="group_right" attrs="{'invisible':[('FarmerType', '!=', 'contract')]}">
+                <field name="ContractArea" />
+                <field name="ChishangRArea" />
+                <field name="TGAPArea" />
+                <field name="OrganicVerifyDate" />
+                <field name="OrganiCertifiedArea" />
+                <field name="NonLeasedArea" />
+              </group>
             </group>
           </sheet>
         </form>
