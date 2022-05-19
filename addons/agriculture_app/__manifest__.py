@@ -17,7 +17,7 @@
     "depends": ["base"],
     # always loaded
     "data": [
-        "security/agriculture_security.xml",
+        # "security/agriculture_security.xml",
         "security/ir.model.access.csv",
         "views/agriculture_menu.xml",
         "views/crop_view.xml",

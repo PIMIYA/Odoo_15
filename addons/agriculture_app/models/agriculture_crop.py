@@ -18,27 +18,27 @@ class Crop(models.Model):
     SeqNumber = fields.Char("SeqNumber", required=True)
     # ******農夫的資訊從member中取得******
     SellerName = fields.Many2one(
-        "agriculture.member", string="SellerName", required=True)
+        "agriculture.member", string="SellerName", required=False)
     SellerId = fields.Char(
-        "SellerId", related="SellerName.SellerId", required=True)
+        "SellerId", related="SellerName.SellerId", required=False)
     SellerId1 = fields.Char("SellerId1", required=False)
     Region = fields.Char("Region", related="SellerName.Region", required=False)
     AuxId = fields.Char("AuxId", related="SellerName.AuxId", required=False)
     FarmerType = fields.Selection(
-        "FarmerType", related="SellerName.FarmerType", required=True)
+        "FarmerType", related="SellerName.FarmerType", required=False)
     # *******************************************
     # ******農作物資料******
     FarmingMethod = fields.Selection([('conventional', '慣行農法'), (
-        'organic', '有機耕作')], string='FarmingMethod', required=True)
+        'organic', '有機耕作')], string='FarmingMethod', required=False)
 
     CropVariety = fields.Many2one(
-        'agriculture.cropvariety', string='CropVariety', required=True)  # 品種 不同品種有不同的加成
+        'agriculture.cropvariety', string='CropVariety', required=False)  # 品種 不同品種有不同的加成
 
     CropVariety_bonus = fields.Integer(
-        'CropVariety_bonus', related="CropVariety.CropVariety_bonus", required=True)  # 品種加成bonus
+        'CropVariety_bonus', related="CropVariety.CropVariety_bonus", required=False)  # 品種加成bonus
 
     CropStatus = fields.Selection(
-        [('dry', '乾穀'), ('humi', '濕穀')], 'CropStatus', required=True)  # 乾穀 濕穀
+        [('dry', '乾穀'), ('humi', '濕穀')], 'CropStatus', required=False)  # 乾穀 濕穀
 
     CropType = fields.Selection([('a', '越光米'), (
         'b', '紅/黑糯米'), ('c', '糯米')], string='CropType', required=False)  # 特殊米種
@@ -49,70 +49,87 @@ class Crop(models.Model):
     FarmingAdaption = fields.Selection(
         [('a', '有機轉型'), ('b', '隔離帶')], string='FarmingAdaption', required=False)  # 農業轉型
 
-    BrownYield = fields.Float('BrownYield', required=True)  # 糙米成品率
+    BrownYield = fields.Float(
+        'BrownYield', required=True, default=0.0)  # 糙米成品率
 
-    HullYield = fields.Float('HullYield', required=True)  # 粗糠成品率
+    HullYield = fields.Float('HullYield', required=True, default=0.0)  # 粗糠成品率
 
-    BranYield = fields.Float('BranYield', required=True)  # 米糠成品率
+    BranYield = fields.Float('BranYield', required=True, default=0.0)  # 米糠成品率
 
-    PrimeYield = fields.Float('PrimeYield', required=True)  # 白米成品率
+    PrimeYield = fields.Float(
+        'PrimeYield', required=True, default=0.0)  # 白米成品率
 
-    BBRiceYield = fields.Float('BBRiceYield', required=True)  # 大碎米成品率
+    BBRiceYield = fields.Float(
+        'BBRiceYield', required=True, default=0.0)  # 大碎米成品率
 
-    SBRiceYield = fields.Float('SBRiceYield', required=True)  # 小碎米成品率
+    SBRiceYield = fields.Float(
+        'SBRiceYield', required=True, default=0.0)  # 小碎米成品率
 
-    RawHumidity = fields.Float('RawHumidity', required=True)  # 稻穀濕度
+    RawHumidity = fields.Float(
+        'RawHumidity', required=True, default=0.0)  # 稻穀濕度
 
-    BrownHumidity = fields.Float('BrownHumidity', required=True)  # 糙米濕度
+    BrownHumidity = fields.Float(
+        'BrownHumidity', required=True, default=0.0)  # 糙米濕度
 
-    RiceHumidity = fields.Float('RiceHumidity', required=True)  # 白米濕度
+    RiceHumidity = fields.Float(
+        'RiceHumidity', required=True, default=0.0)  # 白米濕度
 
     BrownIntactRatio = fields.Float(
-        'BrownIntactRatio', required=True)  # 糙米-完整粒
+        'BrownIntactRatio', required=True, default=0.0)  # 糙米-完整粒
 
     BrownCrackedRatio = fields.Float(
-        'BrownCrackedRatio', required=True)  # 糙米-胴裂粒
+        'BrownCrackedRatio', required=True, default=0.0)  # 糙米-胴裂粒
 
     BrownImmatureRatio = fields.Float(
-        'BrownImmatureRatio', required=True)  # 糙米-未熟粒
+        'BrownImmatureRatio', required=True, default=0.0)  # 糙米-未熟粒
 
-    BrownPestsRatio = fields.Float('BrownPestsRatio', required=True)  # 糙米-被害粒
+    BrownPestsRatio = fields.Float(
+        'BrownPestsRatio', required=True, default=0.0)  # 糙米-被害粒
 
     BrownColoredRatio = fields.Float(
-        'BrownColoredRatio', required=True)  # 糙米-染色粒
+        'BrownColoredRatio', required=True, default=0.0)  # 糙米-染色粒
 
-    BrownDeadRatio = fields.Float('BrownDeadRatio', required=True)  # 糙米-死米
+    BrownDeadRatio = fields.Float(
+        'BrownDeadRatio', required=True, default=0.0)  # 糙米-死米
 
-    TasteRating = fields.Float('TasteRating', required=True)  # 食味值
+    TasteRating = fields.Float(
+        'TasteRating', required=True, default=0.0)  # 食味值
 
-    Protein = fields.Float('Protein', required=True)  # 蛋白質含量
+    Protein = fields.Float('Protein', required=True, default=0.0)  # 蛋白質含量
 
-    BrownMoisture = fields.Float('BrownMoisture', required=True)  # 遠紅外線-糙米濕度
+    BrownMoisture = fields.Float(
+        'BrownMoisture', required=True, default=0.0)  # 遠紅外線-糙米濕度
 
-    BrownAmylose = fields.Float('BrownAmylose', required=True)  # 直鏈性澱粉含量
+    BrownAmylose = fields.Float(
+        'BrownAmylose', required=True, default=0.0)  # 直鏈性澱粉含量
 
-    VolumeWeight = fields.Float('VolumeWeight', required=True)  # 容量重量
+    VolumeWeight = fields.Float(
+        'VolumeWeight', required=True, default=0.0)  # 容量重量
 
-    CarCropWeight = fields.Float('CarCropWeight', required=True)  # 重車重量
+    CarCropWeight = fields.Float(
+        'CarCropWeight', required=True, default=0.0)  # 重車重量
 
-    CarWeight = fields.Float('CarWeight', required=True)  # 車重
+    CarWeight = fields.Float('CarWeight', required=True, default=0.0)  # 車重
 
-    HarvestYear = fields.Integer('HarvestYear', required=True)  # 收穫年份 民國年
+    HarvestYear = fields.Integer(
+        'HarvestYear', required=True, default=0)  # 收穫年份 民國年
 
-    HarvestPeriod = fields.Integer('HarvestPeriod', required=True)  # 期數
+    HarvestPeriod = fields.Integer(
+        'HarvestPeriod', required=True, default=0)  # 期數
 
     LastCreationTime = fields.Datetime(
         'LastCreationTime', default=datetime.now())  # 收購時間
 
-    CropWeight = fields.Float('CropWeight', required=True)  # 稻穀總重量
+    CropWeight = fields.Float(
+        'CropWeight', required=True, default=0.0)  # 稻穀總重量
 
-    StorageId = fields.Char('StorageId', required=True)  # 存放的倉庫編號
-    DryerId = fields.Char('DryerId', required=True)  # 洗米機編號
+    StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
+    DryerId = fields.Char('DryerId', required=False)  # 洗米機編號
 
     # ******次要資料******
 
-    StartTime = fields.Datetime('Start Time', required=True)
-    EndTime = fields.Datetime('End Time', required=True)
+    StartTime = fields.Datetime('Start Time', required=False)
+    EndTime = fields.Datetime('End Time', required=False)
 
     # active = fields.Boolean("Active?", default=True)
     archived_id = fields.Many2one("agriculture.archived")
@@ -187,11 +204,9 @@ class Crop(models.Model):
                         # 其他
                         # 有機米
                         if record.FarmingMethod == 'organic':
-                            v = True if record.VolumeWeight > 610 else False
-                            v2 = True if record.VolumeWeight < 610 and record.VolumeWeight > 560 else False
-                            if v is False and v2 is False:
-                                record.FinalPrice = 2300
-                            elif v is False and v2 is True:
+                            v = True if record.VolumeWeight >= 610 else False
+                            v2 = True if record.VolumeWeight <= 610 and record.VolumeWeight > 560 else False
+                            if v is False and v2 is True:
                                 record.FinalPrice = 2400
                             elif v is True and record.PrimeYield > 70:
                                 record.FinalPrice = 2600
@@ -200,7 +215,7 @@ class Crop(models.Model):
                         else:
                             # 有機轉型或隔離帶
                             if record.FarmingAdaption == 'a' or record.FarmingAdaption == 'b':
-                                record.FinalPrice = 2300
+                                record.FinalPrice = 2200
                             else:
                                 # 慣行耕作
                                 compare_list = [self._get_quality_level(record.TasteRating), self._get_quality_level(
@@ -215,7 +230,7 @@ class Crop(models.Model):
 
                 else:
                     # 非契約農民
-                    record.FinalPrice = 1400
+                    record.FinalPrice = 1400  # 增加 議價金額（正負）
 
                 record.PriceState = 'done'
                 self.stage_id = self._done_stage()

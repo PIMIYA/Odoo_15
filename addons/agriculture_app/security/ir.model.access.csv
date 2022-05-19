@@ -1,6 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_crop_user,CropUser,model_agriculture_crop,agriculture_group_user,1,1,1,0
-access_crop_manager,CropManager,model_agriculture_crop,agriculture_group_manager,1,1,1,1
+access_agriculture_crop,access_agriculture.crop,model_agriculture_crop,base.group_user,1,1,1,1
 access_agriculture_member,access.agriculture.member,model_agriculture_member,base.group_user,1,1,1,1
 access_argiculture_archived,access.argiculture.archived,model_agriculture_archived,base.group_user,1,1,1,1
 access_agriculture_archived_additional_item,access.agriculture.archived.additional.item,model_agriculture_archived_additional_item,base.group_user,1,1,1,1

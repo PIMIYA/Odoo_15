@@ -8,22 +8,22 @@ class Member(models.Model):
     _rec_name = 'SellerName'
     _order = "SellerName desc"
 
-    SellerName = fields.Char()
-    SellerId = fields.Char()
+    SellerName = fields.Char(required=False)
+    SellerId = fields.Char(required=False)
     FarmerType = fields.Selection(
-        [('non_contract', '非契作農民'), ('contract', '契作農民')], string='FarmerType', default='non_contract')
-    Region = fields.Char()
-    AuxId = fields.Char()
+        [('non_contract', '非契作農民'), ('contract', '契作農民')], string='FarmerType', default='non_contract', required=False)
+    Region = fields.Char(required=False)
+    AuxId = fields.Char(required=False)
 
-    ContractArea = fields.Float(default=0.0)
-    ChishangRArea = fields.Float(default=0.0)
-    TGAPArea = fields.Float(default=0.0)
+    ContractArea = fields.Float(default=0.0, required=False)
+    ChishangRArea = fields.Float(default=0.0, required=False)
+    TGAPArea = fields.Float(default=0.0, required=False)
 
     OrganicVerifyDate = fields.Date(
         'OrganicVerifyDate', required=False)  # 有機認證日期
 
-    OrganiCertifiedArea = fields.Float(default=0.0)
-    NonLeasedArea = fields.Float(default=0.0) 
+    OrganiCertifiedArea = fields.Float(default=0.0, required=False)
+    NonLeasedArea = fields.Float(default=0.0, required=False)
 
     '''
         - (If 契作農民 == True) 新增契作面積:

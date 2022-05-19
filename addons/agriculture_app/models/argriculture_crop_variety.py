@@ -6,5 +6,5 @@ class CropVariety(models.Model):
     _description = 'CropVariety of agriculture app'
     _rec_name = 'CropVariety_name'
 
-    CropVariety_name = fields.Char()
-    CropVariety_bonus = fields.Integer()
+    CropVariety_name = fields.Char(required=False)
+    CropVariety_bonus = fields.Integer(required=False, default=0)
