@@ -84,25 +84,26 @@ class Crops(http.Controller):
 
         try:
             rec_to_post = http.request.env['agriculture.crop']
+            rec_to_post.sudo().create(data)
         except KeyError:
             msg = "The model `%s` does not exist." % rec_to_post
             raise exceptions.ValidationError(msg)
 
-        check = rec_to_post.sudo().search(
-            [('SeqNumber', '=', data['SeqNumber'])])
+        # check = rec_to_post.sudo().search(
+        #     [('SeqNumber', '=', data['SeqNumber'])])
 
-        # _logger.info("test: %s" % test)
-        if check:
-            msg = "The record `%s` already exists." % data['SeqNumber']
-            raise exceptions.ValidationError(msg)
-        else:
-            if "context" in kwargs:
-                context = kwargs["context"]
-                record = rec_to_post.with_context(
-                    **context).sudo().create(data)
-            else:
-                record = rec_to_post.sudo().create(data)
-                return record.id
+        # # _logger.info("test: %s" % test)
+        # if check:
+        #     msg = "The record `%s` already exists." % data['SeqNumber']
+        #     raise exceptions.ValidationError(msg)
+        # else:
+        #     if "context" in kwargs:
+        #         context = kwargs["context"]
+        #         record = rec_to_post.with_context(
+        #             **context).sudo().create(data)
+        #     else:
+        #         record = rec_to_post.sudo().create(data)
+        #         return record.id
 
     # update a record
 
