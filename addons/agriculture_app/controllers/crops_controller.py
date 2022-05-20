@@ -30,7 +30,7 @@ def error_response(error, msg):
 class Crops(http.Controller):
 
     # get a single crop record
-    @http.route('/api/v1/agriculture/crop/rec', type='http', auth="public", methods=['POST'], csrf=False)
+    @http.route('/api/v1/agriculture/crop/rec', type='http', auth="public", methods=['GET'], csrf=False)
     def get_crop_record(self, **kwargs):
         seq = kwargs.get('SeqNumber')
         try:
