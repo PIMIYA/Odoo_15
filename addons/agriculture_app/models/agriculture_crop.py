@@ -4,7 +4,6 @@ from datetime import datetime
 from odoo import api, fields, models
 import logging
 import requests
-import asyncio
 
 _logger = logging.getLogger(__name__)
 
@@ -17,7 +16,7 @@ class Crop(models.Model):
     # ******主要使用資料******
     # ******流水號******
     SeqNumber = fields.Char(
-        "SeqNumber", required=True, readonly=True)
+        "SeqNumber",  required=False, readonly=True)
     # ******農夫的資訊從member中取得******
     SellerName = fields.Many2one(
         "agriculture.member", string="SellerName", required=False)
@@ -311,30 +310,23 @@ class Crop(models.Model):
             else:
                 self.PriceState = 'archived'
                 self.stage_id = self._archived_stage()
-
         return super(Crop, self).write(vals)
 
-    # def _get_seqNumber(self):
-    #     url = "http://ec2-34-215-20-244.us-west-2.compute.amazonaws.com:58809/api/Record"
+    def _get_seqNumber(self):
+        url = "http://ec2-34-215-20-244.us-west-2.compute.amazonaws.com:58809/api/Record"
 
-    #     data = {"CropStatus": ""}
-    #     response = requests.post(url, json=data)
-    #     # _logger.info(response.json().get('SeqNumber'))
-    #     return response.json().get('SeqNumber')
+        data = {"CropStatus": ""}
+        response = requests.post(url, json=data)
+        # _logger.info(response.json().get('SeqNumber'))
+        return response.json().get('SeqNumber')
 
     @api.model
-    def default_get(self, default_fields):
-        res = super(Crop, self).default_get(default_fields)
-        try:
-            url = "http://ec2-34-215-20-244.us-west-2.compute.amazonaws.com:58809/api/Record"
-            data = {"CropStatus": ""}
-            response = requests.post(url, json=data)
-            # _logger.info(response.json().get('SeqNumber'))
-            seq = response.json().get('SeqNumber')
-            _logger.info(seq)
-            res['SeqNumber'] = seq
-            # res['SeqNumber'] = "123445"
-            return res
-        except KeyError as e:
-            _logger.info(e)
-            return res
+    def create(self, fields):
+        _logger.info(f"this write is {fields}")
+        fields['SeqNumber'] = self._get_seqNumber()
+        return super(Crop, self).create(fields)
+
+    # @api.model
+    # def default_get(self, fields):
+    #     res = super(Crop, self).default_get(fields)
+    #     return res
