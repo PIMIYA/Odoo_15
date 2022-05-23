@@ -10,6 +10,8 @@ _logger = logging.getLogger(__name__)
 
 class Crop(models.Model):
     _name = "agriculture.crop"
+    _inherit = 'mail.thread'
+    _rec_name = 'SeqNumber'
     _description = "Crop"
     _order = "EndTime desc"
 
@@ -22,7 +24,7 @@ class Crop(models.Model):
         "agriculture.member", string="SellerName", required=False)
     SellerId = fields.Char(
         "SellerId", related="SellerName.SellerId", required=False)
-    SellerId1 = fields.Char("SellerId1", required=False)
+
     Region = fields.Char(
         "Region", related="SellerName.Region", required=False)
     AuxId = fields.Char("AuxId", related="SellerName.AuxId", required=False)
@@ -127,13 +129,83 @@ class Crop(models.Model):
     CropWeight = fields.Float(
         'CropWeight', required=True, default=0.0)  # 稻穀總重量
 
+    RawTotalWeight = fields.Float(
+        'RawTotalWeight', required=True, default=0.0)
+
+    BrownWeight = fields.Float(
+        'BrownWeight', required=True, default=0.0)  # 糙米總重量
+
+    HullWeight = fields.Float(
+        'HullWeight', required=True, default=0.0)  # 粗糠總重量
+
+    BranWeight = fields.Float(
+        'BranWeight', required=True, default=0.0)  # 米糠總重量
+
+    PrimeWeight = fields.Float(
+        'PrimeWeight', required=True, default=0.0)  # 白米總重量
+
+    BBRiceWeight = fields.Float(
+        'BBRiceWeight', required=True, default=0.0)  # 大碎米總重量
+
+    SBRiceWeight = fields.Float(
+        'SBRiceWeight', required=True, default=0.0)  # 小碎米總重量
+
+    WasteRatio = fields.Float('WasteRatio', required=True, default=0.0)
+
+    BuyPrice = fields.Float('BuyPrice', required=True, default=0.0)
+
+    MachineTime = fields.Integer('MachineTime', required=True, default=0)
+
+    MachineUses = fields.Integer('MachineUses', required=True, default=0)
+
+    MachineStatus = fields.Char('MachineStatus', required=True, default='')
+
+    TotalLoadWeight = fields.Float(
+        'TotalLoadWeight', required=True, default=0.0)
+
+    LastEditTime = fields.Datetime('LastEditTime', default=datetime.now())
+
+    WhiteAmylose = fields.Float('WhiteAmylose', required=True, default=0.0)
+
+    WhiteProtein = fields.Float('WhiteProtein', required=True, default=0.0)
+
+    WhiteQEV = fields.Float('WhiteQEV', required=True, default=0.0)
+
+    WhiteMoisture = fields.Float('WhiteMoisture', required=True, default=0.0)
+
+    WhiteIntactRatio = fields.Float(
+        'WhiteIntactRatio', required=True, default=0.0)
+
+    WhiteColoredRatio = fields.Float(
+        'WhiteColoredRatio', required=True, default=0.0)
+
+    WhiteCrackedRatio = fields.Float(
+        'WhiteCrackedRatio', required=True, default=0.0)
+
+    WhiteDeadRatio = fields.Float('WhiteDeadRatio', required=True, default=0.0)
+
+    WhiteImmatureRatio = fields.Float(
+        'WhiteImmatureRatio', required=True, default=0.0)
+
+    WhitePestsRatio = fields.Float(
+        'WhitePestsRatio', required=True, default=0.0)
+
+    WetDryRatio = fields.Float('WetDryRatio', required=True, default=0.0)
+
+    DryingFee = fields.Float('DryingFee', required=True, default=0.0)
+
     StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
     DryerId = fields.Char('DryerId', required=False)  # 洗米機編號
 
     # ******次要資料******
 
     StartTime = fields.Datetime('Start Time', required=False)
+    StartTime_Date = fields.Char('Start Time Date', required=False)
+    StartTime_Time = fields.Char('Start Time Time', required=False)
+
     EndTime = fields.Datetime('End Time', required=False)
+    EndTime_Date = fields.Char('End Time Date', required=False)
+    EndTime_Time = fields.Char('End Time Time', required=False)
 
     # active = fields.Boolean("Active?", default=True)
     archived_id = fields.Many2one("agriculture.archived")

@@ -14,7 +14,7 @@
     "category": "Operations/Agriculture",
     "version": "15.0.1.0.0",
     # any module necessary for this one to work correctly
-    "depends": ["base"],
+    "depends": ["base", "contacts"],
     # always loaded
     "data": [
         # "security/agriculture_security.xml",
@@ -31,7 +31,8 @@
         "report/agriculture_archived_templates.xml",
         "report/agriculture_crop_reports.xml",
         "report/agriculture_crop_templatex.xml",
-        "data/crop_stage_data.xml"
+        "data/crop_stage_data.xml",
+        "views/inherit_res_partner.xml"
     ],
     # only loaded in demonstration mode
     "demo": [

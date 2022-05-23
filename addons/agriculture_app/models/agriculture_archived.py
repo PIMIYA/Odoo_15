@@ -3,12 +3,14 @@ from termios import OPOST
 from odoo import api, models, fields, exceptions
 import logging
 from .pycnnum import num2cn
-
+from datetime import datetime
 _logger = logging.getLogger(__name__)
 
 
 class Archived(models.Model):
     _name = 'agriculture.archived'
+    _inherit = 'mail.thread'
+    _rec_name = 'SellerName'
     _description = 'Archived'
 
     # 農民資料
@@ -44,6 +46,9 @@ class Archived(models.Model):
     additional_items = fields.One2many(
         'agriculture.archived_additional_item', 'archived_id', 'Extra Items')
     ##########
+    # 單據時間
+    LastCreationTime = fields.Datetime(
+        'LastCreationTime', default=datetime.now())
 
     @api.onchange('member')
     def _onchange_member(self):

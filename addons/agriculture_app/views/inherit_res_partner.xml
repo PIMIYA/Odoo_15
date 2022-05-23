@@ -1,0 +1,17 @@
+  <odoo>
+  <!-- inherit view from res.partner -->
+    <record model="ir.ui.view" id="view_inherit_form_res_partner">
+      <field name="name">view_inherit_form_res_partner</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+          <xpath expr="//field[@name='name']" position="after">
+            <group name="group_left">
+              <field name="is_agriculture_member" widget="boolean_button"/>
+              <field name="SellerId" attrs="{'invisible': [('is_agriculture_member', '=', False)]}" required="1"/>
+              <field name="Member" attrs="{'invisible': [('is_agriculture_member', '=', False)]}" required="1"/>
+            </group>
+          </xpath>
+      </field>
+    </record>
+  </odoo>

@@ -1,9 +1,12 @@
-from email.policy import default
-from odoo import models, fields
+from odoo import models, fields, api
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class Member(models.Model):
     _name = 'agriculture.member'
+    _inherit = 'mail.thread'
     _description = 'Member of agriculture app'
     _rec_name = 'SellerName'
     _order = "SellerName desc"
@@ -25,12 +28,9 @@ class Member(models.Model):
     OrganiCertifiedArea = fields.Float(default=0.0, required=False)
     NonLeasedArea = fields.Float(default=0.0, required=False)
 
-    '''
-        - (If 契作農民 == True) 新增契作面積:
-        - 契作面積
-        - 池上R面積
-        - TGAP面積
-        - (If 契作農民 == True) 有機認證日期:
-        - 有機認證面積
-        - 未契作面積
-    '''
+    # @api.model
+    # def unlink(self, fields):
+    #     _logger.info(f'this is the {fields} going to be deleted')
+    #     inherit_res_partner = self.env['res.partner']
+    #     _logger.info(f'this is the {inherit_res_partner} going to be deleted')
+    #     return super(Member, self).unlink()

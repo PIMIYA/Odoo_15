@@ -33,6 +33,10 @@
               </group>
             </group>
           </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers"/>
+            <field name="message_ids" widget="mail_thread"/>
+          </div>
         </form>
       </field>
     </record>
@@ -46,7 +50,28 @@
           <field name="member" />
           <field name="seq_numbers" />
           <field name="additional_items" />
+          <field name="LastCreationTime" widget="remaining_days"/>
         </tree>
+      </field>
+    </record>
+
+    <!-- calendar view definition -->
+    <record id="view_calendar_archived" model="ir.ui.view">
+      <field name="name">Archived Calendar</field>
+      <field name="model">agriculture.archived</field>
+      <field name="arch" type="xml">
+        <calendar string="Archived Calendar" 
+                date_start="LastCreationTime"                 
+                date_stop="LastCreationTime"                 
+                event_open_popup="true"                 
+                mode="month"                 
+                color="SellerName"                 
+                quick_add="False">
+          <field name="SellerId" />
+          <field name="SellerName" />
+          <field name="FarmerType" />
+          <field name="Region" />
+        </calendar>
       </field>
     </record>
 
