@@ -66,6 +66,8 @@
                 <field name="TotalPrice" />
               </group>
               <group name="group_right">
+                <h3>議價</h3>
+                <field name="nego_price" />
               </group>          
             </group>
           </page>

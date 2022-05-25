@@ -19,20 +19,21 @@
     "data": [
         # "security/agriculture_security.xml",
         "security/ir.model.access.csv",
-        "views/agriculture_menu.xml",
         "views/crop_view.xml",
         "views/crop_list_template.xml",
         "views/archived_view.xml",
         "views/archived_additional_item.xml",
         "views/member_view.xml",
         "views/member_list_template.xml",
+        "views/inherit_res_partner.xml",
         "views/crop_variety_view.xml",
+        "views/settings.xml",
+        "views/agriculture_menu.xml",
         "report/agriculture_archived_reports.xml",
         "report/agriculture_archived_templates.xml",
         "report/agriculture_crop_reports.xml",
         "report/agriculture_crop_templatex.xml",
         "data/crop_stage_data.xml",
-        "views/inherit_res_partner.xml"
     ],
     # only loaded in demonstration mode
     "demo": [

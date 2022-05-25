@@ -50,20 +50,9 @@
         <field name="view_mode">tree,form,kanban</field>
     </record>
     <!-- Menu item to open the CropVariety list -->
-    <menuitem id="menu_agriculture_crop_variety" name="CropVariety" parent="menu_agriculture" action="action_agriculture_crop_variety" sequence="10" />
-
-
-    <!-- Action to open the CropVariety list
-    <record id="action_agriculture_preferences" model="ir.actions.act_window">
-        <field name="name">Preferences</field>
-        <field name="res_model">res.config.settings</field>
-        <field name="view_id" ref="res_config_settings_view_form"/>
-        <field name="view_mode">form</field>
-        <field name="target">inline</field>
-        <field name="context">{"module": "agriculture"}</field>
-    </record>
-
-    <menuitem id="menu_agriculture_preferences" name="Preferences" parent="menu_agriculture" action="action_agriculture_preferences" sequence="100" /> -->
-
+    <menuitem id="menu_agriculture_configuration" name="Configuration" parent="menu_agriculture" sequence="100" />
+    
+    <menuitem id="menu_agriculture_crop_variety" name="CropVariety" parent="menu_agriculture_configuration" action="action_agriculture_crop_variety"/>
+    <menuitem id="menu_agriculture_settings" name="Price Estimated Settings" parent="menu_agriculture_configuration" action="res_config_settings_menu_action"/>
 
 </odoo>

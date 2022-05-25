@@ -232,10 +232,6 @@ class Crop(models.Model):
     state = fields.Selection(related="stage_id.state")
 
     def button_refresh(self):
-        Stage = self.env['crop.stage']
-        draft_stage = Stage.search([("state", "=", "draft")], limit=1)
-        # for checkout in self:
-        #     checkout.stage_id = done_stage
         return True
 
     # ******計價資料*****
@@ -250,6 +246,9 @@ class Crop(models.Model):
     TotalPrice = fields.Float(
         "TotalPrice (新台幣)", compute="_compute_total_price", store=True)
 
+    # 議價
+    nego_price = fields.Float('nego_price', default=0)
+
     @ api.depends('FarmerType',
                   'CropType',
                   'FarmingMethod',
@@ -259,54 +258,76 @@ class Crop(models.Model):
                   'TasteRating',
                   'BrownIntactRatio',
                   'FarmingAdaption',
-                  'isTGAP')
+                  'isTGAP',
+                  'nego_price')
     def _compute_final_price(self):
+        params = self.env['ir.config_parameter'].sudo()
+        base_price = float(params.get_param('agriculture.BasePrice'))
+        contracted_price = float(params.get_param(
+            'agriculture.ContractedMemberPrice'))
+        koshihikariRice_price = float(
+            params.get_param('agriculture.KoshihikariRice'))
+        glutinousRicePrice_BR = float(params.get_param(
+            'agriculture.GlutinousRicePrice_BR'))
+        glutinousRicePrice = float(params.get_param(
+            'agriculture.GlutinousRicePrice'))
+        organicRice_price = float(params.get_param('agriculture.OrganicRice'))
+        volumeWeightIsOverAndEqualTo = float(params.get_param(
+            'agriculture.VolumeWeightIsOverAndEqualTo'))
+        primeYieldIsOverAndEqualTo = float(params.get_param(
+            'agriculture.PrimeYieldIsOverAndEqualTo'))
+        organicRiceExtra = float(params.get_param(
+            'agriculture.OrganicRiceExtra'))
+        organicTransOrIso = float(params.get_param(
+            'agriculture.OrganicTransOrIso'))
+        tgap_bonus = float(params.get_param('agriculture.tgap_bonus'))
         for record in self:
             if self._check_nValue(record.VolumeWeight, record.PrimeYield, record.TasteRating, record.BrownIntactRatio):
                 if record.FarmerType == 'contract':
                     # 契約農民
                     # 特殊米種
                     if record.CropType == 'a':
-                        # 越光米
-                        record.FinalPrice = 2600
+                        # 越光米2600
+                        record.FinalPrice = base_price + contracted_price + koshihikariRice_price
 
                     elif record.CropType == 'b':
-                        # 黑糯米或紅糯米
-                        record.FinalPrice = 2400
+                        # 黑糯米或紅糯米 2400
+                        record.FinalPrice = base_price + contracted_price + glutinousRicePrice_BR
                     elif record.CropType == 'c':
-                        # 糯米
-                        record.FinalPrice = 1700
+                        # 糯米1700
+                        record.FinalPrice = base_price + contracted_price + glutinousRicePrice
                     else:
                         # 其他
                         # 有機米
                         if record.FarmingMethod == 'organic':
-                            v = True if record.VolumeWeight >= 610 else False
-                            v2 = True if record.VolumeWeight <= 610 and record.VolumeWeight > 560 else False
-                            if v is False and v2 is True:
-                                record.FinalPrice = 2400
-                            elif v is True and record.PrimeYield > 70:
-                                record.FinalPrice = 2600
-                            elif v is True and record.PrimeYield < 70:
-                                record.FinalPrice = 2400
+                            vw = True if record.VolumeWeight >= volumeWeightIsOverAndEqualTo else False
+                            py = True if record.VolumeWeight >= primeYieldIsOverAndEqualTo else False
+                            if vw is True and py is True:
+                                record.FinalPrice = base_price + contracted_price + \
+                                    organicRice_price + organicRiceExtra
+                            elif vw is True and py is False:
+                                record.FinalPrice = base_price + contracted_price + organicRice_price
+                            elif vw is False and py is False:
+                                record.FinalPrice = base_price + contracted_price + organicRice_price
                         else:
-                            # 有機轉型或隔離帶
+                            # 有機轉型或隔離帶2200
                             if record.FarmingAdaption == 'a' or record.FarmingAdaption == 'b':
-                                record.FinalPrice = 2200
+                                record.FinalPrice = base_price + contracted_price + organicTransOrIso
                             else:
                                 # 慣行耕作
-                                compare_list = [self._get_quality_level(record.TasteRating), self._get_quality_level(
-                                    record.VolumeWeight), self._get_quality_level(record.BrownIntactRatio)]
+                                compare_list = [self._get_taste_rating_level(record.TasteRating), self._get_volume_weight_level(
+                                    record.VolumeWeight), self._get_brown_intact_ratio_level(record.BrownIntactRatio)]
                                 min_value = min(compare_list)
                                 bonus = self._get_compare_price(
                                     min_value, record.PrimeYield) + record.CropVariety_bonus
                                 if record.isTGAP:
-                                    record.FinalPrice = bonus + 100
+                                    record.FinalPrice = bonus + tgap_bonus
                                 else:
                                     record.FinalPrice = bonus
 
                 else:
                     # 非契約農民
-                    record.FinalPrice = 1400  # 增加 議價金額（正負）
+                    record.FinalPrice = base_price + record.nego_price  # 增加 議價金額（正負）
 
                 record.PriceState = 'done'
                 self.stage_id = self._done_stage()
@@ -315,8 +336,51 @@ class Crop(models.Model):
                 record.PriceState = 'draft'
                 self.stage_id = self._default_stage()
 
-    def _get_quality_level(self, expValue):
-        p_list = [609.0, 590.0, 560.0, 540.0]
+    def _get_volume_weight_level(self, expValue):
+        params = self.env['ir.config_parameter'].sudo()
+        fs = float(params.get_param('agriculture.fs_VolumeWeightIsOver'))
+        ss = float(params.get_param('agriculture.ss_VolumeWeightIsOver'))
+        ts = float(params.get_param('agriculture.ts_VolumeWeightIsOver'))
+        ffs = float(params.get_param('agriculture.ffs_VolumeWeightIsOver'))
+        p_list = [fs, ss, ts, ffs]
+        x1 = expValue - p_list[3]
+        x2 = expValue - p_list[0]
+        x3 = expValue - p_list[1]
+        x4 = expValue - p_list[2]
+
+        lx1 = 1 if x1 >= 0 else -1
+        lx2 = 1 if x2 > 0 else 0
+        lx3 = 1 if x3 > 0 else 0
+        lx4 = 1 if x4 > 0 else 0
+
+        return lx1 + lx2 + lx3 + lx4
+
+    def _get_taste_rating_level(self, expValue):
+        params = self.env['ir.config_parameter'].sudo()
+        fs = float(params.get_param('agriculture.fs_TasteRatingIsOver'))
+        ss = float(params.get_param('agriculture.ss_TasteRatingIsOver'))
+        ts = float(params.get_param('agriculture.ts_TasteRatingIsOver'))
+        ffs = float(params.get_param('agriculture.ffs_TasteRatingIsOver'))
+        p_list = [fs, ss, ts, ffs]
+        x1 = expValue - p_list[3]
+        x2 = expValue - p_list[0]
+        x3 = expValue - p_list[1]
+        x4 = expValue - p_list[2]
+
+        lx1 = 1 if x1 >= 0 else -1
+        lx2 = 1 if x2 > 0 else 0
+        lx3 = 1 if x3 > 0 else 0
+        lx4 = 1 if x4 > 0 else 0
+
+        return lx1 + lx2 + lx3 + lx4
+
+    def _get_brown_intact_ratio_level(self, expValue):
+        params = self.env['ir.config_parameter'].sudo()
+        fs = float(params.get_param('agriculture.fs_BrownIntactRatioIsOver'))
+        ss = float(params.get_param('agriculture.ss_BrownIntactRatioIsOver'))
+        ts = float(params.get_param('agriculture.ts_BrownIntactRatioIsOver'))
+        ffs = float(params.get_param('agriculture.ffs_BrownIntactRatioIsOver'))
+        p_list = [fs, ss, ts, ffs]
         x1 = expValue - p_list[3]
         x2 = expValue - p_list[0]
         x3 = expValue - p_list[1]
@@ -330,22 +394,33 @@ class Crop(models.Model):
         return lx1 + lx2 + lx3 + lx4
 
     def _get_compare_price(self, min, PrimeYield):
+        params = self.env['ir.config_parameter'].sudo()
+        base_price = float(params.get_param('agriculture.BasePrice'))
+        contracted_price = float(params.get_param(
+            'agriculture.ContractedMemberPrice'))
+        fs_bonus = float(params.get_param('agriculture.fs_bonus'))
+        ss_bonus = float(params.get_param('agriculture.ss_bonus'))
+        ts_bonus = float(params.get_param('agriculture.ts_bonus'))
+        final_PrimeYieldIsOverAndEqualTo = float(params.get_param(
+            'agriculture.final_PrimeYieldIsOverAndEqualTo'))
+        multiplication = float(params.get_param('agriculture.multiplication'))
         # base_price 1550
         if min == 4:
-            bonus = 1550 + 180
+            bonus = base_price + contracted_price + fs_bonus
             return bonus
         elif min == 3:
-            bonus = 1550 + 120
+            bonus = base_price + contracted_price + ss_bonus
             return bonus
         elif min == 2:
-            bonus = 1550 + 60
+            bonus = base_price + contracted_price + ts_bonus
             return bonus
         elif min == 1:
-            bonus = 1550
+            bonus = base_price + contracted_price
             return bonus
         elif min == -1:
             v = PrimeYield - 63
-            bonus = 1550 - v
+            bonus = base_price + contracted_price - 20 * \
+                v if PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
             return bonus
 
     def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio):
@@ -362,7 +437,8 @@ class Crop(models.Model):
                   'TasteRating',
                   'BrownIntactRatio',
                   'FarmingAdaption',
-                  'isTGAP')
+                  'isTGAP',
+                  'nego_price')
     def _compute_total_price(self):
         for record in self:
             unit_tw = record.CropWeight / 60

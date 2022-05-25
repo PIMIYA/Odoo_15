@@ -8,4 +8,4 @@ from . import argriculture_member
 from . import argriculture_crop_variety
 from . import crop_stage
 from . import inherit_res_partner
-from . import preferences
+from . import settings
