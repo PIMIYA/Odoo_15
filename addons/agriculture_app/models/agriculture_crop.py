@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from calendar import month
 from datetime import datetime
 
 from odoo import api, fields, models
@@ -508,10 +509,26 @@ class Crop(models.Model):
         # _logger.info(response.json().get('SeqNumber'))
         return response.json().get('SeqNumber')
 
+    def _get_year_to_kmtyear(self):
+        # get year to kmt year
+        currentDateTime = datetime.now()
+        date = currentDateTime.date()
+        year = date.strftime("%Y")
+        return int(year) - 1911
+
+    def _get_year_to_period(self):
+        # get year to period
+        d = datetime.now()
+        m = d.strftime("%m")
+        return 1 if int(m) >= 1 and int(m) <= 9 else 2
+
     @api.model
     def create(self, fields):
         _logger.info(f"this write is {fields}")
         fields['SeqNumber'] = self._get_seqNumber()
+        fields['HarvestYear'] = self._get_year_to_kmtyear()
+        fields['HarvestPeriod'] = self._get_year_to_period()
+
         return super(Crop, self).create(fields)
 
     # @api.model

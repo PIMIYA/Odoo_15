@@ -14,28 +14,28 @@ class Preferences(models.TransientModel):
     # ----------------------------------------------------------
     # General
     BasePrice = fields.Monetary(
-        string='Base Price', options="{'currency_field': 'currency_id'}", required=True, default=1400.0)
+        string='Base Price', required=True, default=1400.0)
 
     ContractedMemberPrice = fields.Monetary(
-        'Contracted Member Price', required=True, default=150.0, options="{'currency_field': 'currency_id'}")
+        'Contracted Member Price', required=True, default=150.0)
     KoshihikariRice = fields.Monetary(
-        'Koshihikari Rice', default=1050.0, required=True, options="{'currency_field': 'currency_id'}")
+        'Koshihikari Rice', default=1050.0, required=True)
     GlutinousRicePrice_BR = fields.Monetary(
-        'Glutinous Rice Price BR', default=850.0, required=True, options="{'currency_field': 'currency_id'}")
+        'Glutinous Rice Price BR', default=850.0, required=True)
     GlutinousRicePrice = fields.Monetary(
-        'Glutinous Rice Price', default=150.0, required=True, options="{'currency_field': 'currency_id'}")
+        'Glutinous Rice Price', default=150.0, required=True)
 
     OrganicRice = fields.Monetary(
-        'Organic Rice', default=750.0, required=True, options="{'currency_field': 'currency_id'}")
+        'Organic Rice', default=750.0, required=True)
     VolumeWeightIsOverAndEqualTo = fields.Float(
         'Volume Weight Is Over And Equal To', default=620.0)
     PrimeYieldIsOverAndEqualTo = fields.Float(
         'Prime Yield Is Over And Equal To', default=70.0)
     OrganicRiceExtra = fields.Monetary(
-        'Organic Rice Extra', default=300.0, required=True, options="{'currency_field': 'currency_id'}")
+        'Organic Rice Extra', default=300.0, required=True)
 
     OrganicTransOrIso = fields.Monetary(
-        'OrganicTransOrIso', default=650.0, required=True, options="{'currency_field': 'currency_id'}")
+        'OrganicTransOrIso', default=650.0, required=True)
 
     # first stage conditions
     # ----------------------------------------------------------
@@ -46,7 +46,7 @@ class Preferences(models.TransientModel):
         'Brown Intact Ratio Is Over', default=80)
 
     fs_bonus = fields.Monetary(
-        'fs_bonus', default=180.0, required=True, options="{'currency_field': 'currency_id'}")
+        'fs_bonus', default=180.0, required=True)
 
     # second stage conditions
     # ----------------------------------------------------------
@@ -57,7 +57,7 @@ class Preferences(models.TransientModel):
         'Brown Intact Ratio Is Over', default=70)
 
     ss_bonus = fields.Monetary(
-        'ss_bonus', default=120.0, required=True, options="{'currency_field': 'currency_id'}")
+        'ss_bonus', default=120.0, required=True)
 
     # third stage conditions
     # ----------------------------------------------------------
@@ -68,7 +68,7 @@ class Preferences(models.TransientModel):
         'Brown Intact Ratio Is Over', default=65)
 
     ts_bonus = fields.Monetary(
-        'ts_bonus', default=60.0, required=True, options="{'currency_field': 'currency_id'}")
+        'ts_bonus', default=60.0, required=True)
 
     # fourth stage conditions
     # ----------------------------------------------------------
@@ -81,7 +81,7 @@ class Preferences(models.TransientModel):
     # TGAP bonus
     # ----------------------------------------------------------
     tgap_bonus = fields.Monetary(
-        'TGAP bonus', default=100.0, required=True, options="{'currency_field': 'currency_id'}")
+        'TGAP bonus', default=100.0, required=True)
 
     final_PrimeYieldIsOverAndEqualTo = fields.Float(
         'Prime Yield Is Over And Equal To', default=70.0)
