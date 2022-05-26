@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+
 from odoo import api, fields, models
 import logging
-import requests
 
 _logger = logging.getLogger(__name__)
 
@@ -197,6 +197,8 @@ class Crop(models.Model):
     StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
     DryerId = fields.Char('DryerId', required=False)  # 洗米機編號
 
+    is_sp_type = fields.Boolean(string='is_sp_type', default=False)
+
     # ******次要資料******
 
     StartTime = fields.Datetime('Start Time', required=False)
@@ -259,7 +261,8 @@ class Crop(models.Model):
                   'BrownIntactRatio',
                   'FarmingAdaption',
                   'isTGAP',
-                  'nego_price')
+                  'nego_price',
+                  'is_sp_type')
     def _compute_final_price(self):
         params = self.env['ir.config_parameter'].sudo()
         base_price = float(params.get_param('agriculture.BasePrice'))
@@ -281,8 +284,10 @@ class Crop(models.Model):
         organicTransOrIso = float(params.get_param(
             'agriculture.OrganicTransOrIso'))
         tgap_bonus = float(params.get_param('agriculture.tgap_bonus'))
+
         for record in self:
-            if self._check_nValue(record.VolumeWeight, record.PrimeYield, record.TasteRating, record.BrownIntactRatio):
+
+            if self._check_nValue(record.VolumeWeight, record.PrimeYield, record.TasteRating, record.BrownIntactRatio, record.CropType, record.CropVariety.CropVariety_name):
                 if record.FarmerType == 'contract':
                     # 契約農民
                     # 特殊米種
@@ -300,8 +305,10 @@ class Crop(models.Model):
                         # 其他
                         # 有機米
                         if record.FarmingMethod == 'organic':
+                            record.TasteRating = 0
+                            record.BrownIntactRatio = 0
                             vw = True if record.VolumeWeight >= volumeWeightIsOverAndEqualTo else False
-                            py = True if record.VolumeWeight >= primeYieldIsOverAndEqualTo else False
+                            py = True if record.PrimeYield >= primeYieldIsOverAndEqualTo else False
                             if vw is True and py is True:
                                 record.FinalPrice = base_price + contracted_price + \
                                     organicRice_price + organicRiceExtra
@@ -309,28 +316,41 @@ class Crop(models.Model):
                                 record.FinalPrice = base_price + contracted_price + organicRice_price
                             elif vw is False and py is False:
                                 record.FinalPrice = base_price + contracted_price + organicRice_price
-                        else:
+                        elif record.FarmingMethod == 'conventional':
                             # 有機轉型或隔離帶2200
-                            if record.FarmingAdaption == 'a' or record.FarmingAdaption == 'b':
-                                record.FinalPrice = base_price + contracted_price + organicTransOrIso
+                            if record.PrimeYield is 0 or record.VolumeWeight is 0 or record.TasteRating is 0 or record.BrownIntactRatio is 0:
+                                record.FinalPrice = 0
+
                             else:
-                                # 慣行耕作
-                                compare_list = [self._get_taste_rating_level(record.TasteRating), self._get_volume_weight_level(
-                                    record.VolumeWeight), self._get_brown_intact_ratio_level(record.BrownIntactRatio)]
-                                min_value = min(compare_list)
-                                bonus = self._get_compare_price(
-                                    min_value, record.PrimeYield) + record.CropVariety_bonus
-                                if record.isTGAP:
-                                    record.FinalPrice = bonus + tgap_bonus
+
+                                if record.FarmingAdaption == 'a' or record.FarmingAdaption == 'b':
+                                    record.FinalPrice = base_price + contracted_price + organicTransOrIso
                                 else:
-                                    record.FinalPrice = bonus
+                                    # 慣行耕作
+                                    compare_list = [self._get_taste_rating_level(record.TasteRating), self._get_volume_weight_level(
+                                        record.VolumeWeight), self._get_brown_intact_ratio_level(record.BrownIntactRatio)]
+                                    _logger.info(
+                                        f"This is compare_list: {compare_list}")
+                                    min_value = min(compare_list)
+                                    _logger.info(
+                                        f"This is min_value: {min_value}")
+                                    bonus = self._get_compare_price(
+                                        min_value, record.PrimeYield) + record.CropVariety_bonus
+                                    _logger.info(f"This is bonus: {bonus}")
+                                    if record.isTGAP:
+                                        record.FinalPrice = bonus + tgap_bonus
+                                    else:
+                                        record.FinalPrice = bonus
+
+                        else:
+                            record.FinalPrice = 0
 
                 else:
                     # 非契約農民
                     record.FinalPrice = base_price + record.nego_price  # 增加 議價金額（正負）
 
-                record.PriceState = 'done'
-                self.stage_id = self._done_stage()
+                # record.PriceState = 'done'
+                # self.stage_id = self._done_stage()
             else:
                 record.FinalPrice = 0
                 record.PriceState = 'draft'
@@ -418,13 +438,13 @@ class Crop(models.Model):
             bonus = base_price + contracted_price
             return bonus
         elif min == -1:
-            v = PrimeYield - 63
+            v = final_PrimeYieldIsOverAndEqualTo - PrimeYield
             bonus = base_price + contracted_price - 20 * \
                 v if PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
             return bonus
 
-    def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio):
-        return True if VolumeWeight != 0 or PrimeYield != 0 or TasteRating != 0 or BrownIntactRatio != 0 else False
+    def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio, CropType, CropVariety):
+        return True if VolumeWeight != 0 or PrimeYield != 0 or TasteRating != 0 or BrownIntactRatio != 0 or CropType != False or CropVariety != False else False
 
     @ api.depends('CropWeight',
                   'FinalPrice',
@@ -438,11 +458,30 @@ class Crop(models.Model):
                   'BrownIntactRatio',
                   'FarmingAdaption',
                   'isTGAP',
-                  'nego_price')
+                  'nego_price',
+                  'is_sp_type')
     def _compute_total_price(self):
         for record in self:
             unit_tw = record.CropWeight / 60
             record.TotalPrice = unit_tw * record.FinalPrice
+            if record.TotalPrice != 0:
+                record.PriceState = 'done'
+                self.stage_id = self._done_stage()
+
+    @api.onchange('is_sp_type')
+    def _onchange_is_sp_type(self):
+        _logger.info('is_sp_type has been changed')
+        for record in self:
+            if record.is_sp_type == False:
+                record.CropType = False
+            else:
+                record.CropVariety = False
+                record.FarmingMethod = False
+                record.FarmingAdaption = False
+                record.TasteRating = 0
+                record.BrownIntactRatio = 0
+                record.PrimeYield = 0
+                record.VolumeWeight = 0
 
     def unlink_archiveItem(self):
         self.PriceState = 'done'

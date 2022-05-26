@@ -37,27 +37,53 @@
                 <!-- <field name="AuxId" /> -->
               </group>
             </group>
-            <group name="group_bottom"> 
+            <!-- 非契作農民顯示欄位 -->
+            <group name="group_bottom" attrs="{'invisible':['|',('FarmerType', '=', 'contract'),('FarmerType','=',False)]}">
               <group name="group_left">
-                <h3>稻米基本資料</h3>
-                <field name="CropVariety" />
-                <field name="FarmingMethod" />
-                <field name="FarmingAdaption" />
-                <field name="CropType" />
-                <field name="CropStatus" />
-                <field name="isTGAP" />
+                <field name="HarvestYear" />
+                <field name="HarvestPeriod" />
                 <field name="CarCropWeight" />
                 <field name="CarWeight" />
+                <field name="VolumeWeight" />
+                <field name="CropWeight" />
+                <field name="CropStatus" />
+                <field name="DryerId"/>
+                <field name="StorageId" />
+              </group>
+              <group name="group_right">
+                <h3>議價</h3>
+                <field name="nego_price" />
+                <h3>計價完成資料</h3>
+                <field name="state" />
+                <field name="FinalPrice" />
+                <field name="TotalPrice" />
+              </group>
+            </group>
+            <!-- 契作農民欄位 -->
+            <group name="group_bottom" attrs="{'invisible':[('FarmerType', '!=', 'contract')]}">
+              <group name="group_left">
+                <h3>稻米基本資料</h3>
+                <field name="is_sp_type" />
+                <field name="CropVariety" attrs="{'invisible':[('is_sp_type', '=', True)]}"/>
+                <field name="CropType" attrs="{'invisible':[('is_sp_type', '!=', True)]}"/>
+                <field name="FarmingMethod" attrs="{'invisible':[('is_sp_type', '=', True)]}"/>
+                <field name="FarmingAdaption" attrs="{'invisible':['|',('is_sp_type', '=', True),('FarmingMethod','=','organic')]}"/>
+                <field name="CarCropWeight" />
+                <field name="CarWeight" />
+                <field name="CropWeight" />
+                <field name="CropStatus" />
+                <field name="isTGAP" attrs="{'invisible':[('is_sp_type', '=', True)]}"/>
               </group>
               <group name="group_right">
                 <field name="HarvestYear" />
+                <field name="HarvestPeriod" />
                 <field name="PrimeYield" />
-                <field name="RawHumidity" />
                 <field name="BrownIntactRatio" />
                 <field name="VolumeWeight" />
                 <field name="TasteRating" />
-                <field name="CropWeight" />
-                <field name="HarvestPeriod" />
+                <field name="RawHumidity" />
+                <field name="DryerId" />
+                <field name="StorageId" />
               </group>
               <group name="group_left">
                 <h3>計價完成資料</h3>
@@ -65,14 +91,10 @@
                 <field name="FinalPrice" />
                 <field name="TotalPrice" />
               </group>
-              <group name="group_right">
-                <h3>議價</h3>
-                <field name="nego_price" />
-              </group>          
             </group>
           </page>
 
-          <page name="name" string="其他詳細資料">
+          <page name="name" string="其他詳細資料" attrs="{'invisible':[('FarmerType', '!=', 'contract')]}">
             <group name="group_top">
             <group name="group_left">
               <h3>稻米詳細評估資料</h3>
@@ -93,8 +115,6 @@
             <group name="group_right">
               <field name="RiceHumidity" />
               <field name="Protein" />
-              <field name="DryerId" />
-              <field name="StorageId" />
             </group>
             </group>
           </page>
@@ -117,7 +137,7 @@
         <field name="SeqNumber" />
         <field name="PriceState" widget="badge"/>
         <field name="SellerName" />
-        <field name="CropVariety" />
+        <field name="CropVariety"/>
         <field name="FarmingMethod" /> 
         <field name="CropType" />
         <!-- <field name="CropStatus" /> -->
