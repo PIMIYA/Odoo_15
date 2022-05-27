@@ -62,10 +62,7 @@
                     <td colspan="4">
                         <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')" />
                     </td>
-                    <td colspan="2" class="text-left">
-                        <span>狀態：</span>
-                    </td>
-                    <td colspan="4">
+                    <td colspan="6">
                         <span></span>
                     </td>
                 </tr>
@@ -215,31 +212,6 @@
             </tbody>
         </table>
     </template>
-
-    <!-- <template id="crop_dry_report">
-        <t t-foreach="docs" t-as="doc">
-            <t t-set="doc_type">
-                <span></span>
-            </t>
-            <t t-call="web.html_container">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <t t-set="doc_type">
-                            <span style="position:absolute; right:30px;">收執聯</span>
-                        </t>
-                        <t t-call="agriculture_app.crop_dry_report_doc" />
-
-                        <div class="mb-3" style="border-bottom: 1px dotted #000000;"></div>
-
-                        <t t-set="doc_type">
-                            <span style="position:absolute; right:30px;">存根聯</span>
-                        </t>
-                        <t t-call="agriculture_app.crop_dry_report_doc" />
-                    </div>
-                </t>
-            </t>
-        </t>
-    </template> -->
 
     <!-- Wet -->
     <template id="crop_wet_report_doc">
@@ -484,28 +456,4 @@
         </table>
     </template>
 
-    <!-- <template id="crop_wet_report">
-        <t t-foreach="docs" t-as="doc">
-            <t t-set="doc_type">
-                <span></span>
-            </t>
-            <t t-call="web.html_container">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <t t-set="doc_type">
-                            <span style="position:absolute; right:30px;">收執聯</span>
-                        </t>
-                        <t t-call="agriculture_app.crop_wet_report_doc" />
-
-                        <div class="mb-3" style="border-bottom: 1px dotted #000000;"></div>
-
-                        <t t-set="doc_type">
-                            <span style="position:absolute; right:30px;">存根聯</span>
-                        </t>
-                        <t t-call="agriculture_app.crop_wet_report_doc" />
-                    </div>
-                </t>
-            </t>
-        </t>
-    </template> -->
 </odoo>
