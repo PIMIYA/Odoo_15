@@ -60,10 +60,13 @@
                                 <field name="tgap_bonus" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                             </group>
                             <group string="Final PrimeYield Price Bonus">
-                                <field name="final_PrimeYieldIsOverAndEqualTo" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="final_PrimeYieldIsOverAndEqualTo"/>
                             </group>
                             <group string="Multiplication Price Bonus">
                                 <field name="multiplication"/>
+                            </group>
+                            <group string="MaxPurchaseQTYPerHectare">
+                                <field name="MaxPurchaseQTYPerHectare"/>
                             </group>
                     </div>
                </div>

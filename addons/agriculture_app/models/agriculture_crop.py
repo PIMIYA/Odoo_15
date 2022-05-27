@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from calendar import month
 from datetime import datetime
 
 from odoo import api, fields, models
@@ -200,6 +199,8 @@ class Crop(models.Model):
     DryerId = fields.Char('DryerId', required=False)  # 洗米機編號
 
     is_sp_type = fields.Boolean(string='is_sp_type', default=False)
+
+    WetToDryRatio = fields.Float(string='WetToDryRatio', default=0.0)
 
     # ******次要資料******
 
@@ -441,7 +442,7 @@ class Crop(models.Model):
             return bonus
         elif min == -1:
             v = final_PrimeYieldIsOverAndEqualTo - PrimeYield
-            bonus = base_price + contracted_price - 20 * \
+            bonus = base_price + contracted_price - multiplication * \
                 v if PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
             return bonus
 
@@ -484,6 +485,20 @@ class Crop(models.Model):
                 record.BrownIntactRatio = 0
                 record.PrimeYield = 0
                 record.VolumeWeight = 0
+
+    @api.onchange('CropStatus')
+    def _compute_WetToDryRatio(self):
+        for rec in self:
+            if rec.CropStatus == 'dry':
+                rec.WetToDryRatio = 100
+            else:
+                rec.WetToDryRatio = 100 - rec.RawHumidity + 8
+
+    # @api.depends('CropWeight', 'WetToDryRatio')
+    # def _compute_VolumeWeight(self):
+    #     for rec in self:
+    #         r = rec.WetToDryRatio/100
+    #         rec.VolumeWeight = rec.CropWeight * r
 
     def unlink_archiveItem(self):
         self.PriceState = 'done'

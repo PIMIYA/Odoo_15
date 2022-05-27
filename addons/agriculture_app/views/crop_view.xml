@@ -47,10 +47,15 @@
                 <field name="VolumeWeight" />
                 <field name="CropWeight" />
                 <field name="CropStatus" />
+                <field name="RawHumidity" />
+                <field name="WetToDryRatio" />
                 <field name="DryerId"/>
                 <field name="StorageId" />
               </group>
               <group name="group_right">
+                <field name="is_sp_type" />
+                <field name="CropVariety" attrs="{'invisible':[('is_sp_type', '=', True)]}"/>
+                <field name="CropType" attrs="{'invisible':[('is_sp_type', '!=', True)]}"/>
                 <h3>議價</h3>
                 <field name="nego_price" />
                 <h3>計價完成資料</h3>
@@ -82,10 +87,13 @@
                 <field name="VolumeWeight" />
                 <field name="TasteRating" />
                 <field name="RawHumidity" />
+                <field name="WetToDryRatio" />
                 <field name="DryerId" />
                 <field name="StorageId" />
               </group>
               <group name="group_left">
+                <h3>議價</h3>
+                <field name="nego_price" />
                 <h3>計價完成資料</h3>
                 <field name="state" />
                 <field name="FinalPrice" />
