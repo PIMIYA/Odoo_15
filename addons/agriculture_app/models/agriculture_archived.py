@@ -17,38 +17,91 @@ class Archived(models.Model):
     member = fields.Many2one(
         "agriculture.member", "Member", required=True)
     SellerName = fields.Char(
-        "SellerName", related="member.SellerName", required=True)
+        "SellerName", related="member.SellerName")
     SellerId = fields.Char(
-        "SellerId", related="member.SellerId", required=True)
-    Region = fields.Char("Region", related="member.Region", required=True)
+        "SellerId", related="member.SellerId")
+    Region = fields.Char("Region", related="member.Region")
     FarmerType = fields.Selection(
-        "FarmerType", related="member.FarmerType", required=True)
+        "FarmerType", related="member.FarmerType")
     ContractArea = fields.Float(
-        "ContractArea", related="member.ContractArea", required=True)
+        "ContractArea", related="member.ContractArea")
     ChishangRArea = fields.Float(
-        "ChishangRArea", related="member.ChishangRArea", required=True)
+        "ChishangRArea", related="member.ChishangRArea")
     TGAPArea = fields.Float(
-        "TGAPArea", related="member.TGAPArea", required=True)
+        "TGAPArea", related="member.TGAPArea")
     OrganicVerifyDate = fields.Date(
-        "OrganicVerifyDate", related="member.OrganicVerifyDate", required=True)
+        "OrganicVerifyDate", related="member.OrganicVerifyDate")
     OrganiCertifiedArea = fields.Float(
-        "OrganiCertifiedArea", related="member.OrganiCertifiedArea", required=True)
+        "OrganiCertifiedArea", related="member.OrganiCertifiedArea")
     NonLeasedArea = fields.Float(
-        "NonLeasedArea", related="member.NonLeasedArea", required=True)
+        "NonLeasedArea", related="member.NonLeasedArea")
+    MaxPurchaseQTY = fields.Float(
+        "MaxPurchaseQTY", related="member.MaxPurchaseQTY")
     ##########
 
     # 成單的序號列表
     seq_numbers = fields.One2many(
         'agriculture.crop', 'archived_id', 'Numbers of CropRecord', required=True)
-    ##########
 
     # 額外的資訊
     additional_items = fields.One2many(
         'agriculture.archived_additional_item', 'archived_id', 'Extra Items')
-    ##########
+
     # 單據時間
     LastCreationTime = fields.Datetime(
         'LastCreationTime', default=datetime.now())
+
+    # 計算資料
+    TotalExpenditure = fields.Float(compute='_compute_TotalExpenditure')
+    TotalIncome = fields.Float(compute='_compute_TotalIncome')
+    TotalActuallyPaid = fields.Float(compute='_compute_TotalActuallyPaid')
+    TotalQTY = fields.Float(compute='_compute_TotalQTY')
+    RemianingQTY = fields.Float(compute='_compute_RemianingQTY')
+    IsOverflowQTY = fields.Boolean(compute='_compute_IsOverflowQTY')
+
+    @api.depends('seq_numbers')
+    def _compute_TotalQTY(self):
+        for rec in self:
+            rec.TotalQTY = 0
+            for crop in rec.seq_numbers:
+                rec.TotalQTY += crop.CropWeight
+
+    @api.depends('TotalQTY', 'MaxPurchaseQTY')
+    def _compute_RemianingQTY(self):
+        for rec in self:
+            rec.RemianingQTY = rec.MaxPurchaseQTY - rec.TotalQTY
+
+    @api.onchange('RemianingQTY')
+    def _compute_IsOverflowQTY(self):
+        for rec in self:
+            rec.IsOverflowQTY = rec.RemianingQTY < 0
+
+    @api.depends('seq_numbers', 'additional_items')
+    def _compute_TotalExpenditure(self):
+        for rec in self:
+            rec.TotalExpenditure = 0
+            for crop in rec.seq_numbers:
+                rec.TotalExpenditure += crop.TotalPrice
+            for item in rec.additional_items:
+                if item.item_kind == 'expenditure':
+                    rec.TotalExpenditure += item.total_price
+            rec.TotalExpenditure = math.floor(rec.TotalExpenditure)
+
+    @api.depends('additional_items')
+    def _compute_TotalIncome(self):
+        for rec in self:
+            rec.TotalIncome = 0
+            for item in rec.additional_items:
+                if item.item_kind == 'income':
+                    rec.TotalIncome += item.total_price
+            rec.TotalIncome = math.floor(rec.TotalIncome)
+
+    @api.depends('TotalExpenditure', 'TotalIncome')
+    def _compute_TotalActuallyPaid(self):
+        for rec in self:
+            rec.TotalActuallyPaid = math.floor(
+                rec.TotalExpenditure - rec.TotalIncome)
+    ##########
 
     @api.onchange('member')
     def _onchange_member(self):

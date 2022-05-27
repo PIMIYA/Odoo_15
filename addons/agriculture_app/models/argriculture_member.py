@@ -28,6 +28,13 @@ class Member(models.Model):
     OrganiCertifiedArea = fields.Float(default=0.0, required=False)
     NonLeasedArea = fields.Float(default=0.0, required=False)
 
+    MaxPurchaseQTY = fields.Float(compute='_compute_QTY')
+
+    @api.depends('ContractArea')
+    def _compute_QTY(self):
+        for rec in self:
+            rec.MaxPurchaseQTY = rec.ContractArea * 1.0
+
     # @api.model
     # def unlink(self, fields):
     #     _logger.info(f'this is the {fields} going to be deleted')
