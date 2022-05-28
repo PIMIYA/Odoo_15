@@ -32,8 +32,10 @@ class Member(models.Model):
 
     @api.depends('ContractArea')
     def _compute_QTY(self):
+        params = self.env['ir.config_parameter'].sudo()
+        maxPurchaseQTYPerHectare = float(params.get_param('agriculture.maxPurchaseQTYPerHectare'))
         for rec in self:
-            rec.MaxPurchaseQTY = rec.ContractArea * 1.0
+            rec.MaxPurchaseQTY = rec.ContractArea * maxPurchaseQTYPerHectare
 
     # @api.model
     # def unlink(self, fields):

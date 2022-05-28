@@ -46,6 +46,7 @@
                 <field name="CarWeight" />
                 <field name="VolumeWeight" />
                 <field name="CropWeight" />
+                <field name="CropWeight_by_ratio" />
                 <field name="CropStatus" />
                 <field name="RawHumidity" />
                 <field name="WetToDryRatio" />

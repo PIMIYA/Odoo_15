@@ -90,7 +90,7 @@ class Preferences(models.TransientModel):
     # ----------------------------------------------------------
     multiplication = fields.Float('Multiplication', default=20)
 
-    MaxPurchaseQTYPerHectare = fields.Float(
+    maxPurchaseQTYPerHectare = fields.Float(
         'MaxPurchaseQTYPerHectare', default=6000.0)
 
     def set_values(self):
@@ -143,8 +143,8 @@ class Preferences(models.TransientModel):
         icp.set_param('agriculture.final_PrimeYieldIsOverAndEqualTo',
                       self.final_PrimeYieldIsOverAndEqualTo)
         icp.set_param('agriculture.multiplication', self.multiplication)
-        icp.set_param('agriculture.MaxPurchaseQTYPerHectare',
-                      self.MaxPurchaseQTYPerHectare)
+        icp.set_param('agriculture.maxPurchaseQTYPerHectare',
+                      self.maxPurchaseQTYPerHectare)
         return res
 
     def get_values(self):
@@ -208,7 +208,7 @@ class Preferences(models.TransientModel):
         value_multiplication = icp.sudo(
         ).get_param('agriculture.multiplication', default=20.0)
         value_maxPurchaseQTYPerHectare = icp.sudo().get_param(
-            'agriculture.MaxPurchaseQTYPerHectare', default=6000.0)
+            'agriculture.maxPurchaseQTYPerHectare', default=6000.0)
 
         res.update(
             BasePrice=float(value_BasePrice),
@@ -241,6 +241,6 @@ class Preferences(models.TransientModel):
             final_PrimeYieldIsOverAndEqualTo=float(
                 value_final_PrimeYieldIsOverAndEqualTo),
             multiplication=float(value_multiplication),
-            maxPurchaseQTYPerHectare=float(value_maxPurchaseQTYPerHectare)
+            maxPurchaseQTYPerHectare=float(value_maxPurchaseQTYPerHectare),
         )
         return res
