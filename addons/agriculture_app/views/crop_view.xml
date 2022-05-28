@@ -76,6 +76,7 @@
                 <field name="CarCropWeight" />
                 <field name="CarWeight" />
                 <field name="CropWeight" />
+                <field name="CropWeight_by_ratio" />
                 <field name="CropStatus" />
                 <field name="isTGAP" attrs="{'invisible':[('is_sp_type', '=', True)]}"/>
               </group>
@@ -180,6 +181,7 @@
       </calendar>
     </field>
   </record>
+
 
   <!-- explicit search view definition -->
   <record id="view_search_crop" model="ir.ui.view">

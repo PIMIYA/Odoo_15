@@ -71,6 +71,7 @@ class Dolimi(http.Controller):
         }
         return json.dumps(output)
 
+
 # -*- coding: utf-8 -*-
 # from odoo import http
 

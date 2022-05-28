@@ -55,4 +55,14 @@
     <menuitem id="menu_agriculture_crop_variety" name="CropVariety" parent="menu_agriculture_configuration" action="action_agriculture_crop_variety"/>
     <menuitem id="menu_agriculture_settings" name="Price Estimated Settings" parent="menu_agriculture_configuration" action="res_config_settings_menu_action"/>
 
+
+    <!-- Action to open the Storage  -->
+    <record id="action_agriculture_storage" model="ir.actions.act_window">
+        <field name="name">Storage</field>
+        <field name="res_model">agriculture.storage</field>
+        <field name="view_mode">kanban,form</field>
+    </record>
+    <!-- Menu item to open the Storage  -->
+    <menuitem id="menu_agriculture_storage" name="Storage" parent="menu_agriculture" action="action_agriculture_storage" sequence="10" />
+
 </odoo>
