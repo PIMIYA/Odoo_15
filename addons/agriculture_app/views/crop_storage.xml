@@ -17,11 +17,15 @@
                 </strong>
                 <div class="oe_kanban_record_subtitle">
                   <field name="CropVarieties"/>
-                  <field name="TotalWeight"/>
+                  <!-- <field name="TotalWeight"/> -->
                 </div>
-                <!-- <div t-if="record.CropVariety_bonus.value">                                        
-                  <t t-esc="record.CropVariety_bonus.value"/>                                
-                </div> -->
+                <div>                                        
+                  <t t-foreach="record.CropVarieties.value" t-as="i">
+                    <p>
+                      <t t-esc="i_value" /> 
+                    </p>
+                  </t>                               
+                </div>
               </div>
             </div>
           </t>
@@ -39,16 +43,15 @@
             <group name="group_left">
               <field name="StorageId" />
               <field name="CropVarieties" readonly="1"/>
-              <field name="TotalWeight" />
+              <!-- <field name="TotalWeight" /> -->
             </group>
           </sheet>
-          <div class="oe_chatter">
-            <field name="message_follower_ids" widget="mail_followers"/>
-            <field name="message_ids" widget="mail_thread"/>
-          </div>
+          
         </form>
       </field>
     </record>
     
 
 </odoo>
+
+                 
