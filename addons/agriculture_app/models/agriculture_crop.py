@@ -124,7 +124,7 @@ class Crop(models.Model):
         'HarvestPeriod', required=True, default=0)  # 期數
 
     LastCreationTime = fields.Datetime(
-        'LastCreationTime', default=datetime.now())  # 收購時間
+        'LastCreationTime')  # 收購時間
 
     CropWeight = fields.Float(
         'CropWeight', required=True, default=0.0)  # 稻穀總重量
@@ -163,7 +163,7 @@ class Crop(models.Model):
     TotalLoadWeight = fields.Float(
         'TotalLoadWeight', required=True, default=0.0)
 
-    LastEditTime = fields.Datetime('LastEditTime', default=datetime.now())
+    LastEditTime = fields.Datetime('LastEditTime')
 
     WhiteAmylose = fields.Float('WhiteAmylose', required=True, default=0.0)
 
@@ -494,7 +494,7 @@ class Crop(models.Model):
                 record.PrimeYield = 0
                 record.VolumeWeight = 0
 
-    @api.onchange('CropStatus')
+    @api.onchange('CropStatus', 'RawHumidity', 'CropWeight')
     def _onchange_WetToDryRatio(self):
         for rec in self:
             if rec.CropStatus == 'dry':
@@ -512,6 +512,8 @@ class Crop(models.Model):
         self.stage_id = self._done_stage()
 
     def write(self, vals):
+        _logger.info(f"this write is {fields}")
+        vals['LastEditTime'] = datetime.now()
         key = 'archived_id'
         if key in vals:
             archivedId = vals[key]
@@ -550,6 +552,7 @@ class Crop(models.Model):
         fields['SeqNumber'] = self._get_seqNumber()
         fields['HarvestYear'] = self._get_year_to_kmtyear()
         fields['HarvestPeriod'] = self._get_year_to_period()
+        fields['LastCreationTime'] = datetime.now()
 
         return super(Crop, self).create(fields)
 

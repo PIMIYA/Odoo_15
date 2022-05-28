@@ -24,7 +24,8 @@
               <group name="group_left">
                 <h3>單號</h3>
                 <field name="SeqNumber"/>
-                <field name="LastCreationTime" />
+                <field name="LastCreationTime" readonly='1'/>
+                <field name="LastEditTime" readonly='1'/>
                 <!-- <field name="StartTime" /> -->
                 <!-- <field name="EndTime" /> -->
               </group>
