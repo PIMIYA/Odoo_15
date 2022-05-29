@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -12,7 +12,8 @@ class Member(models.Model):
     _order = "SellerName desc"
 
     SellerName = fields.Char(required=False)
-    SellerId = fields.Char(required=False)
+    SellerId = fields.Char(string='SellerId', required=True,
+                           readonly=True, default=lambda self: _(' '))
     FarmerType = fields.Selection(
         [('non_contract', '非契作農民'), ('contract', '契作農民')], string='FarmerType', default='non_contract', required=False)
     Region = fields.Char(required=False)
@@ -33,13 +34,15 @@ class Member(models.Model):
     @api.depends('ContractArea')
     def _compute_QTY(self):
         params = self.env['ir.config_parameter'].sudo()
-        maxPurchaseQTYPerHectare = float(params.get_param('agriculture.maxPurchaseQTYPerHectare'))
+        maxPurchaseQTYPerHectare = float(params.get_param(
+            'agriculture.maxPurchaseQTYPerHectare'))
         for rec in self:
             rec.MaxPurchaseQTY = rec.ContractArea * maxPurchaseQTYPerHectare
 
-    # @api.model
-    # def unlink(self, fields):
-    #     _logger.info(f'this is the {fields} going to be deleted')
-    #     inherit_res_partner = self.env['res.partner']
-    #     _logger.info(f'this is the {inherit_res_partner} going to be deleted')
-    #     return super(Member, self).unlink()
+    @api.model
+    def create(self, fields):
+        if fields.get('SellerId', _(' ')) == _(' '):
+            fields['SellerId'] = self.env['ir.sequence'].next_by_code(
+                'agriculture.member') or _(' ')
+        res = super(Member, self).create(fields)
+        return res

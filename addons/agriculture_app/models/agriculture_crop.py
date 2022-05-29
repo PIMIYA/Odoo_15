@@ -439,26 +439,27 @@ class Crop(models.Model):
             'agriculture.final_PrimeYieldIsOverAndEqualTo'))
         multiplication = float(params.get_param('agriculture.multiplication'))
         # base_price 1550
-        if min == 4:
-            bonus = base_price + contracted_price + fs_bonus
-            return bonus
-        elif min == 3:
-            bonus = base_price + contracted_price + ss_bonus
-            return bonus
-        elif min == 2:
-            bonus = base_price + contracted_price + ts_bonus
-            return bonus
-        elif min == 1:
+        if VolumeWeight < ffs:
             bonus = base_price + contracted_price
             return bonus
-        elif min == -1:
-            v = final_PrimeYieldIsOverAndEqualTo - PrimeYield
-            bonus = base_price + contracted_price - multiplication * \
-                v if PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
-            return bonus
-        elif VolumeWeight < ffs:
-            bonus = base_price + contracted_price
-            return bonus
+        else:
+            if min == 4:
+                bonus = base_price + contracted_price + fs_bonus
+                return bonus
+            elif min == 3:
+                bonus = base_price + contracted_price + ss_bonus
+                return bonus
+            elif min == 2:
+                bonus = base_price + contracted_price + ts_bonus
+                return bonus
+            elif min == 1:
+                bonus = base_price + contracted_price
+                return bonus
+            elif min == -1:
+                v = final_PrimeYieldIsOverAndEqualTo - PrimeYield
+                bonus = base_price + contracted_price - multiplication * \
+                    v if PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
+                return bonus
 
     def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio, CropType, CropVariety):
         return True if VolumeWeight != 0 or PrimeYield != 0 or TasteRating != 0 or BrownIntactRatio != 0 or CropType != False or CropVariety != False else False
