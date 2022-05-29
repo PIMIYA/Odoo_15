@@ -377,9 +377,9 @@ class Crop(models.Model):
         ffs = float(params.get_param('agriculture.ffs_VolumeWeightIsOver'))
         p_list = [fs, ss, ts, ffs]
         x1 = expValue - p_list[3]
-        x2 = expValue - p_list[0]
-        x3 = expValue - p_list[1]
-        x4 = expValue - p_list[2]
+        x2 = x1 - p_list[2] + p_list[3]
+        x3 = x1 - p_list[1] + p_list[3]
+        x4 = x1 - p_list[0] + p_list[3]
 
         lx1 = 1 if x1 >= 0 else -1
         lx2 = 1 if x2 > 0 else 0
@@ -396,9 +396,9 @@ class Crop(models.Model):
         ffs = float(params.get_param('agriculture.ffs_TasteRatingIsOver'))
         p_list = [fs, ss, ts, ffs]
         x1 = expValue - p_list[3]
-        x2 = expValue - p_list[0]
-        x3 = expValue - p_list[1]
-        x4 = expValue - p_list[2]
+        x2 = x1 - p_list[2] + p_list[3]
+        x3 = x1 - p_list[1] + p_list[3]
+        x4 = x1 - p_list[0] + p_list[3]
 
         lx1 = 1 if x1 >= 0 else -1
         lx2 = 1 if x2 > 0 else 0
@@ -415,9 +415,9 @@ class Crop(models.Model):
         ffs = float(params.get_param('agriculture.ffs_BrownIntactRatioIsOver'))
         p_list = [fs, ss, ts, ffs]
         x1 = expValue - p_list[3]
-        x2 = expValue - p_list[0]
-        x3 = expValue - p_list[1]
-        x4 = expValue - p_list[2]
+        x2 = x1 - p_list[2] + p_list[3]
+        x3 = x1 - p_list[1] + p_list[3]
+        x4 = x1 - p_list[0] + p_list[3]
 
         lx1 = 1 if x1 >= 0 else -1
         lx2 = 1 if x2 > 0 else 0
@@ -452,11 +452,13 @@ class Crop(models.Model):
             bonus = base_price + contracted_price
             return bonus
         elif min == -1:
-            if VolumeWeight < ffs:
-                v = final_PrimeYieldIsOverAndEqualTo - PrimeYield
-                bonus = base_price + contracted_price - multiplication * \
-                    v if PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
-                return bonus
+            v = final_PrimeYieldIsOverAndEqualTo - PrimeYield
+            bonus = base_price + contracted_price - multiplication * \
+                v if PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
+            return bonus
+        elif VolumeWeight < ffs:
+            bonus = base_price + contracted_price
+            return bonus
 
     def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio, CropType, CropVariety):
         return True if VolumeWeight != 0 or PrimeYield != 0 or TasteRating != 0 or BrownIntactRatio != 0 or CropType != False or CropVariety != False else False
