@@ -355,14 +355,19 @@ class Crop(models.Model):
 
                 else:
                     # 非契約農民
-                    record.FinalPrice = base_price + record.nego_price  # 增加 議價金額（正負）
-
-                # record.PriceState = 'done'
-                # self.stage_id = self._done_stage()
+                    record.FinalPrice = base_price  # 增加 議價金額（正負）
             else:
                 record.FinalPrice = 0
                 record.PriceState = 'draft'
                 self.stage_id = self._default_stage()
+
+            # 加成
+            record.FinalPrice = record.FinalPrice + record.nego_price
+            unit_tw = record.CropWeight_by_ratio / 60
+            record.TotalPrice = unit_tw * record.FinalPrice
+            if record.TotalPrice != 0:
+                record.PriceState = 'done'
+                self.stage_id = self._done_stage()
 
     def _get_volume_weight_level(self, expValue):
         params = self.env['ir.config_parameter'].sudo()
@@ -455,29 +460,6 @@ class Crop(models.Model):
 
     def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio, CropType, CropVariety):
         return True if VolumeWeight != 0 or PrimeYield != 0 or TasteRating != 0 or BrownIntactRatio != 0 or CropType != False or CropVariety != False else False
-
-    @ api.depends('CropWeight',
-                  'FinalPrice',
-                  'FarmerType',
-                  'CropType',
-                  'FarmingMethod',
-                  'CropVariety_bonus',
-                  'VolumeWeight',
-                  'PrimeYield',
-                  'TasteRating',
-                  'BrownIntactRatio',
-                  'FarmingAdaption',
-                  'isTGAP',
-                  'nego_price',
-                  'is_sp_type',
-                  'CropWeight_by_ratio')
-    def _compute_total_price(self):
-        for record in self:
-            unit_tw = record.CropWeight_by_ratio / 60
-            record.TotalPrice = unit_tw * record.FinalPrice
-            if record.TotalPrice != 0:
-                record.PriceState = 'done'
-                self.stage_id = self._done_stage()
 
     @api.onchange('is_sp_type')
     def _onchange_is_sp_type(self):

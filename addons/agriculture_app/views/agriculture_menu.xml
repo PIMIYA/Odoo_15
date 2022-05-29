@@ -63,6 +63,6 @@
         <field name="view_mode">kanban,form</field>
     </record>
     <!-- Menu item to open the Storage  -->
-    <menuitem id="menu_agriculture_storage" name="Storage" parent="menu_agriculture" action="action_agriculture_storage" sequence="10" />
+    <!-- <menuitem id="menu_agriculture_storage" name="Storage" parent="menu_agriculture" action="action_agriculture_storage" sequence="10" /> -->
 
 </odoo>

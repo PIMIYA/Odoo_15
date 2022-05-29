@@ -17,14 +17,15 @@
                 </strong>
                 <div class="oe_kanban_record_subtitle">
                   <field name="CropVarieties"/>
-                  <!-- <field name="TotalWeight"/> -->
+                  <field name="Crops"/>
+                  <field name="TotalWeight"/>
                 </div>
-                <div>                                        
-                  <t t-foreach="record.CropVarieties.value" t-as="i">
-                    <p>
-                      <t t-esc="i_value" /> 
-                    </p>
-                  </t>                               
+                <div>
+                  <t t-set="numberArray" t-value="record.CropVarieties.value.split(',')" />
+                  <t t-esc='numberArray'/>
+                  <!-- <t t-foreach="numberArray" t-as="i">
+                      <t t-esc="i_index"/>
+                  </t>                                -->
                 </div>
               </div>
             </div>
@@ -43,7 +44,7 @@
             <group name="group_left">
               <field name="StorageId" />
               <field name="CropVarieties" readonly="1"/>
-              <!-- <field name="TotalWeight" /> -->
+              <field name="TotalWeight" />
             </group>
           </sheet>
           

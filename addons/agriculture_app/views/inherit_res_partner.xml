@@ -8,8 +8,8 @@
           <xpath expr="//field[@name='name']" position="after">
             <group name="group_left">
               <field name="is_agriculture_member" widget="boolean_button"/>
-              <field name="SellerId" attrs="{'invisible': [('is_agriculture_member', '=', False)]}" required="1"/>
-              <field name="Member" attrs="{'invisible': [('is_agriculture_member', '=', False)]}" required="1"/>
+              <field name="SellerId" attrs="{'invisible': [('is_agriculture_member', '=', False)]}" />
+              <field name="Member" attrs="{'invisible': [('is_agriculture_member', '=', False)]}" />
             </group>
           </xpath>
       </field>
