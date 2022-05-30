@@ -293,6 +293,9 @@ class Crop(models.Model):
             'agriculture.OrganicTransOrIso'))
         tgap_bonus = float(params.get_param('agriculture.tgap_bonus'))
         ffs = float(params.get_param('agriculture.ffs_VolumeWeightIsOver'))
+        final_PrimeYieldIsOverAndEqualTo = float(params.get_param(
+            'agriculture.final_PrimeYieldIsOverAndEqualTo'))
+        multiplication = float(params.get_param('agriculture.multiplication'))
 
         for record in self:
 
@@ -334,17 +337,15 @@ class Crop(models.Model):
                                 if record.FarmingAdaption == 'a' or record.FarmingAdaption == 'b':
                                     record.FinalPrice = base_price + contracted_price + organicTransOrIso
                                 else:
-                                    if record.VolumeWeight < ffs:
-                                        record.FinalPrice = base_price + contracted_price
-                                    else:
-                                        # 慣行耕作
-                                        compare_list = [self._get_taste_rating_level(record.TasteRating), self._get_volume_weight_level(
-                                            record.VolumeWeight), self._get_brown_intact_ratio_level(record.BrownIntactRatio)]
-                                        # _logger.info(
-                                        #     f"This is compare_list: {compare_list}")
-                                        min_value = min(compare_list)
-                                        # _logger.info(
-                                        #     f"This is min_value: {min_value}")
+                                    # 慣行耕作
+                                    compare_list = [self._get_taste_rating_level(record.TasteRating), self._get_volume_weight_level(
+                                        record.VolumeWeight), self._get_brown_intact_ratio_level(record.BrownIntactRatio)]
+                                    # _logger.info(
+                                    #     f"This is compare_list: {compare_list}")
+                                    min_value = min(compare_list)
+                                    # _logger.info(
+                                    #     f"This is min_value: {min_value}")
+                                    if min_value != -1:
                                         bonus = self._get_compare_price(
                                             min_value, record.PrimeYield) + record.CropVariety_bonus
                                         # _logger.info(f"This is bonus: {bonus}")
@@ -352,6 +353,14 @@ class Crop(models.Model):
                                             record.FinalPrice = bonus + tgap_bonus
                                         else:
                                             record.FinalPrice = bonus
+                                    else:
+                                        if record.VolumeWeight < ffs:
+                                            v = final_PrimeYieldIsOverAndEqualTo - record.PrimeYield
+                                            bonus = base_price + contracted_price - multiplication * \
+                                                v if record.PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
+                                            record.FinalPrice = base_price + contracted_price + bonus
+                                        else:
+                                            record.FinalPrice = base_price + contracted_price
 
                         else:
                             record.FinalPrice = 0
@@ -385,9 +394,9 @@ class Crop(models.Model):
         x4 = x1 - p_list[0] + p_list[3]
 
         lx1 = 1 if x1 >= 0 else -1
-        lx2 = 1 if x2 > 0 else 0
-        lx3 = 1 if x3 > 0 else 0
-        lx4 = 1 if x4 > 0 else 0
+        lx2 = 1 if x2 >= 0 else 0
+        lx3 = 1 if x3 >= 0 else 0
+        lx4 = 1 if x4 >= 0 else 0
 
         return lx1 + lx2 + lx3 + lx4
 
@@ -404,9 +413,9 @@ class Crop(models.Model):
         x4 = x1 - p_list[0] + p_list[3]
 
         lx1 = 1 if x1 >= 0 else -1
-        lx2 = 1 if x2 > 0 else 0
-        lx3 = 1 if x3 > 0 else 0
-        lx4 = 1 if x4 > 0 else 0
+        lx2 = 1 if x2 >= 0 else 0
+        lx3 = 1 if x3 >= 0 else 0
+        lx4 = 1 if x4 >= 0 else 0
 
         return lx1 + lx2 + lx3 + lx4
 
@@ -423,9 +432,9 @@ class Crop(models.Model):
         x4 = x1 - p_list[0] + p_list[3]
 
         lx1 = 1 if x1 >= 0 else -1
-        lx2 = 1 if x2 > 0 else 0
-        lx3 = 1 if x3 > 0 else 0
-        lx4 = 1 if x4 > 0 else 0
+        lx2 = 1 if x2 >= 0 else 0
+        lx3 = 1 if x3 >= 0 else 0
+        lx4 = 1 if x4 >= 0 else 0
 
         return lx1 + lx2 + lx3 + lx4
 
@@ -437,9 +446,7 @@ class Crop(models.Model):
         fs_bonus = float(params.get_param('agriculture.fs_bonus'))
         ss_bonus = float(params.get_param('agriculture.ss_bonus'))
         ts_bonus = float(params.get_param('agriculture.ts_bonus'))
-        final_PrimeYieldIsOverAndEqualTo = float(params.get_param(
-            'agriculture.final_PrimeYieldIsOverAndEqualTo'))
-        multiplication = float(params.get_param('agriculture.multiplication'))
+
         # base_price 1550
         if min == 4:
             bonus = base_price + contracted_price + fs_bonus
@@ -453,14 +460,14 @@ class Crop(models.Model):
         elif min == 1:
             bonus = base_price + contracted_price
             return bonus
-        elif min == -1:
-            v = final_PrimeYieldIsOverAndEqualTo - PrimeYield
-            bonus = base_price + contracted_price - multiplication * \
-                v if PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
-            return bonus
 
     def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio, CropType, CropVariety):
         return True if VolumeWeight != 0 or PrimeYield != 0 or TasteRating != 0 or BrownIntactRatio != 0 or CropType != False or CropVariety != False else False
+
+    @api.depends('FinalPrice', 'nego_price')
+    def _compute_total_price(self):
+        for rec in self:
+            rec.TotalPrice = rec.Total_price
 
     @api.onchange('is_sp_type')
     def _onchange_is_sp_type(self):
