@@ -149,8 +149,8 @@
         <field name="PriceState" widget="badge"/>
         <field name="SellerName" />
         <field name="CropVariety"/>
-        <field name="FarmingMethod" /> 
         <field name="CropType" />
+        <field name="FarmingMethod" /> 
         <!-- <field name="CropStatus" /> -->
         <field name="FinalPrice" />
         <field name="LastCreationTime" widget="remaining_days"/>

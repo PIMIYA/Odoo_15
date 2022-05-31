@@ -42,7 +42,7 @@ class Crop(models.Model):
         'CropVariety_bonus', related="CropVariety.CropVariety_bonus", required=False)  # 品種加成bonus
 
     CropStatus = fields.Selection(
-        [('dry', '乾穀'), ('humi', '濕穀')], 'CropStatus', required=False)  # 乾穀 濕穀
+        [('DRY', '乾穀'), ('WET', '濕穀')], 'CropStatus', required=False)  # 乾穀 濕穀
 
     CropType = fields.Selection([('a', '越光米'), (
         'b', '紅/黑糯米'), ('c', '糯米')], string='CropType', required=False)  # 特殊米種
@@ -195,8 +195,7 @@ class Crop(models.Model):
     DryingFee = fields.Float('DryingFee', required=True, default=0.0)
 
     # StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
-    StorageId = fields.Many2one(
-        'agriculture.storage', 'StorageId', required=False)  # 存放的倉庫編號
+    StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
     DryerId = fields.Char('DryerId', required=False)  # 洗米機編號
 
     is_sp_type = fields.Boolean(string='is_sp_type', default=False)
@@ -358,9 +357,7 @@ class Crop(models.Model):
                                             v = final_PrimeYieldIsOverAndEqualTo - record.PrimeYield
                                             bonus = base_price + contracted_price - multiplication * \
                                                 v if record.PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
-                                            record.FinalPrice = base_price + contracted_price + bonus
-                                        else:
-                                            record.FinalPrice = base_price + contracted_price
+                                            record.FinalPrice = bonus
 
                         else:
                             record.FinalPrice = 0
@@ -487,10 +484,10 @@ class Crop(models.Model):
     @api.onchange('CropStatus', 'RawHumidity', 'CropWeight')
     def _onchange_WetToDryRatio(self):
         for rec in self:
-            if rec.CropStatus == 'dry':
+            if rec.CropStatus == 'DRY':
                 rec.WetToDryRatio = 100
                 rec.CropWeight_by_ratio = rec.CropWeight
-            elif rec.CropStatus == 'humi':
+            elif rec.CropStatus == 'WET':
                 rec.WetToDryRatio = 100 - rec.RawHumidity + 8
                 r = rec.WetToDryRatio/100
                 rec.CropWeight_by_ratio = rec.CropWeight * r
