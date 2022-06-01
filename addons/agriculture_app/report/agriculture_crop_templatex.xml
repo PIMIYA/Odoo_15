@@ -1,44 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="crop_receipt_report">
-        <t t-call="web.basic_layout">
-            <t t-foreach="docs" t-as="doc">
-                <t t-set="doc_type">
-                    <span></span>
-                </t>
-                <div class="page">
-                    <!-- 乾穀 -->
-                    <t t-if="doc.CropStatus=='DRY'">
-                        <t t-set="doc_type">
-                            <span style="position:absolute; right:30px;">收執聯</span>
-                        </t>
-                        <t t-call="agriculture_app.crop_dry_report_doc" />
+        <t t-foreach="docs" t-as="doc">
 
-                        <!-- <div class="mb-3" style="border-bottom: 1px dotted #000000;"></div> -->
-                        <p style="page-break-before:always;"></p>
-
-                        <t t-set="doc_type">
-                            <span style="position:absolute; right:30px;">存根聯</span>
-                        </t>
-                        <t t-call="agriculture_app.crop_dry_report_doc" />
-                    </t>
-                    <!-- 濕穀 -->
-                    <t t-if="doc.CropStatus=='WET'">
-                        <t t-set="doc_type">
-                            <span style="position:absolute; right:30px;">收執聯</span>
-                        </t>
-                        <t t-call="agriculture_app.crop_wet_report_doc" />
-
-                        <!-- <div class="mb-3" style="border-bottom: 1px dotted #000000;"></div> -->
-                        <p style="page-break-before:always;"></p>
-
-                        <t t-set="doc_type">
-                            <span style="position:absolute; right:30px;">存根聯</span>
-                        </t>
-                        <t t-call="agriculture_app.crop_wet_report_doc" />
-                    </t>
-                </div>
+            <t t-set="doc_type">
+                <span></span>
             </t>
+
+            <!-- 乾穀 -->
+            <t t-if="doc.CropStatus=='DRY'">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div class="col-3 mb4">
+                            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 45px;" alt="Logo" />
+                        </div>
+                        <t t-set="doc_type">
+                            <span style="position:absolute; right:30px;">收執聯</span>
+                        </t>
+                        <t t-call="agriculture_app.crop_dry_report_doc" />
+                    </div>
+                </t>
+
+                <!-- <div class="mb-3" style="border-bottom: 1px dotted #000000;"></div> -->
+                <p style="page-break-before:always;"></p>
+
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div class="col-3 mb4">
+                            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 45px;" alt="Logo" />
+                        </div>
+                        <t t-set="doc_type">
+                            <span style="position:absolute; right:30px;">存根聯</span>
+                        </t>
+                        <t t-call="agriculture_app.crop_dry_report_doc" />
+                    </div>
+                </t>
+            </t>
+            <!-- 乾穀 END -->
+
+            <!-- 濕穀 -->
+            <t t-if="doc.CropStatus=='WET'">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div class="col-3 mb4">
+                            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 45px;" alt="Logo" />
+                        </div>
+                        <t t-set="doc_type">
+                            <span style="position:absolute; right:30px;">收執聯</span>
+                        </t>
+                        <t t-call="agriculture_app.crop_wet_report_doc" />
+                    </div>
+                </t>
+
+                <!-- <div class="mb-3" style="border-bottom: 1px dotted #000000;"></div> -->
+                <p style="page-break-before:always;"></p>
+
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div class="col-3 mb4">
+                            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 45px;" alt="Logo" />
+                        </div>
+                        <t t-set="doc_type">
+                            <span style="position:absolute; right:30px;">存根聯</span>
+                        </t>
+                        <t t-call="agriculture_app.crop_wet_report_doc" />
+                    </div>
+                </t>
+            </t>
+            <!-- 濕穀 END -->
+
         </t>
     </template>
 
