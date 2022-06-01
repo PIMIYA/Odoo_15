@@ -114,6 +114,9 @@ class Archived(models.Model):
     def get_cn_num(self, input):
         return num2cn(math.floor(input), capitalize=True, traditional=True)
 
+    def get_date(self, input):
+        return "{:d}".format(input.year) + "/" + "{:0>2d}".format(input.month) + "/" + "{:0>2d}".format(input.day)
+
     def unlink(self):
         for seq in self.seq_numbers:
             seq.unlink_archiveItem()

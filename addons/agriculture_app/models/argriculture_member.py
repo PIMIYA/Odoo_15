@@ -46,3 +46,15 @@ class Member(models.Model):
                 'agriculture.member') or _(' ')
         res = super(Member, self).create(fields)
         return res
+
+    def get_partner_attr(self, attr):
+        for rec in self:
+            _partner = self.env['res.partner']
+            partnerData = _partner.search(
+                [("SellerId", "=", rec.SellerId)], limit=1)
+            if partnerData:
+                if attr == 'address':
+                    return "({zip}) {country}{city}{state}{street}{street2}".format(
+                        zip=partnerData['zip'], country=partnerData['country_id'].name, city=partnerData['city'], state=partnerData['state_id'].name, street=partnerData['street'], street2=partnerData['street2'])
+                else:
+                    return partnerData[attr]
