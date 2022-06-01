@@ -8,7 +8,7 @@
                 </t>
                 <div class="page">
                     <!-- 乾穀 -->
-                    <t t-if="doc.CropStatus=='dry'">
+                    <t t-if="doc.CropStatus=='DRY'">
                         <t t-set="doc_type">
                             <span style="position:absolute; right:30px;">收執聯</span>
                         </t>
@@ -23,7 +23,7 @@
                         <t t-call="agriculture_app.crop_dry_report_doc" />
                     </t>
                     <!-- 濕穀 -->
-                    <t t-if="doc.CropStatus=='humi'">
+                    <t t-if="doc.CropStatus=='WET'">
                         <t t-set="doc_type">
                             <span style="position:absolute; right:30px;">收執聯</span>
                         </t>
