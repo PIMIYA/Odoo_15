@@ -150,10 +150,11 @@
         <field name="SellerName" />
         <field name="CropVariety"/>
         <field name="CropType" />
-        <field name="FarmingMethod" /> 
-        <!-- <field name="CropStatus" /> -->
-        <field name="FinalPrice" />
-        <field name="LastCreationTime" widget="remaining_days"/>
+        <field name="FarmingMethod" optional='show'/> 
+        <field name="CropStatus" optional='hide'/>
+        <field name="CropWeight" optional='hide'/>
+        <field name="FinalPrice" optional='hide'/>
+        <field name="LastCreationTime" options="{'format': 'YYYY-MM-DD'}"/>
       </tree>
     </field>
   </record>

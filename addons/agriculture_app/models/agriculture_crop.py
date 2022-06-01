@@ -464,7 +464,7 @@ class Crop(models.Model):
     @api.depends('FinalPrice', 'nego_price')
     def _compute_total_price(self):
         for rec in self:
-            rec.TotalPrice = rec.Total_price
+            rec.TotalPrice = rec.TotalPrice
 
     @api.onchange('is_sp_type')
     def _onchange_is_sp_type(self):
