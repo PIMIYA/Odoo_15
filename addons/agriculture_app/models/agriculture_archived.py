@@ -12,6 +12,7 @@ class Archived(models.Model):
     _inherit = 'mail.thread'
     _rec_name = 'SellerName'
     _description = 'Archived'
+    _order = "LastCreationTime desc"
 
     # 農民資料
     member = fields.Many2one(

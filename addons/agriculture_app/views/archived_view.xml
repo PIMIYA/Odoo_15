@@ -67,7 +67,7 @@
           <field name="member" />
           <field name="seq_numbers" />
           <field name="additional_items" />
-          <field name="LastCreationTime" widget="remaining_days" />
+          <field name="LastCreationTime" options="{'format': 'YYYY-MM-DD'}" />
         </tree>
       </field>
     </record>

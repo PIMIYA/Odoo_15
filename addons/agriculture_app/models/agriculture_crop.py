@@ -13,7 +13,7 @@ class Crop(models.Model):
     _inherit = 'mail.thread'
     _rec_name = 'SeqNumber'
     _description = "Crop"
-    _order = "EndTime desc"
+    _order = "LastCreationTime desc"
 
     # ******主要使用資料******
     # ******流水號******
