@@ -1,4 +1,5 @@
 from odoo import models, fields, api, _
+from types import SimpleNamespace
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -58,3 +59,22 @@ class Member(models.Model):
                         zip=partnerData['zip'], country=partnerData['country_id'].name, city=partnerData['city'], state=partnerData['state_id'].name, street=partnerData['street'], street2=partnerData['street2'])
                 else:
                     return partnerData[attr]
+
+    def get_bank_info(self):
+        empty = {}
+        empty['acc_number'] = ""
+        empty['bank_name'] = ""
+        emptObj = SimpleNamespace(**empty)
+
+        for rec in self:
+            _partner = self.env['res.partner']
+            partnerData = _partner.search(
+                [("SellerId", "=", rec.SellerId)], limit=1)
+            if not partnerData:
+                return emptObj
+            if not partnerData['bank_ids']:
+                return emptObj
+            if not partnerData['bank_ids'][0]:
+                return emptObj
+            return partnerData['bank_ids'][0]
+        return emptObj

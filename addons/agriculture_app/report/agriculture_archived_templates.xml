@@ -45,7 +45,9 @@
                     <span t-esc="doc.member.get_partner_attr('address')" />
                   </td>
                   <td class="text-center" colspan="1">帳號:</td>
-                  <td class="" colspan="5"></td>
+                  <td class="" colspan="5">
+                    <span t-esc="doc.member.get_bank_info().acc_number" />
+                  </td>
                 </tr>
                 <tr class="">
                   <td class="text-center" colspan="1">電話:</td>
@@ -55,7 +57,9 @@
                     <span t-esc="doc.member.get_partner_attr('mobile')" />
                   </td>
                   <td class="text-center" colspan="1">銀行:</td>
-                  <td class="" colspan="5"></td>
+                  <td class="" colspan="5">
+                    <span t-esc="doc.member.get_bank_info().bank_name" />
+                  </td>
                 </tr>
               </tbody>
             </table>
