@@ -14,4 +14,20 @@
           </xpath>
       </field>
     </record>
+
+
+  <!-- inherit view from res.partner.bank -->
+    <record model="ir.ui.view" id="view_inherit_form_res_partner_bank_tree">
+      <field name="name">view_inherit_form_res_partner_bank_tree</field>
+      <field name="model">res.partner.bank</field>
+      <field name="inherit_id" ref="base.view_partner_bank_tree"/>
+      <field name="arch" type="xml">
+          <field name="acc_holder_name" position="attributes">
+            <attribute name="invisible">0</attribute>
+          </field>
+      </field>
+    </record>
+
+
+
   </odoo>
