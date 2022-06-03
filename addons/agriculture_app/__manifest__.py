@@ -14,7 +14,7 @@
     "category": "Operations/Agriculture",
     "version": "16.0.1.0.0",
     # any module necessary for this one to work correctly
-    "depends": ["base", "contacts", "account"],
+    "depends": ["base", "contacts"],
     # always loaded
     "data": [
         # "security/agriculture_security.xml",
