@@ -61,20 +61,22 @@ class Member(models.Model):
                     return partnerData[attr]
 
     def get_bank_info(self):
-        empty = {}
-        empty['acc_number'] = ""
-        empty['bank_name'] = ""
-        emptObj = SimpleNamespace(**empty)
+        result = {}
+        result['acc_number'] = ""
+        result['bank_name'] = ""
+        result['acc_holder_name'] = ""
 
         for rec in self:
             _partner = self.env['res.partner']
             partnerData = _partner.search(
                 [("SellerId", "=", rec.SellerId)], limit=1)
             if not partnerData:
-                return emptObj
+                return result
             if not partnerData['bank_ids']:
-                return emptObj
+                return result
             if not partnerData['bank_ids'][0]:
-                return emptObj
-            return partnerData['bank_ids'][0]
-        return emptObj
+                return result
+            result['acc_number'] = partnerData['bank_ids'][0].acc_number
+            result['bank_name'] = partnerData['bank_ids'][0].bank_name
+            result['acc_holder_name'] = partnerData['bank_ids'][0].acc_holder_name
+        return result

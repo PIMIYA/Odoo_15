@@ -40,14 +40,21 @@
               </group>
             </group>
             <group name="group_footer">
-              <field name="MaxPurchaseQTY" string="Reasonable QTY" attrs="{'readonly':[True]}" />
-              <field name="TotalQTY" string="Total QTY" attrs="{'readonly':[True]}" />
-              <field name="RemianingQTY" string="Remianing QTY" attrs="{'readonly':[True]}" />
-              <!-- overflow or not information -->
-              <label for="IsOverflowQTY" string="Not Overflow" attrs="{'invisible':[('IsOverflowQTY', '==', True)]}" style="color: blue;" />
-              <field name="IsOverflowQTY" onlable="1" attrs="{'readonly':[True], 'invisible':[True]}" />
-              <label for="IsOverflowQTY" string="Is Overflow" attrs="{'invisible':[('IsOverflowQTY', '==', False)]}" style="color: red;" />
-              <field name="IsOverflowQTY" onlable="1" attrs="{'readonly':[True], 'invisible':[True]}" />
+              <group name="left">
+                <field name="MemberBankAccount" string="Account Number" />
+                <field name="MemberBankName" string="Bank Name" />
+                <field name="MemberBankAccountHolderName" string="Account Name" />
+              </group>
+              <group name="right">
+                <field name="MaxPurchaseQTY" string="Reasonable QTY" attrs="{'readonly':[True]}" />
+                <field name="TotalQTY" string="Total QTY" attrs="{'readonly':[True]}" />
+                <field name="RemianingQTY" string="Remianing QTY" attrs="{'readonly':[True]}" />
+                <!-- overflow or not information -->
+                <label for="IsOverflowQTY" string="Not Overflow" attrs="{'invisible':[('IsOverflowQTY', '==', True)]}" style="color: blue;" />
+                <field name="IsOverflowQTY" onlable="1" attrs="{'readonly':[True], 'invisible':[True]}" />
+                <label for="IsOverflowQTY" string="Is Overflow" attrs="{'invisible':[('IsOverflowQTY', '==', False)]}" style="color: red;" />
+                <field name="IsOverflowQTY" onlable="1" attrs="{'readonly':[True], 'invisible':[True]}" />
+              </group>
             </group>
           </sheet>
           <div class="oe_chatter">

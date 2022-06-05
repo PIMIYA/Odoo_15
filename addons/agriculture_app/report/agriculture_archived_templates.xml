@@ -38,7 +38,9 @@
                   </td>
                   <td class="text-center" colspan="1">戶名:</td>
                   <td class="" colspan="5">
-                    <span t-esc="doc.member.get_bank_info().acc_holder_name" />
+                    <t t-if="'acc_holder_name' in doc.member.get_bank_info()">
+                      <span t-esc="doc.member.get_bank_info()['acc_holder_name']" />
+                    </t>
                   </td>
                 </tr>
                 <tr class="">
@@ -48,7 +50,9 @@
                   </td>
                   <td class="text-center" colspan="1">帳號:</td>
                   <td class="" colspan="5">
-                    <span t-esc="doc.member.get_bank_info().acc_number" />
+                    <t t-if="'acc_number' in doc.member.get_bank_info()">
+                      <span t-esc="doc.member.get_bank_info()['acc_number']" />
+                    </t>
                   </td>
                 </tr>
                 <tr class="">
@@ -60,7 +64,9 @@
                   </td>
                   <td class="text-center" colspan="1">銀行:</td>
                   <td class="" colspan="5">
-                    <span t-esc="doc.member.get_bank_info().bank_name" />
+                    <t t-if="'bank_name' in doc.member.get_bank_info()">
+                      <span t-esc="doc.member.get_bank_info()['bank_name']" />
+                    </t>
                   </td>
                 </tr>
               </tbody>

@@ -38,6 +38,29 @@ class Archived(models.Model):
         "NonLeasedArea", related="member.NonLeasedArea")
     MaxPurchaseQTY = fields.Float(
         "MaxPurchaseQTY", related="member.MaxPurchaseQTY")
+
+    # 帳號資料
+    MemberBankAccount = fields.Char(
+        compute='_compute_MemberBankAccount')
+    MemberBankName = fields.Char(compute='_compute_MemberBankName')
+    MemberBankAccountHolderName = fields.Char(
+        compute='_compute_MemberBankAccountHolderName')
+
+    @api.depends('member')
+    def _compute_MemberBankAccount(self):
+        for rec in self:
+            self.MemberBankAccount = rec.member.get_bank_info()['acc_number']
+
+    @api.depends('member')
+    def _compute_MemberBankName(self):
+        for rec in self:
+            self.MemberBankName = rec.member.get_bank_info()['bank_name']
+
+    @api.depends('member')
+    def _compute_MemberBankAccountHolderName(self):
+        for rec in self:
+            self.MemberBankAccountHolderName = rec.member.get_bank_info()[
+                'acc_holder_name']
     ##########
 
     # 成單的序號列表
