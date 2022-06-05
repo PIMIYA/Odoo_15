@@ -127,7 +127,7 @@ class Crop(models.Model):
         'LastCreationTime')  # 收購時間
 
     CropWeight = fields.Float(
-        'CropWeight', required=True, default=0.0)  # 稻穀總重量
+        'CropWeight', compute='_compute_crop_weight', store=True, required=True, default=0.0)  # 稻穀總重量
 
     RawTotalWeight = fields.Float(
         'RawTotalWeight', required=True, default=0.0)
@@ -256,6 +256,12 @@ class Crop(models.Model):
 
     # 議價
     nego_price = fields.Float('nego_price', default=0)
+
+    @api.depends('CarCropWeight')
+    def _compute_crop_weight(self):
+        for crop in self:
+            if crop.PriceState == 'done':
+                crop.CropWeight = crop.CarCropWeight - crop.CarWeight
 
     @ api.depends('FarmerType',
                   'CropType',
