@@ -257,11 +257,10 @@ class Crop(models.Model):
     # 議價
     nego_price = fields.Float('nego_price', default=0)
 
-    @api.depends('CarCropWeight')
+    @api.depends('CarCropWeight', 'CarWeight')
     def _compute_crop_weight(self):
         for crop in self:
-            if crop.PriceState == 'done':
-                crop.CropWeight = crop.CarCropWeight - crop.CarWeight
+            crop.CropWeight = crop.CarCropWeight - crop.CarWeight
 
     @ api.depends('FarmerType',
                   'CropType',
