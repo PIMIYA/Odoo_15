@@ -37,7 +37,9 @@
                     <span t-field="doc.member.SellerName" />
                   </td>
                   <td class="text-center" colspan="1">戶名:</td>
-                  <td class="" colspan="5"></td>
+                  <td class="" colspan="5">
+                    <span t-esc="doc.member.get_bank_info().acc_holder_name" />
+                  </td>
                 </tr>
                 <tr class="">
                   <td class="text-center" colspan="1">地址:</td>
