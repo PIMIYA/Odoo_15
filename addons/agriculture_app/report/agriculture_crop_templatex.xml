@@ -387,14 +387,14 @@
                         <span>X</span>
                     </td>
                     <td colspan="2">
-                        <!-- TODO: [WetDryRatio]-->
+                        <span t-field="doc.WetToDryRatio"></span>
                         <span></span>
                     </td>
                     <td colspan="1">
                         <span>=</span>
                     </td>
                     <td colspan="3">
-                        <!-- TODO: [PredictDryCropWeight] -->
+                        <span t-field="doc.CropWeight_by_ratio"></span>
                         <span></span>
                     </td>
                     <td colspan="1" class="text-left">
@@ -427,15 +427,13 @@
                         <span>X</span>
                     </td>
                     <td colspan="2">
-                        <!-- TODO: [dryerUnitPrice]-->
-                        <span></span>
+                        <span t-field="doc.DryingFee"></span>
                     </td>
                     <td colspan="1">
                         <span>=</span>
                     </td>
                     <td colspan="3">
-                        <!-- TODO: [DryerTotalPrice] -->
-                        <span></span>
+                        <span t-esc="doc.CropWeight * doc.DryingFee"></span>
                     </td>
                     <td colspan="1" class="text-left">
                         <span>元</span>
