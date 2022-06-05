@@ -145,11 +145,11 @@
     <field name="model">agriculture.crop</field>
     <field name="arch" type="xml">
       <tree>
-        <field name="SeqNumber" />
+        <field name="SeqNumber" optional='show'/>
         <field name="PriceState" widget="badge"/>
-        <field name="SellerName" />
-        <field name="CropVariety"/>
-        <field name="CropType" />
+        <field name="SellerName" optional='show'/>
+        <field name="CropVariety" optional='show'/>
+        <field name="CropType" optional='show'/>
         <field name="FarmingMethod" optional='show'/> 
         <field name="CropStatus" optional='hide'/>
         <field name="CropWeight" optional='hide'/>
