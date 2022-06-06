@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="assets_frontend" inherit_id="website.assets_frontend" name="assets_frontend_logistic_ecpay">
+    <!-- <template id="assets_frontend" inherit_id="website.assets_frontend" name="assets_frontend_logistic_ecpay">
         <xpath expr="." position="inside">
             <script src="/payment_ecpay/static/src/js/selection.js"></script>
         </xpath>
-    </template>
-    <template id="ecpay_payment_type" name="ECPay Payment Type" inherit_id="payment.payment_tokens_list">
-        <xpath expr="//div[hasclass('pull-right')]" position="before">
+    </template> -->
+    <template id="ecpay_payment_type" name="ECPay Payment Type" inherit_id="payment.payment_token_list">
+        <!-- <xpath expr="//div[hasclass('pull-right')]" position="before"> -->
+        <xpath expr="//field[@name='name']" position="before">
             <div class="form-group">
                 <t t-set="ecpay" t-value="request.env['payment.acquirer'].sudo().search([('provider', '=', 'ecpay')], limit=1)" />
                 <select class="form-control" id="ecpay_payment_method" name="ecpay_payment_method">

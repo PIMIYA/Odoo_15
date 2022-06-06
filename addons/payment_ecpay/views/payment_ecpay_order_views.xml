@@ -66,7 +66,8 @@
     <field name="model">sale.order</field>
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
-      <xpath expr="//page/group/group[@name='technical']" position="before">
+      <!-- <xpath expr="//page/group/group[@name='technical']" position="before"> -->
+      <xpath expr="//field[@name='name']" position="before">
         <group string="綠界金流訂單編號" name="trade_no">
           <field name="ecpay_trade_no_id" readonly="1"/>
         </group>
@@ -78,5 +79,5 @@
   <!-- target="new" /> -->
 
   <menuitem id="menuitem_order_ecpay" name="綠界金流訂單" action="action_menuitem_order_ecpay" parent="website_sale.menu_orders" groups="payment_ecpay.group_user" sequence="5"/>
-
+  <!-- website_sale.menu_orders -->
 </odoo>

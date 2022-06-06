@@ -9,6 +9,11 @@
 	'author': 'ECPAY',
     'website': 'http://www.ecpay.com.tw',
     'depends': ['payment'],
+    'assets': {
+        'website.assets_frontend': [
+            'payment_ecpay/static/src/js/selection.js',
+        ],
+    },
     'data': [
         'security/payment_ecpay_access_rule.xml',
         'security/ir.model.access.csv',
