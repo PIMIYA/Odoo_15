@@ -548,6 +548,12 @@ class Crop(models.Model):
 
         return super(Crop, self).create(fields)
 
+    def get_crop_name(self):
+        if self.is_sp_type:
+            return dict(self._fields['CropType'].selection).get(self.CropType) if self.CropType else ''
+        else:
+            return self.CropVariety.CropVariety_name if self.CropVariety else ''
+
     # @api.model
     # def default_get(self, fields):
     #     res = super(Crop, self).default_get(fields)
