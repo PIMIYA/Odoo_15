@@ -25,7 +25,8 @@ class LogisticEcpay(models.Model):
        ('<my_provider>', 'My Provider')
     '''
     _inherit = 'delivery.carrier'
-    delivery_type = fields.Selection(selection_add=[('ecpay', 'ECPay')])
+    delivery_type = fields.Selection(selection_add=[('ecpay', 'ECPay')], ondelete={
+        'ecpay': 'set default', 'Ecpay': 'set default'})
 
     MerchantID = fields.Char(
         '特店編號',
@@ -159,7 +160,7 @@ class LogisticEcpay(models.Model):
         else:
             return ECPayTestURL
 
-    @api.model_create_multi  # was @api.multi
+    # @api.multi
     def ecpay_get_form_action_url(self):
         return self.get_ecpay_urls(self.prod_environment)['SHIPPING_ORDER']
 
@@ -405,7 +406,7 @@ class StockPickingEcpay(models.Model):
 
     ScheduledDeliveryDateEcan = fields.Date(string='指定送達日')
 
-    @api.model_create_multi  # was @api.multi
+    # @api.multi
     def _logistics_sub_type(self):
         for record in self:
             sale_order = self.env['sale.order'].search(

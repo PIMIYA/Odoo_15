@@ -15,8 +15,7 @@ class ShippingEcpayModel(models.Model):
 
     name = fields.Char(
         '綠界物流訂單名稱')
-    ReferenceNo = fields.Many2one(
-        'sale.order', string='訂單編號', groups='base.group_user', help='訂單編號')
+    ReferenceNo = fields.Many2one('sale.order', string='訂單編號', groups='base.group_user', help='訂單編號')
     MerchantTradeNo = fields.Char(
         '廠商交易編號', groups='base.group_user', help='廠商交易編號')
     RtnCode = fields.Char('目前物流狀態', groups='base.group_user', help='目前物流狀態')
@@ -42,7 +41,7 @@ class ShippingEcpayModel(models.Model):
     CVSStoreID = fields.Char('店舖編號', groups='base.group_user', help='店舖編號')
     CVSStoreName = fields.Char('店舖名稱', groups='base.group_user', help='店舖名稱')
 
-    @api.model_create_multi  # was @api.multi
+    # @api.multi
     def shipping_ecpay_model_record(self, data=dict()):
         # 建立物流紀錄
         shipping_data = dict()
@@ -63,7 +62,7 @@ class ShippingEcpayModel(models.Model):
             # 建立新紀錄
             return self.create(shipping_data)
 
-    @api.model_create_multi  # was @api.multi
+    # @api.multi
     def shipping_ecpay_model_update(self, data=dict()):
         MerchantTradeNo = data.get('MerchantTradeNo')
         shipping = None
@@ -81,7 +80,7 @@ class ShippingEcpayModel(models.Model):
         else:
             return ECPayTestURL
 
-    @api.model_create_multi  # was @api.multi
+    # @api.multi
     def ecpay_get_form_action_url(self, cvs_type):
         # 取得 ECPay 的後台設定值
         ecpay_setting = self.env['delivery.carrier'].search(
@@ -161,11 +160,9 @@ class ShippingEcpayModel(models.Model):
             else:
                 response = "<h1>LogisticsSubType is wrong!</h1>"
                 return response
-            html = '<form id="ecpay_print" action="{}" method="POST">'.format(
-                action_url)
+            html = '<form id="ecpay_print" action="{}" method="POST">'.format(action_url)
             for key, value in final_params.items():
-                html += '<input type="hidden" name="{}" value="{}">'.format(
-                    key, value)
+                html += '<input type="hidden" name="{}" value="{}">'.format(key, value)
             html += '</form>'
             return html
 
@@ -175,11 +172,9 @@ class ShippingEcpayModel(models.Model):
             final_params = ecpay_logistic_sdk.print_trade_doc(
                 action_url=action_url,
                 client_parameters=print_c2c_bill_params)
-            html = '<form id="ecpay_print" action="{}" method="POST">'.format(
-                action_url)
+            html = '<form id="ecpay_print" action="{}" method="POST">'.format(action_url)
             for key, value in final_params.items():
-                html += '<input type="hidden" name="{}" value="{}">'.format(
-                    key, value)
+                html += '<input type="hidden" name="{}" value="{}">'.format(key, value)
             html += '</form>'
             return html
 
@@ -241,13 +236,12 @@ class LogisticEcpaySenderInfo(models.Model):
     def _onchange_sender_cellphone(self):
         chars = set('1234567890')
         if any((c not in chars) for c in self.SenderCellPhone) or \
-            (len(self.SenderCellPhone) != 10) or \
-                self.SenderCellPhone[0:2] != '09':
+        (len(self.SenderCellPhone) != 10) or \
+        self.SenderCellPhone[0:2] != '09':          
             raise ValidationError("寄件人手機只允許數字、10碼、09開頭")
             return False
 
         return True
-
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
