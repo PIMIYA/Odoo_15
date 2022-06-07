@@ -6,9 +6,18 @@
     'summary': '物流 (Logistic): ECPay 綠界第三方物流模組',
     'version': '1.6',
     'description': """ECPay 綠界物流模組""",
-	'author': 'ECPAY',
+    'author': 'ECPAY',
     'website': 'http://www.ecpay.com.tw',
     'depends': ['delivery', 'mail'],
+    'assets': {
+        'website.assets_frontend': [
+            'logistic_ecpay/static/src/js/jquery.twzipcode.min.js',
+            'logistic_ecpay/static/src/js/selection.js',
+        ],
+        'website.assets_backend': [
+            'logistic_ecpay/static/src/js/print_cvs_shipping.js',
+        ],
+    },
     'data': [
         'security/logistic_ecpay_access_rule.xml',
         'security/ir.model.access.csv',

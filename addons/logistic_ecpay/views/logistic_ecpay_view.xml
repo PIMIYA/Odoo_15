@@ -176,7 +176,8 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-        <xpath expr="//page/group/group[@name='technical']" position="before">
+        <!-- <xpath expr="//page/group/group[@name='technical']" position="before"> -->
+        <xpath expr="//field[@name='name']" position="before">
             <group string="綠界物流訂單編號" name="Logistics_id">
             <field name="ecpay_Logistics_id" readonly="1"/>
             </group>

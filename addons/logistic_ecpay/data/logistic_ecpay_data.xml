@@ -34,12 +34,12 @@
         </record>
         <record id="logistic_ecpay_cod" model="payment.acquirer">
             <field name="name">ECPay 綠界物流-到店取貨付款</field>
-            <field name="image" type="base64" file="logistic_ecpay/static/src/img/ecpay_cod.jpg"/>
+            <!-- <field name="image" type="base64" file="logistic_ecpay/static/src/img/ecpay_cod.jpg"/> -->
             <field name="provider">transfer</field>
             <field name="company_id" ref="base.main_company"/>
             <!-- <field name="view_template_id" ref="transfer_form"/> -->
-            <field name="environment">test</field>
-            <field name="website_published" eval="True"/>
+            <!-- <field name="environment">test</field> -->
+            <!-- <field name="website_published" eval="True"/> -->
             <field name="pre_msg"><![CDATA[<p>ECPay 綠界物流-到店取貨付款</p>]]></field>
         </record>
     </data>

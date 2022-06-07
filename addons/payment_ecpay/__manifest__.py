@@ -6,9 +6,9 @@
     'summary': 'Payment Acquirer: ECPay 綠界第三方金流模組',
     'version': '1.3',
     'description': """ECPay 綠界付款模組""",
-	'author': 'ECPAY',
+    'author': 'ECPAY',
     'website': 'http://www.ecpay.com.tw',
-    'depends': ['payment'],
+    'depends': ['payment', 'sale'],
     'assets': {
         'website.assets_frontend': [
             'payment_ecpay/static/src/js/selection.js',

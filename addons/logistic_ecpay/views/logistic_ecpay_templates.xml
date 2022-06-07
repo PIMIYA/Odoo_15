@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <template id="assets_frontend" inherit_id="website.assets_frontend" name="assets_frontend_logistic_ecpay">
+    <!-- <template id="assets_frontend" inherit_id="website.assets_frontend" name="assets_frontend_logistic_ecpay">
         <xpath expr="." position="inside">
             <script src="/logistic_ecpay/static/src/js/selection.js"></script>
             <script src="/logistic_ecpay/static/src/js/jquery.twzipcode.min.js"></script>
         </xpath>
-    </template>
+    </template> -->
 
     <template id="hidden_odoo_original_button" name="Hidden Odoo Original Button" inherit_id="website_sale.checkout">
         <xpath expr="//div[@id='wrap']/div/div/div/div[last()]" position="replace">
@@ -144,9 +144,9 @@
         </div>
     </template>
 
-    <template id="assets_backend" name="tree view menu" inherit_id="web.assets_backend">
+    <!-- <template id="assets_backend" name="tree view menu" inherit_id="web.assets_backend">
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/logistic_ecpay/static/src/js/print_cvs_shipping.js"></script>
         </xpath>
-    </template>
+    </template> -->
 </odoo>
