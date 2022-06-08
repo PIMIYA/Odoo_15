@@ -12,9 +12,9 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     "category": "Operations/Agriculture",
-    "version": "15.0.1.0.0",
+    "version": "16.0.1.0.0",
     # any module necessary for this one to work correctly
-    "depends": ["base", "contacts"],
+    "depends": ["base", "contacts", "account"],
     # always loaded
     "data": [
         # "security/agriculture_security.xml",
@@ -28,8 +28,12 @@
         "views/inherit_res_partner.xml",
         "views/crop_variety_view.xml",
         "views/settings.xml",
+<<<<<<< HEAD
         "views/crop_storage.xml",
         "views/crop_storage_materials.xml",
+=======
+        # "views/crop_storage.xml",
+>>>>>>> main
         "views/agriculture_menu.xml",
         "report/agriculture_archived_reports.xml",
         "report/agriculture_archived_templates.xml",

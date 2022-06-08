@@ -13,7 +13,7 @@ class Crop(models.Model):
     _inherit = 'mail.thread'
     _rec_name = 'SeqNumber'
     _description = "Crop"
-    _order = "EndTime desc"
+    _order = "LastCreationTime desc"
 
     # ******主要使用資料******
     # ******流水號******
@@ -42,7 +42,7 @@ class Crop(models.Model):
         'CropVariety_bonus', related="CropVariety.CropVariety_bonus", required=False)  # 品種加成bonus
 
     CropStatus = fields.Selection(
-        [('dry', '乾穀'), ('humi', '濕穀')], 'CropStatus', required=False)  # 乾穀 濕穀
+        [('DRY', '乾穀'), ('WET', '濕穀')], 'CropStatus', required=False)  # 乾穀 濕穀
 
     CropType = fields.Selection([('a', '越光米'), (
         'b', '紅/黑糯米'), ('c', '糯米')], string='CropType', required=False)  # 特殊米種
@@ -127,7 +127,7 @@ class Crop(models.Model):
         'LastCreationTime')  # 收購時間
 
     CropWeight = fields.Float(
-        'CropWeight', required=True, default=0.0)  # 稻穀總重量
+        'CropWeight', compute='_compute_crop_weight', store=True, required=True, default=0.0)  # 稻穀總重量
 
     RawTotalWeight = fields.Float(
         'RawTotalWeight', required=True, default=0.0)
@@ -194,9 +194,14 @@ class Crop(models.Model):
 
     DryingFee = fields.Float('DryingFee', required=True, default=0.0)
 
+<<<<<<< HEAD
     StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
     # StorageId = fields.Many2one(
     #     'agriculture.storage', 'StorageId', required=False)  # 存放的倉庫編號
+=======
+    # StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
+    StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
+>>>>>>> main
     DryerId = fields.Char('DryerId', required=False)  # 洗米機編號
 
     is_sp_type = fields.Boolean(string='is_sp_type', default=False)
@@ -258,6 +263,11 @@ class Crop(models.Model):
     # 議價
     nego_price = fields.Float('nego_price', default=0)
 
+    @api.depends('CarCropWeight', 'CarWeight')
+    def _compute_crop_weight(self):
+        for crop in self:
+            crop.CropWeight = crop.CarCropWeight - crop.CarWeight
+
     @ api.depends('FarmerType',
                   'CropType',
                   'FarmingMethod',
@@ -292,6 +302,10 @@ class Crop(models.Model):
         organicTransOrIso = float(params.get_param(
             'agriculture.OrganicTransOrIso'))
         tgap_bonus = float(params.get_param('agriculture.tgap_bonus'))
+        ffs = float(params.get_param('agriculture.ffs_VolumeWeightIsOver'))
+        final_PrimeYieldIsOverAndEqualTo = float(params.get_param(
+            'agriculture.final_PrimeYieldIsOverAndEqualTo'))
+        multiplication = float(params.get_param('agriculture.multiplication'))
 
         for record in self:
 
@@ -330,39 +344,50 @@ class Crop(models.Model):
                                 record.FinalPrice = 0
 
                             else:
-
                                 if record.FarmingAdaption == 'a' or record.FarmingAdaption == 'b':
                                     record.FinalPrice = base_price + contracted_price + organicTransOrIso
                                 else:
                                     # 慣行耕作
                                     compare_list = [self._get_taste_rating_level(record.TasteRating), self._get_volume_weight_level(
                                         record.VolumeWeight), self._get_brown_intact_ratio_level(record.BrownIntactRatio)]
-                                    _logger.info(
-                                        f"This is compare_list: {compare_list}")
+                                    # _logger.info(
+                                    #     f"This is compare_list: {compare_list}")
                                     min_value = min(compare_list)
-                                    _logger.info(
-                                        f"This is min_value: {min_value}")
-                                    bonus = self._get_compare_price(
-                                        min_value, record.PrimeYield, record.VolumeWeight) + record.CropVariety_bonus
-                                    _logger.info(f"This is bonus: {bonus}")
-                                    if record.isTGAP:
-                                        record.FinalPrice = bonus + tgap_bonus
+                                    # _logger.info(
+                                    #     f"This is min_value: {min_value}")
+                                    if min_value != -1:
+                                        bonus = self._get_compare_price(
+                                            min_value, record.PrimeYield) + record.CropVariety_bonus
+                                        # _logger.info(f"This is bonus: {bonus}")
+                                        if record.isTGAP:
+                                            record.FinalPrice = bonus + tgap_bonus
+                                        else:
+                                            record.FinalPrice = bonus
                                     else:
-                                        record.FinalPrice = bonus
+                                        if record.VolumeWeight < ffs:
+                                            v = final_PrimeYieldIsOverAndEqualTo - record.PrimeYield
+                                            bonus = base_price + contracted_price - multiplication * \
+                                                v if record.PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
+                                            record.FinalPrice = bonus
 
                         else:
                             record.FinalPrice = 0
 
                 else:
                     # 非契約農民
-                    record.FinalPrice = base_price + record.nego_price  # 增加 議價金額（正負）
-
-                # record.PriceState = 'done'
-                # self.stage_id = self._done_stage()
+                    record.FinalPrice = base_price  # 增加 議價金額（正負）
             else:
                 record.FinalPrice = 0
                 record.PriceState = 'draft'
                 self.stage_id = self._default_stage()
+
+            # 加成
+            record.FinalPrice = record.FinalPrice + record.nego_price
+            unit_tw = record.CropWeight_by_ratio / 60
+            record.TotalPrice = unit_tw * record.FinalPrice
+            if record.TotalPrice != 0:
+                record.PriceState = 'done'
+                self.stage_id = self._done_stage()
 
     def _get_volume_weight_level(self, expValue):
         params = self.env['ir.config_parameter'].sudo()
@@ -372,14 +397,14 @@ class Crop(models.Model):
         ffs = float(params.get_param('agriculture.ffs_VolumeWeightIsOver'))
         p_list = [fs, ss, ts, ffs]
         x1 = expValue - p_list[3]
-        x2 = expValue - p_list[0]
-        x3 = expValue - p_list[1]
-        x4 = expValue - p_list[2]
+        x2 = x1 - p_list[2] + p_list[3]
+        x3 = x1 - p_list[1] + p_list[3]
+        x4 = x1 - p_list[0] + p_list[3]
 
         lx1 = 1 if x1 >= 0 else -1
-        lx2 = 1 if x2 > 0 else 0
-        lx3 = 1 if x3 > 0 else 0
-        lx4 = 1 if x4 > 0 else 0
+        lx2 = 1 if x2 >= 0 else 0
+        lx3 = 1 if x3 >= 0 else 0
+        lx4 = 1 if x4 >= 0 else 0
 
         return lx1 + lx2 + lx3 + lx4
 
@@ -391,14 +416,14 @@ class Crop(models.Model):
         ffs = float(params.get_param('agriculture.ffs_TasteRatingIsOver'))
         p_list = [fs, ss, ts, ffs]
         x1 = expValue - p_list[3]
-        x2 = expValue - p_list[0]
-        x3 = expValue - p_list[1]
-        x4 = expValue - p_list[2]
+        x2 = x1 - p_list[2] + p_list[3]
+        x3 = x1 - p_list[1] + p_list[3]
+        x4 = x1 - p_list[0] + p_list[3]
 
         lx1 = 1 if x1 >= 0 else -1
-        lx2 = 1 if x2 > 0 else 0
-        lx3 = 1 if x3 > 0 else 0
-        lx4 = 1 if x4 > 0 else 0
+        lx2 = 1 if x2 >= 0 else 0
+        lx3 = 1 if x3 >= 0 else 0
+        lx4 = 1 if x4 >= 0 else 0
 
         return lx1 + lx2 + lx3 + lx4
 
@@ -410,18 +435,18 @@ class Crop(models.Model):
         ffs = float(params.get_param('agriculture.ffs_BrownIntactRatioIsOver'))
         p_list = [fs, ss, ts, ffs]
         x1 = expValue - p_list[3]
-        x2 = expValue - p_list[0]
-        x3 = expValue - p_list[1]
-        x4 = expValue - p_list[2]
+        x2 = x1 - p_list[2] + p_list[3]
+        x3 = x1 - p_list[1] + p_list[3]
+        x4 = x1 - p_list[0] + p_list[3]
 
         lx1 = 1 if x1 >= 0 else -1
-        lx2 = 1 if x2 > 0 else 0
-        lx3 = 1 if x3 > 0 else 0
-        lx4 = 1 if x4 > 0 else 0
+        lx2 = 1 if x2 >= 0 else 0
+        lx3 = 1 if x3 >= 0 else 0
+        lx4 = 1 if x4 >= 0 else 0
 
         return lx1 + lx2 + lx3 + lx4
 
-    def _get_compare_price(self, min, PrimeYield, VolumeWeight):
+    def _get_compare_price(self, min, PrimeYield):
         params = self.env['ir.config_parameter'].sudo()
         base_price = float(params.get_param('agriculture.BasePrice'))
         contracted_price = float(params.get_param(
@@ -429,10 +454,7 @@ class Crop(models.Model):
         fs_bonus = float(params.get_param('agriculture.fs_bonus'))
         ss_bonus = float(params.get_param('agriculture.ss_bonus'))
         ts_bonus = float(params.get_param('agriculture.ts_bonus'))
-        ffs = float(params.get_param('agriculture.ffs_VolumeWeightIsOver'))
-        final_PrimeYieldIsOverAndEqualTo = float(params.get_param(
-            'agriculture.final_PrimeYieldIsOverAndEqualTo'))
-        multiplication = float(params.get_param('agriculture.multiplication'))
+
         # base_price 1550
         if min == 4:
             bonus = base_price + contracted_price + fs_bonus
@@ -446,38 +468,14 @@ class Crop(models.Model):
         elif min == 1:
             bonus = base_price + contracted_price
             return bonus
-        elif min == -1:
-            if VolumeWeight < ffs:
-                v = final_PrimeYieldIsOverAndEqualTo - PrimeYield
-                bonus = base_price + contracted_price - multiplication * \
-                    v if PrimeYield < final_PrimeYieldIsOverAndEqualTo else base_price + contracted_price
-                return bonus
 
     def _check_nValue(self, VolumeWeight, PrimeYield, TasteRating, BrownIntactRatio, CropType, CropVariety):
         return True if VolumeWeight != 0 or PrimeYield != 0 or TasteRating != 0 or BrownIntactRatio != 0 or CropType != False or CropVariety != False else False
 
-    @ api.depends('CropWeight',
-                  'FinalPrice',
-                  'FarmerType',
-                  'CropType',
-                  'FarmingMethod',
-                  'CropVariety_bonus',
-                  'VolumeWeight',
-                  'PrimeYield',
-                  'TasteRating',
-                  'BrownIntactRatio',
-                  'FarmingAdaption',
-                  'isTGAP',
-                  'nego_price',
-                  'is_sp_type',
-                  'CropWeight_by_ratio')
+    @api.depends('FinalPrice', 'nego_price')
     def _compute_total_price(self):
-        for record in self:
-            unit_tw = record.CropWeight_by_ratio / 60
-            record.TotalPrice = unit_tw * record.FinalPrice
-            if record.TotalPrice != 0:
-                record.PriceState = 'done'
-                self.stage_id = self._done_stage()
+        for rec in self:
+            rec.TotalPrice = rec.TotalPrice
 
     @api.onchange('is_sp_type')
     def _onchange_is_sp_type(self):
@@ -497,10 +495,10 @@ class Crop(models.Model):
     @api.onchange('CropStatus', 'RawHumidity', 'CropWeight')
     def _onchange_WetToDryRatio(self):
         for rec in self:
-            if rec.CropStatus == 'dry':
+            if rec.CropStatus == 'DRY':
                 rec.WetToDryRatio = 100
                 rec.CropWeight_by_ratio = rec.CropWeight
-            elif rec.CropStatus == 'humi':
+            elif rec.CropStatus == 'WET':
                 rec.WetToDryRatio = 100 - rec.RawHumidity + 8
                 r = rec.WetToDryRatio/100
                 rec.CropWeight_by_ratio = rec.CropWeight * r
@@ -555,6 +553,12 @@ class Crop(models.Model):
         fields['LastCreationTime'] = datetime.now()
 
         return super(Crop, self).create(fields)
+
+    def get_crop_name(self):
+        if self.is_sp_type:
+            return dict(self._fields['CropType'].selection).get(self.CropType) if self.CropType else ''
+        else:
+            return self.CropVariety.CropVariety_name if self.CropVariety else ''
 
     # @api.model
     # def default_get(self, fields):

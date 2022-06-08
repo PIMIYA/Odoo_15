@@ -12,6 +12,7 @@ class Archived(models.Model):
     _inherit = 'mail.thread'
     _rec_name = 'SellerName'
     _description = 'Archived'
+    _order = "LastCreationTime desc"
 
     # 農民資料
     member = fields.Many2one(
@@ -37,6 +38,29 @@ class Archived(models.Model):
         "NonLeasedArea", related="member.NonLeasedArea")
     MaxPurchaseQTY = fields.Float(
         "MaxPurchaseQTY", related="member.MaxPurchaseQTY")
+
+    # 帳號資料
+    MemberBankAccount = fields.Char(
+        compute='_compute_MemberBankAccount')
+    MemberBankName = fields.Char(compute='_compute_MemberBankName')
+    MemberBankAccountHolderName = fields.Char(
+        compute='_compute_MemberBankAccountHolderName')
+
+    @api.depends('member')
+    def _compute_MemberBankAccount(self):
+        for rec in self:
+            self.MemberBankAccount = rec.member.get_bank_info()['acc_number']
+
+    @api.depends('member')
+    def _compute_MemberBankName(self):
+        for rec in self:
+            self.MemberBankName = rec.member.get_bank_info()['bank_name']
+
+    @api.depends('member')
+    def _compute_MemberBankAccountHolderName(self):
+        for rec in self:
+            self.MemberBankAccountHolderName = rec.member.get_bank_info()[
+                'acc_holder_name']
     ##########
 
     # 成單的序號列表
@@ -112,6 +136,9 @@ class Archived(models.Model):
 
     def get_cn_num(self, input):
         return num2cn(math.floor(input), capitalize=True, traditional=True)
+
+    def get_date(self, input):
+        return "{:d}".format(input.year) + "/" + "{:0>2d}".format(input.month) + "/" + "{:0>2d}".format(input.day)
 
     def unlink(self):
         for seq in self.seq_numbers:

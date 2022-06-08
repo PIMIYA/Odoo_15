@@ -1,4 +1,5 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from types import SimpleNamespace
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -12,7 +13,8 @@ class Member(models.Model):
     _order = "SellerName desc"
 
     SellerName = fields.Char(required=False)
-    SellerId = fields.Char(required=False)
+    SellerId = fields.Char(string='SellerId', required=True,
+                           readonly=True, default=lambda self: _(' '))
     FarmerType = fields.Selection(
         [('non_contract', '非契作農民'), ('contract', '契作農民')], string='FarmerType', default='non_contract', required=False)
     Region = fields.Char(required=False)
@@ -33,13 +35,48 @@ class Member(models.Model):
     @api.depends('ContractArea')
     def _compute_QTY(self):
         params = self.env['ir.config_parameter'].sudo()
-        maxPurchaseQTYPerHectare = float(params.get_param('agriculture.maxPurchaseQTYPerHectare'))
+        maxPurchaseQTYPerHectare = float(params.get_param(
+            'agriculture.maxPurchaseQTYPerHectare'))
         for rec in self:
             rec.MaxPurchaseQTY = rec.ContractArea * maxPurchaseQTYPerHectare
 
-    # @api.model
-    # def unlink(self, fields):
-    #     _logger.info(f'this is the {fields} going to be deleted')
-    #     inherit_res_partner = self.env['res.partner']
-    #     _logger.info(f'this is the {inherit_res_partner} going to be deleted')
-    #     return super(Member, self).unlink()
+    @api.model
+    def create(self, fields):
+        if fields.get('SellerId', _(' ')) == _(' '):
+            fields['SellerId'] = self.env['ir.sequence'].next_by_code(
+                'agriculture.member') or _(' ')
+        res = super(Member, self).create(fields)
+        return res
+
+    def get_partner_attr(self, attr):
+        for rec in self:
+            _partner = self.env['res.partner']
+            partnerData = _partner.search(
+                [("SellerId", "=", rec.SellerId)], limit=1)
+            if partnerData:
+                if attr == 'address':
+                    return "({zip}) {country}{city}{state}{street}{street2}".format(
+                        zip=partnerData['zip'], country=partnerData['country_id'].name, city=partnerData['city'], state=partnerData['state_id'].name, street=partnerData['street'], street2=partnerData['street2'])
+                else:
+                    return partnerData[attr]
+
+    def get_bank_info(self):
+        result = {}
+        result['acc_number'] = ""
+        result['bank_name'] = ""
+        result['acc_holder_name'] = ""
+
+        for rec in self:
+            _partner = self.env['res.partner']
+            partnerData = _partner.search(
+                [("SellerId", "=", rec.SellerId)], limit=1)
+            if not partnerData:
+                return result
+            if not partnerData['bank_ids']:
+                return result
+            if not partnerData['bank_ids'][0]:
+                return result
+            result['acc_number'] = partnerData['bank_ids'][0].acc_number
+            result['bank_name'] = partnerData['bank_ids'][0].bank_name
+            result['acc_holder_name'] = partnerData['bank_ids'][0].acc_holder_name
+        return result

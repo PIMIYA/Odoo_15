@@ -12,6 +12,7 @@ class Storage(models.Model):
     StorageId = fields.Char(string='StorageId', required=True)
     # 有StorageId的每筆資料，從Materials抓取。
     Crops = fields.One2many(
+<<<<<<< HEAD
         'agriculture.storagematerials', 'StorageId', string='Materials')
 
     # 每個StorageId裡 每一筆資料的米種 所有的
@@ -25,9 +26,21 @@ class Storage(models.Model):
     TotalWeight = fields.Float('Total Weight')
 
     @api.depends('Crops.CropWeights', 'Crops.CropVarieties', 'Crops')
-    def _onchange_Crops(self):
+=======
+        'agriculture.crop', 'StorageId', string='Crops')
 
+    CropVarieties = fields.Char('CropVarieties')
+
+    TotalWeight = fields.Float(
+        'Total Weight', compute='_onchange_Crops', store=True)
+
+    @api.depends('Crops')
+>>>>>>> main
+    def _onchange_Crops(self):
+        cvWeight = []
+        cv = []
         for rec in self:
+<<<<<<< HEAD
             cvs = []  # 每個StorageId裡 每一筆資料的米種 所有的
             cvWeights = []  # 每個StorageId裡 每一筆資料的米重量 所有的
             for crop in rec.Crops:
@@ -58,3 +71,12 @@ class Storage(models.Model):
         if storage_rec:
             raise exceptions.ValidationError(
                 'Sorry, StorageId already Exists')
+=======
+            if rec.Crops:
+                for w in rec.Crops:
+                    cvWeight.append(w.CropWeight)
+                    for c in w.CropVariety:
+                        cv.append(c.CropVariety_name)
+        rec.TotalWeight = sum(cvWeight)
+        rec.CropVarieties = cv
+>>>>>>> main
