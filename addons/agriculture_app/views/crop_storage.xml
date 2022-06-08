@@ -52,14 +52,9 @@
           <sheet>
             <group name="group_left">
               <field name="StorageId" />
-<<<<<<< HEAD
               <field name="myList" readonly="1"></field>
               <field name="CropVarieties" readonly="1"></field>
               <field name="CropWeights" readonly="1"></field>
-=======
-              <field name="CropVarieties" readonly="1"/>
-              <field name="TotalWeight" />
->>>>>>> main
             </group>
           </sheet>
         </form>
