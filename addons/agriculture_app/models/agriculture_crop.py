@@ -194,14 +194,7 @@ class Crop(models.Model):
 
     DryingFee = fields.Float('DryingFee', required=True, default=0.0)
 
-<<<<<<< HEAD
     StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
-    # StorageId = fields.Many2one(
-    #     'agriculture.storage', 'StorageId', required=False)  # 存放的倉庫編號
-=======
-    # StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
-    StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
->>>>>>> main
     DryerId = fields.Char('DryerId', required=False)  # 洗米機編號
 
     is_sp_type = fields.Boolean(string='is_sp_type', default=False)
