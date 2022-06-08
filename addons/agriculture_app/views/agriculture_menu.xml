@@ -70,6 +70,8 @@
     </record>
     
     <!-- Menu item to open the Storage  -->
-    <!-- <menuitem id="menu_agriculture_storage" name="Storage" parent="menu_agriculture" action="action_agriculture_storage" sequence="10" /> -->
+    <menuitem id="menu_agriculture_storage" name="Storage" parent="menu_agriculture" sequence="10" />
+    <menuitem id="menu_agriculture_materials" name="Materials" parent="menu_agriculture_storage" action="action_agriculture_materials"/>
+    <menuitem id="menu_agriculture_storage_area" name="Storage ID" parent="menu_agriculture_storage" action="action_agriculture_storage_area"/>
 
 </odoo>
