@@ -10,3 +10,4 @@ from . import crop_stage
 from . import inherit_res_partner
 from . import settings
 from . import crop_storage
+from . import crop_storage_materials

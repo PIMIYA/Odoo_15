@@ -29,6 +29,7 @@
         "views/crop_variety_view.xml",
         "views/settings.xml",
         "views/crop_storage.xml",
+        "views/crop_storage_materials.xml",
         "views/agriculture_menu.xml",
         "report/agriculture_archived_reports.xml",
         "report/agriculture_archived_templates.xml",
