@@ -74,4 +74,15 @@
     <menuitem id="menu_agriculture_materials" name="Materials" parent="menu_agriculture_storage" action="action_agriculture_materials"/>
     <menuitem id="menu_agriculture_storage_area" name="Storage ID" parent="menu_agriculture_storage" action="action_agriculture_storage_area"/>
 
+
+
+    <!-- Action to open the Mnmber list -->
+    <record id="action_agriculture_order" model="ir.actions.act_window">
+        <field name="name">Orders</field>
+        <field name="res_model">agriculture.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Menu item to open the Member list -->
+    <menuitem id="menu_agriculture_order" name="Orders" parent="menu_agriculture" action="action_agriculture_order" sequence="14" />
+
 </odoo>
