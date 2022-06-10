@@ -1,0 +1,18 @@
+<odoo>
+  <!-- inherit view from res.partner -->
+    <record model="ir.ui.view" id="view_inherit_form_stock_picking">
+      <field name="name">view_inherit_form_stock_picking</field>
+      <field name="model">stock.picking</field>
+      <field name="inherit_id" ref="stock.view_picking_form"/>
+      <field name="arch" type="xml">
+          <button name='action_toggle_is_locked' position="after">
+            <button name="button_carrier_call"
+                    type="object"
+                    string="Call Carrier"
+                    attrs="{'invisible': ['|', ('state', 'in', ('draft','cancel')), ('is_locked', '=', False)]}"
+                    states="open"
+                    class="oe_highlight" />
+          </button>
+      </field>
+    </record>
+  </odoo>

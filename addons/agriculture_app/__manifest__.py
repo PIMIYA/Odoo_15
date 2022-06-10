@@ -30,6 +30,7 @@
         "views/settings.xml",
         "views/crop_storage.xml",
         "views/crop_storage_materials.xml",
+        "views/inherit_stock_picking.xml",
         "views/agriculture_menu.xml",
         "report/agriculture_archived_reports.xml",
         "report/agriculture_archived_templates.xml",
