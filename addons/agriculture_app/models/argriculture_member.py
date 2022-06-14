@@ -55,8 +55,20 @@ class Member(models.Model):
                 [("SellerId", "=", rec.SellerId)], limit=1)
             if partnerData:
                 if attr == 'address':
-                    return "({zip}) {country}{city}{state}{street}{street2}".format(
-                        zip=partnerData['zip'], country=partnerData['country_id'].name, city=partnerData['city'], state=partnerData['state_id'].name, street=partnerData['street'], street2=partnerData['street2'])
+                    return "{zip}{country}{city}{state}{street}{street2}".format(
+                        zip=partnerData['zip'] if partnerData['zip'] else '',
+                        country='({0}) '.format(partnerData['country_id'].name) if partnerData['country_id'].name else '',
+                        city=partnerData['city'] if partnerData['city'] else '',
+                        state=partnerData['state_id'].name if partnerData['state_id'].name else '',
+                        street=partnerData['street'] if partnerData['street'] else '',
+                        street2=partnerData['street2'] if partnerData['street2'] else '')
+                elif attr == 'total-phone':
+                    phones = []
+                    if partnerData['phone']:
+                        phones.append(partnerData['phone'])
+                    if partnerData['mobile']:
+                        phones.append(partnerData['mobile'])
+                    return ', '.join(str(x) for x in phones)
                 else:
                     return partnerData[attr]
 
