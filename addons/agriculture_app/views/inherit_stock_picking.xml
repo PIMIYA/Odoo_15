@@ -1,18 +1,31 @@
 <odoo>
   <!-- inherit view from res.partner -->
-    <record model="ir.ui.view" id="view_inherit_form_stock_picking">
-      <field name="name">view_inherit_form_stock_picking</field>
-      <field name="model">stock.picking</field>
-      <field name="inherit_id" ref="stock.view_picking_form"/>
-      <field name="arch" type="xml">
-          <button name='action_toggle_is_locked' position="after">
-            <button name="button_carrier_call"
-                    type="object"
-                    string="Call Carrier"
-                    attrs="{'invisible': ['|', ('state', 'in', ('draft','cancel')), ('is_locked', '=', False)]}"
-                    states="open"
-                    class="oe_highlight" />
-          </button>
+  <record model="ir.ui.view" id="view_inherit_form_stock_picking">
+    <field name="name">view_inherit_form_stock_picking</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form" />
+    <field name="arch" type="xml">
+      <button name='action_toggle_is_locked' position="after">
+        <button name="button_carrier_call" type="object" string="Call Carrier" attrs="{'invisible': ['|', ('state', 'in', ('draft','cancel')), ('is_locked', '=', False)]}" states="open" class="oe_highlight" />
+      </button>
+
+      <field name="backorder_id" position="after">
+        <div class="o_td_label">
+          <label for="PackageName" string="Package Name" />
+        </div>
+        <field name="PackageName" nolabel="1" />
+
+        <div class="o_td_label">
+          <label for="ShipmentDate" string="Shipment Date" />
+        </div>
+        <field name="ShipmentDate" nolabel="1" widget="date" />
+
+        <div class="o_td_label">
+          <label for="HopeArriveDate" string="Hope Arrive Date" />
+        </div>
+        <field name="HopeArriveDate" nolabel="1" widget="date" />
       </field>
-    </record>
-  </odoo>
+
+    </field>
+  </record>
+</odoo>
