@@ -12,6 +12,8 @@ class Inherit_stock_picking(models.Model):
     ShipmentDate = fields.Date("ShipmentDate", require=True)
     HopeArriveDate = fields.Date("HopeArriveDate", require=True)
 
+    blackcat_obt_id = fields.Many2one('agriculture.blackcat_obt')
+
     def doBlackCat(self, packageItems):
         for item in packageItems:
             _logger.info(item.product_id)
@@ -94,6 +96,7 @@ class Inherit_stock_picking(models.Model):
             Orders=[orderData])
         response = request_print_obt(orderRequest)
         _logger.info(response)
+        # Create black obt TODO
 
     def button_carrier_call(self):
         self.ensure_one()
