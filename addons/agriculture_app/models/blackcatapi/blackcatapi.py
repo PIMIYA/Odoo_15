@@ -12,7 +12,7 @@ class ApiDataEncoder(json.JSONEncoder):
         return o.__dict__
 
 
-class Order(object):
+class PrintObtOrder(object):
     OBTNumber: str
     OrderId: int
     Thermosphere: str
@@ -41,11 +41,11 @@ class Order(object):
     ProductName: str
     Memo: str
 
-    def __init__(self, OBTNumber: str = None, OrderId: int = None, Thermosphere: str = None, Spec: str = None, ReceiptLocation: str = None, ReceiptStationNo: str = None,
-                 RecipientName: str = None, RecipientTel: str = None, RecipientMobile: str = None, RecipientAddress: str = None, SenderName: str = None, SenderTel: str = None,
-                 SenderMobile: str = None, SenderZipCode: int = None,  SenderAddress: str = None, ShipmentDate: int = None, DeliveryDate: int = None, DeliveryTime: str = None,
-                 IsFreight: str = None, IsCollection: str = None, CollectionAmount: int = None, IsSwipe: str = None, IsDeclare: str = None, DeclareAmount: int = None,
-                 ProductTypeId: str = None, ProductName: str = None, Memo: str = None) -> None:
+    def __init__(self, OBTNumber: str = "", OrderId: int = None, Thermosphere: str = "", Spec: str = "", ReceiptLocation: str = "", ReceiptStationNo: str = "",
+                 RecipientName: str = "", RecipientTel: str = "", RecipientMobile: str = "", RecipientAddress: str = "", SenderName: str = "", SenderTel: str = "",
+                 SenderMobile: str = "", SenderZipCode: int = None,  SenderAddress: str = "", ShipmentDate: int = None, DeliveryDate: int = None, DeliveryTime: str = "",
+                 IsFreight: str = "", IsCollection: str = "", CollectionAmount: int = None, IsSwipe: str = "", IsDeclare: str = "", DeclareAmount: int = None,
+                 ProductTypeId: str = "", ProductName: str = "", Memo: str = ""):
         self.OBTNumber = OBTNumber
         self.OrderId = OrderId
         self.Thermosphere = Thermosphere
@@ -75,14 +75,18 @@ class Order(object):
         self.Memo = Memo
 
 
-class PrintObtData(object):
+class PrintObtRequestData(object):
     CustomerId: str
     CustomerToken: str
     PrintType: str
     PrintOBTType: str
-    Orders: List[Order]
+    Orders: List[PrintObtOrder]
 
-    def __init__(self, CustomerId: str = None, CustomerToken: str = None, PrintType: str = None, PrintOBTType: str = None, Orders: List[Order] = None) -> None:
+    def __init__(self, CustomerId: str = "",
+                 CustomerToken: str = "",
+                 PrintType: str = "",
+                 PrintOBTType: str = "",
+                 Orders: List[PrintObtOrder] = None):
         self.CustomerId = CustomerId
         self.CustomerToken = CustomerToken
         self.PrintType = PrintType
@@ -90,56 +94,23 @@ class PrintObtData(object):
         self.Orders = Orders
 
 
-def print_obt(body):
+def request_print_obt(body: PrintObtRequestData):
     data = json.dumps(body, cls=ApiDataEncoder).encode()
     url_path = BASE_URL.format(cmd='PrintOBT')
     req = Request(url_path, method='POST', data=data, headers={
         'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'})
-    with urlopen(req, timeout=120) as response:
-        content = response.read().decode('utf-8')
-        result = json.loads(content)
-        print(type(result))
-        print(result)
-
-
-if __name__ == '__main__':
-    content = """{
-    "CustomerId": "8048503301",
-    "CustomerToken": "a9oob4cl",
-    "PrintType": "01",
-    "PrintOBTType": "01",
-    "Orders": [
-        {
-            "OBTNumber": "",
-            "OrderId": "12345",
-            "Thermosphere": "0001",
-            "Spec": "0002",
-            "ReceiptLocation": "01",
-            "ReceiptStationNo": "",
-            "RecipientName": "test",
-            "RecipientTel": "",
-            "RecipientMobile": "0912123123",
-            "RecipientAddress": "台北市忠孝東路五段1號1樓",
-            "SenderName": "test",
-            "SenderTel": "",
-            "SenderMobile": "0912123123",
-            "SenderZipCode": "110111",
-            "SenderAddress": "台北市忠孝東路五段1號1樓",
-            "ShipmentDate": "20220503",
-            "DeliveryDate": "20220503",
-            "DeliveryTime": "02",
-            "IsFreight": "N",
-            "IsCollection": "N",
-            "CollectionAmount": 0,
-            "IsSwipe": "N",
-            "IsDeclare": "N",
-            "DeclareAmount": 0,
-            "ProductTypeId": "0001",
-            "ProductName": "Rice",
-            "Memo": ""
+    try:
+        with urlopen(req, timeout=120) as response:
+            content = response.read().decode('utf-8')
+            result = json.loads(content)
+            return {
+                'success': True,
+                'data': result,
+                'error': None
+            }
+    except Exception as error:
+        return {
+            'success': False,
+            'data': None,
+            'error': error.reason()
         }
-    ]
-}"""
-    jObj = json.loads(content)
-    data = PrintObtData(**jObj)
-    print_obt(data)

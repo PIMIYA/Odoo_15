@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import pycnnum
+from . import blackcatapi
 from . import agriculture_crop
 from . import agriculture_archived_additional_item
 from . import agriculture_archived
