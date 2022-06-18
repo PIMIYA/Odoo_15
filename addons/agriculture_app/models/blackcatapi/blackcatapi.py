@@ -103,6 +103,13 @@ def request_print_obt(body: PrintObtRequestData):
         with urlopen(req, timeout=120) as response:
             content = response.read().decode('utf-8')
             result = json.loads(content)
+            if result['IsOK'] != 'Y':
+                return {
+                    'success': False,
+                    'data': None,
+                    'error': result['Message']
+                }
+
             return {
                 'success': True,
                 'data': result,

@@ -1,18 +1,27 @@
-from odoo import models, fields, exceptions
+from odoo import models, fields, api, exceptions
 import logging
 from .blackcatapi import PrintObtOrder, PrintObtRequestData, request_print_obt
 
 _logger = logging.getLogger(__name__)
 
 
+DefinedBlackcatState = [
+    ('none', 'None'),
+    ('obtRequested', 'OBT Requested'),
+]
+
+
 class Inherit_stock_picking(models.Model):
     _inherit = 'stock.picking'
+
+    BlackcatObtId = fields.One2many(
+        'agriculture.blackcat_obt', 'StockPickingId', 'Blackcat OBT')
+    BlackcatState = fields.Selection(
+        DefinedBlackcatState, 'State', default=DefinedBlackcatState[0][0])
 
     PackageName = fields.Char("PackageName", require=True)
     ShipmentDate = fields.Date("ShipmentDate", require=True)
     HopeArriveDate = fields.Date("HopeArriveDate", require=True)
-
-    blackcat_obt_id = fields.Many2one('agriculture.blackcat_obt')
 
     def doBlackCat(self, packageItems):
         for item in packageItems:
@@ -95,8 +104,25 @@ class Inherit_stock_picking(models.Model):
             PrintType="01",
             Orders=[orderData])
         response = request_print_obt(orderRequest)
-        _logger.info(response)
-        # Create black obt TODO
+        # _logger.info(response)
+        if response['success']:
+            # Create black obt
+            data = response['data']
+            # _logger.info(data)
+            if not data:
+                raise exceptions.ValidationError('Response data is null')
+
+            self.write({'BlackcatObtId': [
+                (0, 0, {
+                    'SrvTranId': data['SrvTranId'],
+                    'OBTNumber': data['Data']['Orders'][0]['OBTNumber'],
+                    'FileNo': data['Data']['FileNo'],
+                    'StockPickingId': self
+                })
+            ]})
+            pass
+        else:
+            raise exceptions.ValidationError(response['error'])
 
     def button_carrier_call(self):
         self.ensure_one()
@@ -107,3 +133,8 @@ class Inherit_stock_picking(models.Model):
                 self.doBlackCat(self.move_ids_without_package)
 
         return True
+
+    @api.model
+    def create(self, vals):
+        self.env.cr.commit()
+        return super(Inherit_stock_picking, self).create(vals)

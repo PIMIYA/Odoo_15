@@ -13,3 +13,4 @@ from . import settings
 from . import crop_storage
 from . import crop_storage_materials
 from . import inherit_stock_picking
+from . import agriculture_blackcat_obt

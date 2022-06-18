@@ -13,8 +13,6 @@
     <menuitem id="menu_agriculture_crop" name="Crops" parent="menu_agriculture" action="action_agriculture_crop" sequence="2" />
 
 
-
-
     <!-- Action to open the Archived list -->
     <record id="action_agriculture_archived" model="ir.actions.act_window">
         <field name="name">Archived</field>
@@ -30,7 +28,6 @@
         <field name="res_model">agriculture.archived_additional_item</field>
         <field name="view_mode">tree,form</field>
     </record>
-
 
 
     <!-- Action to open the Mnmber list -->
@@ -51,9 +48,9 @@
     </record>
     <!-- Menu item to open the CropVariety list -->
     <menuitem id="menu_agriculture_configuration" name="Configuration" parent="menu_agriculture" sequence="100" />
-    
-    <menuitem id="menu_agriculture_crop_variety" name="CropVariety" parent="menu_agriculture_configuration" action="action_agriculture_crop_variety"/>
-    <menuitem id="menu_agriculture_settings" name="Price Estimated Settings" parent="menu_agriculture_configuration" action="res_config_settings_menu_action"/>
+
+    <menuitem id="menu_agriculture_crop_variety" name="CropVariety" parent="menu_agriculture_configuration" action="action_agriculture_crop_variety" />
+    <menuitem id="menu_agriculture_settings" name="Price Estimated Settings" parent="menu_agriculture_configuration" action="res_config_settings_menu_action" />
 
 
     <!-- Action to open the Storage all materials -->
@@ -68,12 +65,19 @@
         <field name="res_model">agriculture.storage</field>
         <field name="view_mode">kanban,form</field>
     </record>
-    
+
     <!-- Menu item to open the Storage  -->
     <menuitem id="menu_agriculture_storage" name="Storage" parent="menu_agriculture" sequence="10" />
-    <menuitem id="menu_agriculture_materials" name="Materials" parent="menu_agriculture_storage" action="action_agriculture_materials"/>
-    <menuitem id="menu_agriculture_storage_area" name="Storage ID" parent="menu_agriculture_storage" action="action_agriculture_storage_area"/>
+    <menuitem id="menu_agriculture_materials" name="Materials" parent="menu_agriculture_storage" action="action_agriculture_materials" />
+    <menuitem id="menu_agriculture_storage_area" name="Storage ID" parent="menu_agriculture_storage" action="action_agriculture_storage_area" />
 
 
-
+    <!-- Menu item for blackcat obt -->
+    <record id="action_agriculture_blackcat_obt" model="ir.actions.act_window">
+        <field name="name">Blackcat OBT</field>
+        <field name="res_model">agriculture.blackcat_obt</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+    <menuitem id="menu_agriculture_blackcat" name="Blackcat" parent="menu_agriculture" sequence="99" />
+    <menuitem id="menu_agriculture_blackcat_obt" name="Blackcat OBT" parent="menu_agriculture_blackcat" action="action_agriculture_blackcat_obt" />
 </odoo>

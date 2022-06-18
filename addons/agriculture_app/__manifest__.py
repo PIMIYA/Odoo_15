@@ -32,6 +32,7 @@
         "views/crop_storage_materials.xml",
         "views/inherit_stock_picking.xml",
         "views/agriculture_menu.xml",
+        "views/archived_blackcat_obt.xml",
         "report/agriculture_archived_reports.xml",
         "report/agriculture_archived_templates.xml",
         "report/agriculture_crop_reports.xml",
