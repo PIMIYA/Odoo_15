@@ -1,9 +1,15 @@
+import base64
+from http.client import HTTPException
 from typing import List
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 import json
+import logging
 
-BASE_URL_DEV = 'http://apitestsuda.southeastasia.cloudapp.azure.com:8081/api/Egs/{cmd}'
-BASE_URL_PRODUCT = 'https://api.suda.com.tw/api/Egs/{cmd}'
+_logger = logging.getLogger(__name__)
+
+BASE_URL_DEV = 'http://apitestsuda.southeastasia.cloudapp.azure.com:8081/api/egs/{cmd}'
+BASE_URL_PRODUCT = 'https://api.suda.com.tw/api/egs/{cmd}'
 BASE_URL = BASE_URL_DEV
 
 
@@ -94,12 +100,49 @@ class PrintObtRequestData(object):
         self.Orders = Orders
 
 
-def request_print_obt(body: PrintObtRequestData):
-    data = json.dumps(body, cls=ApiDataEncoder).encode()
-    url_path = BASE_URL.format(cmd='PrintOBT')
-    req = Request(url_path, method='POST', data=data, headers={
-        'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'})
+class SearchAddress(object):
+    Search: str
+
+    def __init__(self, Search: str):
+        self.Search = Search
+
+
+class AddressRequestData(object):
+    CustomerId: str
+    CustomerToken: str
+    Addresses: List[SearchAddress]
+
+    def __init__(self, CustomerId: str = "",
+                 CustomerToken: str = "",
+                 Addresses: List[SearchAddress] = None):
+        self.CustomerId = CustomerId
+        self.CustomerToken = CustomerToken
+        self.Addresses = Addresses
+
+
+class ShippingPdfRequestData(object):
+    CustomerId: str
+    CustomerToken: str
+    FileNo: str
+
+    def __init__(self, CustomerId: str = f"",
+                 CustomerToken: str = f"",
+                 FileNo: str = f""):
+        self.CustomerId = CustomerId
+        self.CustomerToken = CustomerToken
+        self.FileNo = FileNo
+
+
+def get_zipcode(postNumber: str):
+    return postNumber.replace("-", "")[-6:]
+
+
+def blackcat_request(body: object, requestCmd: str):
     try:
+        data = json.dumps(body, cls=ApiDataEncoder).encode()
+        url_path = BASE_URL.format(cmd=requestCmd)
+        req = Request(url_path, method='POST', data=data, headers={
+            'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'})
         with urlopen(req, timeout=120) as response:
             content = response.read().decode('utf-8')
             result = json.loads(content)
@@ -115,9 +158,61 @@ def request_print_obt(body: PrintObtRequestData):
                 'data': result,
                 'error': None
             }
+    except HTTPError as error:
+        return {
+            'success': False,
+            'data': None,
+            'error': f"Http error {error.code=}"
+        }
+    except URLError as error:
+        return {
+            'success': False,
+            'data': None,
+            'error': error.reason
+        }
     except Exception as error:
         return {
             'success': False,
             'data': None,
-            'error': error.reason()
+            'error': f"Unexpected {error=}, {type(error)=}"
+        }
+
+
+def request_print_obt(body: PrintObtRequestData):
+    requestCmd = f"PrintOBT"
+    return blackcat_request(body=body, requestCmd=requestCmd)
+
+
+def request_address(body: AddressRequestData):
+    requestCmd = f"ParsingAddress"
+    return blackcat_request(body=body, requestCmd=requestCmd)
+
+
+def request_pdf(body: ShippingPdfRequestData):
+    requestCmd = f"DownloadOBT"
+    try:
+        data = json.dumps(body, cls=ApiDataEncoder).encode()
+        url_path = BASE_URL.format(cmd=requestCmd)
+        req = Request(url_path, method='POST', data=data, headers={
+            'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'})
+        with urlopen(req, timeout=120) as response:
+            content = response.read()
+            return base64.b64encode(content)
+    except HTTPError as error:
+        return {
+            'success': False,
+            'data': None,
+            'error': f"Http error {error.code=}"
+        }
+    except URLError as error:
+        return {
+            'success': False,
+            'data': None,
+            'error': error.reason
+        }
+    except Exception as error:
+        return {
+            'success': False,
+            'data': None,
+            'error': f"Unexpected {error=}, {type(error)=}"
         }

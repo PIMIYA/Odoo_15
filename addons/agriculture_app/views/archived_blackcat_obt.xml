@@ -12,6 +12,8 @@
               <field name="SrvTranId" readonly="1" />
               <field name="OBTNumber" readonly="1" />
               <field name="FileNo" readonly="1" />
+              <field name="ShippingPdfFilename" invisible="1" />
+              <field name="ShippingPdf" filename="ShippingPdfFilename" />
               <field name="StockPickingId" string="Stock Picking" readonly="1" />
             </group>
           </sheet>

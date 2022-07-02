@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -12,3 +12,16 @@ class BlackcatObt(models.Model):
     SrvTranId = fields.Char('SrvTranId', require=True)
     OBTNumber = fields.Char('OBTNumber', require=True)
     FileNo = fields.Char('FileNo', require=True)
+    ShippingPdf = fields.Binary('ShippingPdf')
+    ShippingPdfFilename = fields.Char(
+        string='PDF Filename',
+        compute='_compute_pdf_filename'
+    )
+
+    @api.depends('ShippingPdf')
+    def _compute_pdf_filename(self):
+        self.ensure_one()
+        name = self.OBTNumber.replace('/', '_')
+        name = name.replace('.', '_')
+        name = name + '.pdf'
+        self.ShippingPdfFilename = name

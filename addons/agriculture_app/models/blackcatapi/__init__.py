@@ -3,5 +3,11 @@ from .blackcatapi import *
 __all__ = [
     "PrintObtOrder",
     "PrintObtRequestData",
-    "request_print_obt"
+    "SearchAddress",
+    "AddressRequestData",
+    "ShippingPdfRequestData",
+    "get_zipcode",
+    "request_print_obt",
+    "request_address",
+    "request_pdf"
 ]
