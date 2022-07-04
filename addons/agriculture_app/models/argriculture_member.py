@@ -57,7 +57,8 @@ class Member(models.Model):
                 if attr == 'address':
                     return "{zip}{country}{city}{state}{street}{street2}".format(
                         zip=partnerData['zip'] if partnerData['zip'] else '',
-                        country='({0}) '.format(partnerData['country_id'].name) if partnerData['country_id'].name else '',
+                        country='({0}) '.format(
+                            partnerData['country_id'].name) if partnerData['country_id'].name else '',
                         city=partnerData['city'] if partnerData['city'] else '',
                         state=partnerData['state_id'].name if partnerData['state_id'].name else '',
                         street=partnerData['street'] if partnerData['street'] else '',
@@ -69,6 +70,18 @@ class Member(models.Model):
                     if partnerData['mobile']:
                         phones.append(partnerData['mobile'])
                     return ', '.join(str(x) for x in phones)
+                elif attr == 'phone-or-mobile':
+                    if partnerData['phone']:
+                        return partnerData['phone']
+                    if partnerData['mobile']:
+                        return partnerData['mobile']
+                    return ""
+                elif attr == 'mobile-or-phone':
+                    if partnerData['mobile']:
+                        return partnerData['mobile']
+                    if partnerData['phone']:
+                        return partnerData['phone']
+                    return ""
                 else:
                     return partnerData[attr]
 
