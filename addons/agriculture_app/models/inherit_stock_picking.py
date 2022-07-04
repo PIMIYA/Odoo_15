@@ -36,7 +36,7 @@ class Inherit_stock_picking(models.Model):
         if not self.HopeArriveDate:
             raise exceptions.ValidationError(
                 'HopeArrive date must not be empty')
-        recipientPhone = self.partner_id.Member.get_partner_attr('phone')
+        recipientPhone = self.partner_id.Member.get_partner_attr('total-phone')
         if not recipientPhone:
             raise exceptions.ValidationError(
                 'Recipient phone must not be empty')
