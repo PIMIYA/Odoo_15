@@ -93,6 +93,14 @@ class Preferences(models.TransientModel):
     maxPurchaseQTYPerHectare = fields.Float(
         'MaxPurchaseQTYPerHectare', default=6000.0)
 
+    # Logistics configuration
+    # ----------------------------------------------------------
+    blackCat_customer_id = fields.Char(
+        'BlackCat_Customer_Id', default='xxxxxxxxxxx')
+
+    blackCat_api_token = fields.Char(
+        'BlackCat_Api_Token', default='xxxxxxxxxxxxxxxxxxxx')
+
     def set_values(self):
         """agriculture setting field values"""
         res = super(Preferences, self).set_values()
@@ -145,6 +153,10 @@ class Preferences(models.TransientModel):
         icp.set_param('agriculture.multiplication', self.multiplication)
         icp.set_param('agriculture.maxPurchaseQTYPerHectare',
                       self.maxPurchaseQTYPerHectare)
+        icp.set_param('agriculture.blackCat_customer_id',
+                      self.blackCat_customer_id),
+        icp.set_param('agriculture.blackCat_api_token',
+                      self.blackCat_api_token)
         return res
 
     def get_values(self):
@@ -209,6 +221,10 @@ class Preferences(models.TransientModel):
         ).get_param('agriculture.multiplication', default=20.0)
         value_maxPurchaseQTYPerHectare = icp.sudo().get_param(
             'agriculture.maxPurchaseQTYPerHectare', default=6000.0)
+        value_blackCat_customer_id = icp.sudo().get_param(
+            'agriculture.blackCat_customer_id', default='xxxxxxxxxxx')
+        value_blackCat_api_token = icp.sudo().get_param(
+            'agriculture.blackCat_api_token', default='xxxxxxxxxxxxxxxxxxxx')
 
         res.update(
             BasePrice=float(value_BasePrice),
@@ -242,5 +258,7 @@ class Preferences(models.TransientModel):
                 value_final_PrimeYieldIsOverAndEqualTo),
             multiplication=float(value_multiplication),
             maxPurchaseQTYPerHectare=float(value_maxPurchaseQTYPerHectare),
+            blackCat_customer_id=value_blackCat_customer_id,
+            blackCat_api_token=value_blackCat_api_token,
         )
         return res

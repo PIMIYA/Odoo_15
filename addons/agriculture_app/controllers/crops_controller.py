@@ -180,11 +180,16 @@ class Crops(http.Controller):
 
         else:
             try:
+                _logger.info(f"check_record is {check_record}, before updated")
                 data['SellerName'] = member_id
                 data['CropVariety'] = cropvariety_id
-                id = check_record.sudo().create(data).id
-                crop = check_record.sudo().browse(id)
-                _logger.info("Successfully create the record `%s`." % crop)
+                id = check_record.sudo().update(data).id
+                crop = rec_to_put.sudo().search(
+                    [('SeqNumber', '=', seqNumber)])
+                '''
+                    something need to be double checked
+                '''
+                _logger.info(f"Successfully create the record `{crop}`.")
                 serializer = Serializer(crop)
                 s_data = serializer.data
                 return s_data

@@ -68,6 +68,10 @@
                             <group string="MaxPurchaseQTYPerHectare">
                                 <field name="maxPurchaseQTYPerHectare"/>
                             </group>
+                            <group string="BlackCatLogisticConfig">
+                                <field name="blackCat_customer_id"/>
+                                <field name="blackCat_api_token"/>
+                            </group>
                     </div>
                </div>
            </div>
