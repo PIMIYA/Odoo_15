@@ -10,6 +10,11 @@
       </button>
 
       <field name="backorder_id" position="after">
+        <field name="BlackcatState" readonly="1" />
+        <field name="BlackcatObtId" widget="Many2one">
+          <span t-field="BlackcatObtId.OBTNumber" />
+        </field>
+
         <div class="o_td_label">
           <label for="PackageName" string="Package Name" />
         </div>

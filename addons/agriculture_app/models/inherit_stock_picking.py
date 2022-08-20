@@ -1,4 +1,5 @@
 from odoo import models, fields, api, exceptions
+from odoo.tools.translate import _
 import logging
 from .blackcatapi import PrintObtOrder, PrintObtRequestData, SearchAddress, AddressRequestData, ShippingPdfRequestData, \
     get_zipcode, request_print_obt, request_address, request_pdf
@@ -9,13 +10,16 @@ _logger = logging.getLogger(__name__)
 DefinedBlackcatState = [
     ('none', 'None'),
     ('obtRequested', 'OBT Requested'),
+    ('printRequested', 'Print Requested'),
 ]
 
 
 class Inherit_stock_picking(models.Model):
     _inherit = 'stock.picking'
 
-    BlackcatObtId = fields.One2many(
+    BlackcatObtId = fields.Many2one(
+        'agriculture.blackcat_obt', compute='compute_blackcat_obt', inverse='blackcat_obt_inverse')
+    BlackcatObtIds = fields.One2many(
         'agriculture.blackcat_obt', 'StockPickingId', 'Blackcat OBT')
     BlackcatState = fields.Selection(
         DefinedBlackcatState, 'State', default=DefinedBlackcatState[0][0])
@@ -24,9 +28,39 @@ class Inherit_stock_picking(models.Model):
     ShipmentDate = fields.Date("ShipmentDate", require=True)
     HopeArriveDate = fields.Date("HopeArriveDate", require=True)
 
+    @api.depends('BlackcatObtIds')
+    def compute_blackcat_obt(self):
+        idx = len(self.BlackcatObtIds)
+        if idx > 0:
+            self.BlackcatObtId = self.BlackcatObtIds[idx - 1]
+
+    def blackcat_obt_inverse(self):
+        idx = len(self.BlackcatObtIds)
+        if idx > 0:
+            # delete previous reference
+            asset = self.env['agriculture.blackcat_obt'].browse(
+                self.BlackcatObtIds[0].id)
+            asset.StockPickingId = False
+        # set new reference
+        self.BlackcatObtId.StockPickingId = self
+
+    def create_notification(self):
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Success'),
+                'message': _('Success'),
+                'type': 'success',
+                'sticky': False,
+                'fadeout': 'slow',
+                'next': {
+                    'type': 'ir.actions.act_window_close',
+                }
+            }
+        }
+
     def requestBlackCat(self, packageItems):
-        for item in packageItems:
-            _logger.info(item.product_id)
         if not self.PackageName:
             raise exceptions.ValidationError(
                 'Package name must not be empty')
@@ -75,10 +109,17 @@ class Inherit_stock_picking(models.Model):
         # _logger.info('delivery date: {0}'.format(
         #     self.HopeArriveDate.strftime('%Y%m%d')))
 
-        # TODO
-        customerId = str("8048503301")
-        # TODO
-        customerToken = str("a9oob4cl")
+        config = self.env['ir.config_parameter'].sudo()
+        customerId = config.get_param('agriculture.blackCat_customer_id')
+        customerToken = config.get_param('agriculture.blackCat_api_token')
+        apiBaseUrl = config.get_param('agriculture.blackCat_api_url')
+        if not customerId:
+            raise exceptions.ValidationError('請設定黑貓客戶編號')
+        if not customerToken:
+            raise exceptions.ValidationError('請設定黑貓授權碼')
+        if not apiBaseUrl:
+            raise exceptions.ValidationError('請設定黑貓 API URL')
+
         productName = self.PackageName
 
         searchAddress = SearchAddress(Search=senderAddress)
@@ -89,7 +130,7 @@ class Inherit_stock_picking(models.Model):
         )
 
         zipCode = str('')
-        addressResponse = request_address(addressRequest)
+        addressResponse = request_address(apiBaseUrl, addressRequest)
         if addressResponse['success']:
             # Create black obt
             addressResData = addressResponse['data']
@@ -123,7 +164,7 @@ class Inherit_stock_picking(models.Model):
             IsSwipe="N",
             IsDeclare="N",
             DeclareAmount=0,
-            ProductTypeId="0004",
+            ProductTypeId="0001",
             ProductName=productName,
         )
         orderRequest = PrintObtRequestData(
@@ -132,9 +173,10 @@ class Inherit_stock_picking(models.Model):
             PrintOBTType="01",
             PrintType="01",
             Orders=[orderData])
-        orderReponse = request_print_obt(orderRequest)
+        orderReponse = request_print_obt(apiBaseUrl, orderRequest)
         # _logger.info(response)
         if orderReponse['success']:
+            self.BlackcatState = DefinedBlackcatState[1][0]
             # Create black obt
             data = orderReponse['data']
             # _logger.info(data)
@@ -147,9 +189,9 @@ class Inherit_stock_picking(models.Model):
                 CustomerToken=customerToken,
                 FileNo=data['Data']['FileNo']
             )
-            binaryData = request_pdf(pdfRequestData)
+            binaryData = request_pdf(apiBaseUrl, pdfRequestData)
 
-            self.write({'BlackcatObtId': [
+            self.write({'BlackcatObtIds': [
                 (0, 0, {
                     'SrvTranId': data['SrvTranId'],
                     'OBTNumber': data['Data']['Orders'][0]['OBTNumber'],
@@ -158,7 +200,9 @@ class Inherit_stock_picking(models.Model):
                     'StockPickingId': self
                 })
             ]})
-            pass
+            self.BlackcatState = DefinedBlackcatState[2][0]
+
+            return True
         else:
             raise exceptions.ValidationError(orderReponse['error'])
 
@@ -168,8 +212,8 @@ class Inherit_stock_picking(models.Model):
         if self.carrier_id:
             if self.carrier_id.name == 'blackcat':
                 # 呼叫物流貨運公司
-                self.requestBlackCat(self.move_ids_without_package)
-
+                if self.requestBlackCat(self.move_ids_without_package):
+                    return self.create_notification()
         return True
 
     @api.model

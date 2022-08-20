@@ -11,9 +11,9 @@
             <group>
               <field name="SrvTranId" readonly="1" />
               <field name="OBTNumber" readonly="1" />
-              <field name="FileNo" readonly="1" />
+              <field name="FileNo" readonly="1" invisible="1" />
               <field name="ShippingPdfFilename" invisible="1" />
-              <field name="ShippingPdf" filename="ShippingPdfFilename" />
+              <field name="ShippingPdf" filename="ShippingPdfFilename" readonly="1" />
               <field name="StockPickingId" string="Stock Picking" readonly="1" />
             </group>
           </sheet>
@@ -29,7 +29,6 @@
         <tree>
           <field name="SrvTranId" string="SrvTranId" />
           <field name="OBTNumber" string="OBTNumber" />
-          <field name="FileNo" string="FileNo" />
         </tree>
       </field>
     </record>
@@ -40,7 +39,7 @@
       <field name="model">agriculture.blackcat_obt</field>
       <field name="arch" type="xml">
         <search>
-          <field name="SrvTranId" />
+          <field name="OBTNumber" string="OBTNumber" />
         </search>
       </field>
     </record>

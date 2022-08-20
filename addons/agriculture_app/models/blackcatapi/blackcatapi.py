@@ -137,11 +137,17 @@ def get_zipcode(postNumber: str):
     return postNumber.replace("-", "")[-6:]
 
 
-def blackcat_request(body: object, requestCmd: str):
+def get_command_url(baseUrl: str, cmd: str):
+    if baseUrl.endswith('/'):
+        return '{baseUrl}{cmd}'.format(baseUrl=baseUrl, cmd=cmd)
+    else:
+        return '{baseUrl}/{cmd}'.format(baseUrl=baseUrl, cmd=cmd)
+
+
+def blackcat_request(body: object, requestUrl: str):
     try:
         data = json.dumps(body, cls=ApiDataEncoder).encode()
-        url_path = BASE_URL.format(cmd=requestCmd)
-        req = Request(url_path, method='POST', data=data, headers={
+        req = Request(requestUrl, method='POST', data=data, headers={
             'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'})
         with urlopen(req, timeout=120) as response:
             content = response.read().decode('utf-8')
@@ -178,22 +184,27 @@ def blackcat_request(body: object, requestCmd: str):
         }
 
 
-def request_print_obt(body: PrintObtRequestData):
+def request_print_obt(baseUrl: str, body: PrintObtRequestData):
     requestCmd = f"PrintOBT"
-    return blackcat_request(body=body, requestCmd=requestCmd)
+    url = get_command_url(baseUrl=baseUrl, cmd=requestCmd)
+    # _logger.info(url)
+    return blackcat_request(body=body, requestUrl=url)
 
 
-def request_address(body: AddressRequestData):
+def request_address(baseUrl: str, body: AddressRequestData):
     requestCmd = f"ParsingAddress"
-    return blackcat_request(body=body, requestCmd=requestCmd)
+    url = get_command_url(baseUrl=baseUrl, cmd=requestCmd)
+    # _logger.info(url)
+    return blackcat_request(body=body, requestUrl=url)
 
 
-def request_pdf(body: ShippingPdfRequestData):
+def request_pdf(baseUrl: str, body: ShippingPdfRequestData):
     requestCmd = f"DownloadOBT"
     try:
+        url = get_command_url(baseUrl=baseUrl, cmd=requestCmd)
+        # _logger.info(url)
         data = json.dumps(body, cls=ApiDataEncoder).encode()
-        url_path = BASE_URL.format(cmd=requestCmd)
-        req = Request(url_path, method='POST', data=data, headers={
+        req = Request(url, method='POST', data=data, headers={
             'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'})
         with urlopen(req, timeout=120) as response:
             content = response.read()

@@ -25,3 +25,11 @@ class BlackcatObt(models.Model):
         name = name.replace('.', '_')
         name = name + '.pdf'
         self.ShippingPdfFilename = name
+
+    def name_get(self):
+        result = []
+        for record in self:
+            record_name = 'Id: {id} 單號: {obt}'.format(
+                id=record.id, obt=record.OBTNumber)
+            result.append((record.id, record_name))
+        return result
