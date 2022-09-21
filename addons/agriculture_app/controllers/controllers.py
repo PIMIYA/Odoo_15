@@ -64,7 +64,12 @@ class Dolimi(http.Controller):
             #     'TotalPrice': record.TotalPrice,
             # })
 
-        return json.dumps(data, default=str)
+        # return json.dumps(data, default=str)
+        return http.Response(
+            json.dumps(data, default=str),
+            status=200,
+            mimetype='application/json'
+        )
 
     @http.route("/api/v1/test/http", auth='none', type='http', method=['GET'])
     def check_method_get(self, **kwargs):
