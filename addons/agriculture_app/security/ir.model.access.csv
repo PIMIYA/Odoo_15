@@ -5,3 +5,4 @@ access_argiculture_archived,access.argiculture.archived,model_agriculture_archiv
 access_agriculture_archived_additional_item,access.agriculture.archived.additional.item,model_agriculture_archived_additional_item,base.group_user,1,1,1,1
 access_agriculture_crop_variety,access.access_agriculture_crop_variety,model_agriculture_cropvariety,base.group_user,1,1,1,1
 acesss_agriculture_crop_stage,access.access_crop_stage,model_crop_stage,base.group_user,1,1,1,1
+access_agriculture_blackcat_obt,access.access_agriculture.blackcat_obt,model_agriculture_blackcat_obt,base.group_user,1,1,1,1
