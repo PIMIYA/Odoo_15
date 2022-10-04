@@ -215,7 +215,7 @@ class Inherit_stock_picking(models.Model):
         self.ensure_one()
         # 確認為物流貨運公司
         if self.carrier_id:
-            if self.carrier_id.name == 'blackcat':
+            if self.carrier_id.name == 'blackcat' or '黑貓宅急便':
                 # 呼叫物流貨運公司
                 if self.requestBlackCat(self.move_ids_without_package):
                     return self.create_notification()
