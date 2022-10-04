@@ -71,7 +71,7 @@ class Inherit_stock_picking(models.Model):
             raise exceptions.ValidationError(
                 'HopeArrive date must not be empty')
         recipientPhone = self.partner_id.Member.get_partner_attr(
-            'mobile-or-phone')
+            'mobile-or-phone').replace('+886', '0').replace(" ", "")
         if not recipientPhone:
             raise exceptions.ValidationError(
                 'Recipient phone must not be empty')
@@ -108,6 +108,10 @@ class Inherit_stock_picking(models.Model):
         #     self.ShipmentDate.strftime('%Y%m%d')))
         # _logger.info('delivery date: {0}'.format(
         #     self.HopeArriveDate.strftime('%Y%m%d')))
+
+        # _logger.info('phone: {0}'.format(recipientPhone))
+        # _logger.info('company_phone: {0}'.format(
+        #     current_company.phone.replace('+886', '0').replace(" ", "")))
 
         config = self.env['ir.config_parameter'].sudo()
         customerId = config.get_param('agriculture.blackCat_customer_id')
@@ -152,7 +156,8 @@ class Inherit_stock_picking(models.Model):
             RecipientTel=recipientPhone,
             RecipientAddress=recipientAddress,
             SenderName=current_company.name,
-            SenderTel=current_company.phone,
+            SenderTel=current_company.phone.replace(
+                '+886', '0').replace(" ", ""),
             SenderZipCode=zipCode,
             SenderAddress=senderAddress,
             ShipmentDate=self.ShipmentDate.strftime('%Y%m%d'),
