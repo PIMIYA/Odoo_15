@@ -15,10 +15,10 @@
           <span t-field="BlackcatObtId.OBTNumber" />
         </field>
 
-        <div class="o_td_label">
+        <!-- <div class="o_td_label">
           <label for="PackageName" string="Package Name" />
         </div>
-        <field name="PackageName" nolabel="1" />
+        <field name="PackageName" nolabel="1" /> -->
 
         <div class="o_td_label">
           <label for="ShipmentDate" string="Shipment Date" />

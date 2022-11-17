@@ -1,5 +1,6 @@
 from odoo import models, fields, api, exceptions
 from odoo.tools.translate import _
+from datetime import timedelta, date
 import logging
 from .blackcatapi import PrintObtOrder, PrintObtRequestData, SearchAddress, AddressRequestData, ShippingPdfRequestData, \
     get_zipcode, request_print_obt, request_address, request_pdf
@@ -24,9 +25,13 @@ class Inherit_stock_picking(models.Model):
     BlackcatState = fields.Selection(
         DefinedBlackcatState, 'State', default=DefinedBlackcatState[0][0])
 
-    PackageName = fields.Char("PackageName", require=True)
-    ShipmentDate = fields.Date("ShipmentDate", require=True)
-    HopeArriveDate = fields.Date("HopeArriveDate", require=True)
+    # '''需新增packageName對應至商品分類項目'''
+    # PackageName = fields.Char(
+    #     "PackageName", require=True)
+    ShipmentDate = fields.Date(
+        "ShipmentDate", require=True, default=date.today())
+    HopeArriveDate = fields.Date(
+        "HopeArriveDate", require=True, default=date.today()+timedelta(days=3))
 
     @api.depends('BlackcatObtIds')
     def compute_blackcat_obt(self):
@@ -61,21 +66,44 @@ class Inherit_stock_picking(models.Model):
         }
 
     def requestBlackCat(self, packageItems):
-        if not self.PackageName:
-            raise exceptions.ValidationError(
-                'Package name must not be empty')
+        # if not self.PackageName:
+        #     raise exceptions.ValidationError(
+        #         'Package name must not be empty')
         if not self.ShipmentDate:
             raise exceptions.ValidationError(
                 'Shipment date must not be empty')
         if not self.HopeArriveDate:
             raise exceptions.ValidationError(
                 'HopeArrive date must not be empty')
-        recipientPhone = self.partner_id.Member.get_partner_attr(
-            'mobile-or-phone').replace('+886', '0').replace(" ", "")
+        # recipientPhone = self.partner_id.Member.get_partner_attr(
+        #     'mobile-or-phone').replace('+886', '0').replace(" ", "")
+        if self.partner_id.mobile:
+            if self.partner_id.mobile.startswith('+886'):
+                recipientPhone = self.partner_id.mobile.replace(
+                    '+886', '0').replace(" ", "")
+            else:
+                recipientPhone = self.partner_id.mobile
+        else:
+            if self.partner_id.phone.startswith('+886'):
+                recipientPhone = self.partner_id.phone.replace(
+                    '+886', '0').replace(" ", "")
+            else:
+                recipientPhone = self.partner_id.phone
+
         if not recipientPhone:
             raise exceptions.ValidationError(
                 'Recipient phone must not be empty')
-        recipientAddress = self.partner_id.Member.get_partner_attr('address')
+        # recipientAddress = self.partner_id.Member.get_partner_attr('address')
+        # recipientAddress = self.partner_id.contact_address
+        if self.partner_id.street2:
+            recipientAddress = "{0}{1}{2}{3}".format(
+                self.partner_id.zip, self.partner_id.city, self.partner_id.street, self.partner_id.street2)
+        else:
+            recipientAddress = "{0}{1}{2}".format(
+                self.partner_id.zip, self.partner_id.city, self.partner_id.street)
+
+        _logger.info('recipientAddress: %s', recipientAddress)
+
         if not recipientAddress:
             raise exceptions.ValidationError(
                 'Recipient address must not be empty')
@@ -124,7 +152,13 @@ class Inherit_stock_picking(models.Model):
         if not apiBaseUrl:
             raise exceptions.ValidationError('請設定黑貓 API URL')
 
-        productName = self.PackageName
+        # 預設商品名稱
+        products = ''
+        for record in self.move_line_ids_without_package:
+            products += record.product_id.name + ' '
+            _logger.info('product: %s', products)
+        productName = products
+        note = ''
 
         searchAddress = SearchAddress(Search=senderAddress)
         addressRequest = AddressRequestData(
@@ -147,17 +181,21 @@ class Inherit_stock_picking(models.Model):
         else:
             raise exceptions.ValidationError(addressResponse['error'])
 
+        if current_company.phone.startswith('+886'):
+            temp_conpany_phone = current_company.phone.replace(
+                '+886', '0').replace(" ", "")
+
         orderData = PrintObtOrder(
             OrderId=self.origin,
             Thermosphere="0001",
             Spec="0004",
             ReceiptLocation="01",
-            RecipientName=self.partner_id.SellerName,
+            # RecipientName=self.partner_id.SellerName,
+            RecipientName=self.partner_id.name,
             RecipientTel=recipientPhone,
             RecipientAddress=recipientAddress,
             SenderName=current_company.name,
-            SenderTel=current_company.phone.replace(
-                '+886', '0').replace(" ", ""),
+            SenderTel=temp_conpany_phone,
             SenderZipCode=zipCode,
             SenderAddress=senderAddress,
             ShipmentDate=self.ShipmentDate.strftime('%Y%m%d'),
@@ -171,6 +209,7 @@ class Inherit_stock_picking(models.Model):
             DeclareAmount=0,
             ProductTypeId="0001",
             ProductName=productName,
+            Memo=note
         )
         orderRequest = PrintObtRequestData(
             CustomerId=customerId,
@@ -221,7 +260,7 @@ class Inherit_stock_picking(models.Model):
                     return self.create_notification()
         return True
 
-    @api.model
+    @ api.model
     def create(self, vals):
         self.env.cr.commit()
         return super(Inherit_stock_picking, self).create(vals)
