@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from odoo import api, fields, models
+from odoo.tools.translate import _
 import logging
 import requests
 
@@ -74,7 +75,8 @@ class Crop(models.Model):
     RawHumidity = fields.Float(
         'RawHumidity', required=True, default=0.0)  # 稻穀濕度
 
-    RHafterDryer = fields.Float('RHafterDryer', required=True, default=0.0)  # 烘乾後濕度
+    RHafterDryer = fields.Float(
+        'RHafterDryer', required=True, default=0.0)  # 烘乾後濕度
 
     BrownHumidity = fields.Float(
         'BrownHumidity', required=True, default=0.0)  # 糙米濕度
@@ -219,6 +221,24 @@ class Crop(models.Model):
     # active = fields.Boolean("Active?", default=True)
     archived_id = fields.Many2one("agriculture.archived")
 
+    # notification
+
+    def create_notification(self):
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Success'),
+                'message': _('Compute Crop Condition Successed'),
+                'type': 'success',
+                'sticky': False,
+                'fadeout': 'slow',
+                'next': {
+                    'type': 'ir.actions.act_window_close',
+                }
+            }
+        }
+
     # new state
 
     @ api.model
@@ -240,8 +260,10 @@ class Crop(models.Model):
                                copy=False, group_expand="_group_expand_stage_id")
     state = fields.Selection(related="stage_id.state")
 
-    def button_refresh(self):
-        return True
+    # def button_confirm(self):
+    #     _logger.info("button_confirm pressed")
+    #     self.stage_id = self._done_stage()
+    #     return self.create_notification()
 
     # ******計價資料*****
     # 以計算完成定價
@@ -254,6 +276,9 @@ class Crop(models.Model):
     # 總價加成
     TotalPrice = fields.Float(
         "TotalPrice (新台幣)", compute="_compute_total_price", store=True)
+
+    # 計價驗證資料
+    ValidDocsRecived = fields.Boolean(string='ValidDocsRecived', default=False)
 
     # 議價
     nego_price = fields.Float('nego_price', default=0)
@@ -275,7 +300,8 @@ class Crop(models.Model):
                   'isTGAP',
                   'nego_price',
                   'is_sp_type',
-                  'CropWeight_by_ratio')
+                  'CropWeight_by_ratio',
+                  'ValidDocsRecived')
     def _compute_final_price(self):
         params = self.env['ir.config_parameter'].sudo()
         base_price = float(params.get_param('agriculture.BasePrice'))
@@ -381,8 +407,10 @@ class Crop(models.Model):
             unit_tw = record.CropWeight_by_ratio / 60
             record.TotalPrice = unit_tw * record.FinalPrice
             if record.TotalPrice != 0:
-                record.PriceState = 'done'
-                self.stage_id = self._done_stage()
+                if record.ValidDocsRecived == True:
+                    record.PriceState = 'done'
+                    self.stage_id = self._done_stage()
+                    return self.create_notification()
 
     def _get_volume_weight_level(self, expValue):
         params = self.env['ir.config_parameter'].sudo()
@@ -499,6 +527,13 @@ class Crop(models.Model):
                 rec.CropWeight_by_ratio = rec.CropWeight * r
             else:
                 rec.WetToDryRatio = 0
+
+    @api.onchange('ValidDocsRecived')
+    def _onchange_ValidDocsRecived(self):
+        for rec in self:
+            if rec.ValidDocsRecived == False:
+                rec.PriceState = 'draft'
+                self.stage_id = self._default_stage()
 
     def unlink_archiveItem(self):
         self.PriceState = 'done'
