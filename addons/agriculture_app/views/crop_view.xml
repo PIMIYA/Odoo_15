@@ -50,6 +50,7 @@
                 <field name="CropWeight_by_ratio" />
                 <field name="CropStatus" />
                 <field name="RawHumidity" />
+                <field name="RHafterDryer" />
                 <field name="WetToDryRatio" />
                 <field name="DryerId"/>
                 <field name="StorageId" />
@@ -90,6 +91,7 @@
                 <field name="VolumeWeight" />
                 <field name="TasteRating" />
                 <field name="RawHumidity" />
+                <field name="RHafterDryer" />
                 <field name="WetToDryRatio" />
                 <field name="DryerId" />
                 <field name="StorageId" />

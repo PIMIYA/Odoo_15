@@ -74,6 +74,8 @@ class Crop(models.Model):
     RawHumidity = fields.Float(
         'RawHumidity', required=True, default=0.0)  # 稻穀濕度
 
+    RHafterDryer = fields.Float('RHafterDryer', required=True, default=0.0)  # 烘乾後濕度
+
     BrownHumidity = fields.Float(
         'BrownHumidity', required=True, default=0.0)  # 糙米濕度
 

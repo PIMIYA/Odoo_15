@@ -250,6 +250,12 @@ class Inherit_stock_picking(models.Model):
         else:
             raise exceptions.ValidationError(orderReponse['error'])
 
+
+
+    def requestECan(self, packageItems):
+
+        pass
+
     def button_carrier_call(self):
         self.ensure_one()
         # 確認為物流貨運公司
@@ -257,6 +263,10 @@ class Inherit_stock_picking(models.Model):
             if self.carrier_id.name == 'blackcat' or '黑貓宅急便':
                 # 呼叫物流貨運公司
                 if self.requestBlackCat(self.move_ids_without_package):
+                    return self.create_notification()
+            if self.carrier_id.name == 'e-can' or '宅配通':
+                # 呼叫物流貨運公司
+                if self.requestECan(self.move_ids_without_package):
                     return self.create_notification()
         return True
 
