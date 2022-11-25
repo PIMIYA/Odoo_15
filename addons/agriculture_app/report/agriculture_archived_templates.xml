@@ -8,7 +8,7 @@
       <t t-set="add_items" t-value="doc.mapped('additional_items')" />
 
       <t t-call="web.basic_layout">
-        <div class="page" style="font-size: 18pt;">
+        <div class="page" style="font-size: 10pt;">
           <!-- logo -->
           <div class="">
             <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="height: 90px;" alt="Logo" />
@@ -24,13 +24,13 @@
 
           <!-- Member information -->
           <div class="">
-            <table class="table" style="table-layout: fixed;">
+            <table class="table table-bordered" style="table-layout: fixed; border: 1px solid; border-color:black; border-collapse:collapse;">
               <thead>
                 <tr class="">
-                  <th colspan="12">農友資訊</th>
+                  <th colspan="12" style="background-color:grey;">農友資訊</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="">
                 <tr class="">
                   <td class="text-center" colspan="1" style="white-space: nowrap;">姓名:</td>
                   <td class="" colspan="5">
@@ -80,9 +80,9 @@
             <h5>應付款:</h5>
           </div>
           <div class="">
-            <table class="table table-bordered text-center">
+            <table class="table table-bordered text-center" style="table-layout: fixed; border: 1px solid; border-color:black; border-collapse:collapse;">
               <thead>
-                <tr>
+                <tr style="background-color:grey;">
                   <th>編號</th>
                   <th>日期</th>
                   <th>貨品(摘要)</th>
@@ -106,6 +106,9 @@
                   <td class="align-middle">
                     <!-- <span t-field="crop.CropVariety" /> -->
                     <span t-esc="crop.get_crop_name()" />
+                    <span> (</span>
+                    <span t-field="crop.FarmingMethod" />
+                    <span>)</span>
                   </td>
                   <td class="align-middle">
                     <span t-field="crop.CropWeight" t-options='{"widget": "float", "precision": 2}' />
@@ -167,9 +170,9 @@
             <h5>應收款:</h5>
           </div>
           <div class="">
-            <table class="table table-bordered text-center">
+            <table class="table table-bordered text-center" style="table-layout: fixed; border: 1px solid; border-color:black; border-collapse:collapse;">
               <thead>
-                <tr>
+                <tr style="background-color:grey;">
                   <th>編號</th>
                   <th>日期</th>
                   <th>貨品(摘要)</th>
@@ -256,7 +259,7 @@
       <t t-call="web.basic_layout">
         <t t-set="now_date" t-value="datetime.datetime.now()" />
 
-        <div class="page" style="font-size: 18pt;">
+        <div class="page" style="font-size: 10pt;">
           <!-- Title -->
           <div class="text-center mb-3">
             <h5>
@@ -306,6 +309,9 @@
                   <td>
                     <!-- <span t-field="crop.CropVariety" /> -->
                     <span t-esc="crop.get_crop_name()" />
+                    <span> (</span>
+                    <span t-field="crop.FarmingMethod" />
+                    <span>)</span>
                   </td>
                   <td>
                     <span t-field="crop.CropWeight" />
@@ -357,7 +363,7 @@
                 </tr>
                 <!-- Other -->
                 <tr>
-                  <th rowspan="2" class="align-middle">此欄稽徵機關填寫</th>
+                  <th rowspan="2" class="align-left">此欄稽徵機關填寫</th>
                   <th>收入金額</th>
                   <th>必要費用</th>
                   <th>所得淨額</th>
@@ -368,6 +374,32 @@
                   <td style="height: 25px;"></td>
                   <td style="height: 25px;"></td>
                   <td style="height: 25px;"></td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- extra framer's info -->
+            <br />
+
+            <table class="table table-bordered m-0">
+              <tbody>
+                <tr>
+                  <td class="align-left">農民姓名：</td>
+                  <td>
+                    <span t-field="doc.member.SellerName" />
+                  </td>
+                  <td rowspan="3">簽章：</td>
+                </tr>
+                <tr>
+                  <td class="align-left">身分證字號：</td>
+                  <td>
+                    <span t-esc="doc.member.get_partner_attr('vat')" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="align-left">住址：</td>
+                  <td>
+                    <span t-esc="doc.member.get_partner_attr('address')" />
+                  </td>
                 </tr>
               </tbody>
             </table>
