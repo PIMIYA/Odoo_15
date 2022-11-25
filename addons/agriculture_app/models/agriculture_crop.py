@@ -260,11 +260,6 @@ class Crop(models.Model):
                                copy=False, group_expand="_group_expand_stage_id")
     state = fields.Selection(related="stage_id.state")
 
-    # def button_confirm(self):
-    #     _logger.info("button_confirm pressed")
-    #     self.stage_id = self._done_stage()
-    #     return self.create_notification()
-
     # ******計價資料*****
     # 以計算完成定價
     PriceState = fields.Selection(
@@ -407,10 +402,14 @@ class Crop(models.Model):
             unit_tw = record.CropWeight_by_ratio / 60
             record.TotalPrice = unit_tw * record.FinalPrice
             if record.TotalPrice != 0:
+                #新增勾選框，若勾選則不完成計價確認，不可出單
                 if record.ValidDocsRecived == True:
                     record.PriceState = 'done'
-                    self.stage_id = self._done_stage()
+                    record.stage_id = self._done_stage()
                     return self.create_notification()
+                else:
+                    record.PriceState = 'draft'
+                    record.stage_id = self._default_stage()
 
     def _get_volume_weight_level(self, expValue):
         params = self.env['ir.config_parameter'].sudo()
@@ -533,7 +532,7 @@ class Crop(models.Model):
         for rec in self:
             if rec.ValidDocsRecived == False:
                 rec.PriceState = 'draft'
-                self.stage_id = self._default_stage()
+                rec.stage_id = self._default_stage()
 
     def unlink_archiveItem(self):
         self.PriceState = 'done'

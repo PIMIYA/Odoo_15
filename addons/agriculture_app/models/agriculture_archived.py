@@ -145,3 +145,11 @@ class Archived(models.Model):
             seq.unlink_archiveItem()
 
         return super(Archived, self).unlink()
+
+
+# 修正成單的序號刪除後，對應的成單也要刪除還原狀態
+
+    @api.model
+    def delete(self, vals):
+        for seq in self.seq_numbers:
+            seq.unlink_archiveItem()
