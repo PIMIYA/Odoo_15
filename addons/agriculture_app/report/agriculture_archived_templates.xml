@@ -11,7 +11,7 @@
         <div class="page" style="font-size: 10pt;">
           <!-- logo -->
           <div class="">
-            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="height: 90px;" alt="Logo" />
+            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="height: 35px;" alt="Logo" />
           </div>
 
           <!-- Title -->

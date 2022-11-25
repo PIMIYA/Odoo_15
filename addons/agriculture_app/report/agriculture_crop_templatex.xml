@@ -288,6 +288,9 @@
                     </td>
                     <td colspan="4">
                         <!-- <span t-field="doc.CropVariety"></span> -->
+                        <t t-if="doc.FarmingMethod!='conventional'">
+                            <span t-field="doc.FarmingMethod"></span>
+                        </t>
                         <span t-esc="doc.get_crop_name()" />
                     </td>
                 </tr>
