@@ -24,7 +24,7 @@
 
           <!-- Member information -->
           <div class="">
-            <table class="table table-bordered" style="table-layout: fixed; border: 1px solid; border-color:black; border-collapse:collapse;">
+            <table class="table table-bordered table-sm" style="table-layout: fixed; border: 1px solid; border-color:black; border-collapse:collapse;">
               <!-- <thead style="font-size: 12pt;"> -->
               <tr class="">
                 <th colspan="12" style="background-color:rgb(218,220,224);">農友資訊</th>
@@ -80,7 +80,7 @@
             <h5>應付款:</h5>
           </div>
           <div class="">
-            <table class="table table-bordered text-center" style="table-layout: fixed; border: 1px solid; border-color:black; border-collapse:collapse;">
+            <table class="table table-bordered text-center table-sm" style="table-layout: fixed; border: 1px solid; border-color:black; border-collapse:collapse;">
               <!-- <thead style="font-size: 12pt;"> -->
               <tr style="background-color:rgb(218,220,224);">
                 <th>編號</th>
@@ -173,7 +173,7 @@
             <h5>應收款:</h5>
           </div>
           <div class="">
-            <table class="table table-bordered text-center" style="table-layout: fixed; border: 1px solid; border-color:black; border-collapse:collapse;">
+            <table class="table table-bordered text-center table-sm" style="table-layout: fixed; border: 1px solid; border-color:black; border-collapse:collapse;">
               <!-- <thead style="font-size: 12pt;"> -->
               <tr style="background-color:rgb(218,220,224);">
                 <th>編號</th>
@@ -228,7 +228,7 @@
           <!-- 應付 應收 實付 -->
           <br />
           <div>
-            <table class="table table-bordered text-center">
+            <table class="table table-bordered text-center table-sm">
               <!-- <thead style="font-size: 12pt;"> -->
               <tr>
                 <th>應付金額(一)</th>
@@ -274,7 +274,7 @@
 
           <!-- Company -->
           <div>
-            <table class="table table-bordered m-0">
+            <table class="table table-bordered table-sm m-0">
               <!-- <thead style="font-size: 12pt;"></thead> -->
               <!-- <tbody> -->
               <tr>
@@ -296,7 +296,7 @@
 
           <!-- Receipt -->
           <div>
-            <table class="table table-bordered text-center m-0">
+            <table class="table table-bordered text-center table-sm m-0">
               <!-- <thead style="font-size: 12pt;"> -->
               <tr>
                 <th>品名</th>
@@ -389,7 +389,7 @@
             <!-- extra framer's info -->
             <br />
 
-            <table class="table table-bordered m-0">
+            <table class="table table-bordered table-sm m-0">
               <!-- <tbody> -->
               <tr>
                 <td class="align-left">農民姓名：</td>
