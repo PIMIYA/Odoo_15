@@ -116,7 +116,6 @@
                   </td>
                   <td class="align-middle">
                     <span t-esc="crop.FinalPrice/60" t-options='{"widget": "float", "precision": 4}'/>
-                    <span t-field="crop.FinalPrice" />
                   </td>
                   <td class="align-middle">
                     <span t-esc="'{0:,.0f}'.format(floor(crop.TotalPrice))" />
