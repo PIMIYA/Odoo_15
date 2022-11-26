@@ -354,7 +354,7 @@ class Crop(models.Model):
                                 record.FinalPrice = base_price + contracted_price + organicRice_price
                             elif vw is False and py is False:
                                 record.FinalPrice = base_price + contracted_price + organicRice_price
-                        elif record.FarmingMethod == 'conventional':
+                        elif record.FarmingMethod == 'conventional' or record.FarmingMethod == False:
                             # 有機轉型或隔離帶2200
                             if record.PrimeYield is 0 or record.VolumeWeight is 0 or record.TasteRating is 0 or record.BrownIntactRatio is 0:
                                 record.FinalPrice = 0

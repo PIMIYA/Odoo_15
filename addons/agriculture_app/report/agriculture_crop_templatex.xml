@@ -108,12 +108,13 @@
                     </td>
                     <td colspan="4">
                         <!-- <span t-field="doc.CropVariety"></span> -->
-                        <t t-if="doc.FarmingMethod!='conventional'">
-                            <span t-field="doc.FarmingMethod"></span>
-                        </t>
                         <t t-if="doc.isTGAP==1">
                             <span>TGAP</span>
                         </t>
+                        <t t-if="doc.FarmingMethod!='conventional'">
+                            <span t-field="doc.FarmingMethod"></span>
+                        </t>
+                        <span t-field="doc.FarmingAdaption"></span>
                         <span t-esc="doc.get_crop_name()" />
                     </td>
                 </tr>
@@ -291,12 +292,13 @@
                     </td>
                     <td colspan="4">
                         <!-- <span t-field="doc.CropVariety"></span> -->
-                        <t t-if="doc.FarmingMethod!='conventional'">
-                            <span t-field="doc.FarmingMethod"></span>
-                        </t>
                         <t t-if="doc.isTGAP==1">
                             <span>TGAP</span>
                         </t>
+                        <t t-if="doc.FarmingMethod!='conventional'">
+                            <span t-field="doc.FarmingMethod"></span>
+                        </t>
+                        <span t-field="doc.FarmingAdaption"></span>
                         <span t-esc="doc.get_crop_name()" />
                     </td>
                 </tr>
