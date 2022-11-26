@@ -343,8 +343,8 @@ class Crop(models.Model):
                         # 其他
                         # 有機米
                         if record.FarmingMethod == 'organic':
-                            record.TasteRating = 0
-                            record.BrownIntactRatio = 0
+                            # record.TasteRating = 0
+                            # record.BrownIntactRatio = 0
                             vw = True if record.VolumeWeight >= volumeWeightIsOverAndEqualTo else False
                             py = True if record.PrimeYield >= primeYieldIsOverAndEqualTo else False
                             if vw is True and py is True:
@@ -402,7 +402,7 @@ class Crop(models.Model):
             unit_tw = record.CropWeight_by_ratio / 60
             record.TotalPrice = unit_tw * record.FinalPrice
             if record.TotalPrice != 0:
-                #新增勾選框，若勾選則不完成計價確認，不可出單
+                # 新增勾選框，若勾選則不完成計價確認，不可出單
                 if record.ValidDocsRecived == True:
                     record.PriceState = 'done'
                     record.stage_id = self._done_stage()
