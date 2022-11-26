@@ -111,6 +111,9 @@
                         <t t-if="doc.FarmingMethod!='conventional'">
                             <span t-field="doc.FarmingMethod"></span>
                         </t>
+                        <t t-if="doc.isTGAP==1">
+                            <span>TGAP</span>
+                        </t>
                         <span t-esc="doc.get_crop_name()" />
                     </td>
                 </tr>
@@ -196,7 +199,7 @@
                         <span>乾穀重量：</span>
                     </td>
                     <td colspan="9">
-                        <span t-field="doc.CropWeight"></span>
+                        <span t-field="doc.CropWeight_by_ratio"></span>
                     </td>
                     <td colspan="1" class="text-left">
                         <span>公斤</span>
@@ -208,7 +211,7 @@
                     </td>
                     <td colspan="4">
                         <span>約</span>
-                        <span t-esc="doc.CropWeight * 1.667"></span>
+                        <span t-esc="doc.CropWeight_by_ratio * 1.6667" t-options='{"widget": "float", "precision": 4}'></span>
                         <span>台斤</span>
                     </td>
                     <td colspan="2" class="text-left">
@@ -290,6 +293,9 @@
                         <!-- <span t-field="doc.CropVariety"></span> -->
                         <t t-if="doc.FarmingMethod!='conventional'">
                             <span t-field="doc.FarmingMethod"></span>
+                        </t>
+                        <t t-if="doc.isTGAP==1">
+                            <span>TGAP</span>
                         </t>
                         <span t-esc="doc.get_crop_name()" />
                     </td>
@@ -455,7 +461,7 @@
                     </td>
                     <td colspan="4">
                         <span>約</span>
-                        <span t-esc="doc.CropWeight * 1.667"></span>
+                        <span t-esc="doc.CropWeight_by_ratio * 1.6667" t-options='{"widget": "float", "precision": 4}'></span>
                         <span>台斤</span>
                     </td>
                     <td colspan="2" class="text-left">

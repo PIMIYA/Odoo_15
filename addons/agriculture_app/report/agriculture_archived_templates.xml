@@ -8,7 +8,7 @@
       <t t-set="add_items" t-value="doc.mapped('additional_items')" />
 
       <t t-call="web.basic_layout">
-        <div class="page" style="font-size: 10pt;">
+        <div class="page" style="font-size: 16pt;">
           <!-- logo -->
           <div class="">
             <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="height: 35px;" alt="Logo" />
@@ -113,17 +113,17 @@
                   <td class="align-middle">
                     <span t-field="crop.CropWeight" t-options='{"widget": "float", "precision": 2}' />
                     <span>公斤</span>
-                    <br />
-                    <span t-esc="(crop.CropWeight * 1.6666666667)" t-options='{"widget": "float", "precision": 2}' />
+                  </td>
+                  <td class="align-middle">
+                    <span t-esc="crop.FinalPrice/60" t-options='{"widget": "float", "precision": 4}'/>
+                    <span t-field="crop.FinalPrice" />
+                  </td>
+                  <td class="align-middle">
+                    <span t-esc="'{0:,.0f}'.format(floor(crop.TotalPrice))" />
+                  </td>
+                  <td class="align-middle">
+                    <span t-esc="(crop.CropWeight * 1.6667)" t-options='{"widget": "float", "precision": 2}' />
                     <span>台斤</span>
-                  </td>
-                  <td class="align-middle">
-                    <span t-esc="floor(crop.FinalPrice)" />
-                  </td>
-                  <td class="align-middle">
-                    <span t-esc="floor(crop.TotalPrice)" />
-                  </td>
-                  <td class="align-middle">
                     <span />
                   </td>
                   <t t-set="idx" t-value="idx+1" />
@@ -142,10 +142,10 @@
                     <span t-field="add_item.amount" />
                   </td>
                   <td class="align-middle">
-                    <span t-field="add_item.unit_price" />
+                    <span t-esc="'{0:,.0f}'.format(floor(add_item.unit_price))" />
                   </td>
                   <td class="align-middle">
-                    <span t-esc="floor(add_item.total_price)" />
+                    <span t-esc="'{0:,.0f}'.format(floor(add_item.total_price))" />
                   </td>
                   <td class="align-middle">
                     <span />
@@ -158,7 +158,7 @@
                   <td colspan="5">應付金額</td>
                   <!-- 金額 -->
                   <td class="align-middle" colspan="2">
-                    <span t-esc="floor(doc.TotalExpenditure)" />
+                    <span t-esc="'{0:,.0f}'.format(floor(doc.TotalExpenditure))" />
                   </td>
                 </tr>
               </tbody>
@@ -199,10 +199,10 @@
                     <span t-field="add_item.amount" />
                   </td>
                   <td class="align-middle">
-                    <span t-esc="floor(add_item.unit_price)" />
+                    <span t-esc="'{0:,.0f}'.format(floor(add_item.unit_price))" />
                   </td>
                   <td class="align-middle">
-                    <span t-esc="floor(add_item.total_price)" />
+                    <span t-esc="'{0:,.0f}'.format(floor(add_item.total_price))" />
                   </td>
                   <td class="align-middle">
                     <span t-field="add_item.comment" />
@@ -215,7 +215,7 @@
                   <td colspan="5">應收金額</td>
                   <!-- 金額 -->
                   <td class="align-middle" colspan="2">
-                    <span t-esc="floor(total_income)" />
+                    <span t-esc="'{0:,.0f}'.format(floor(total_income))" />
                   </td>
                 </tr>
               </tbody>
@@ -259,7 +259,7 @@
       <t t-call="web.basic_layout">
         <t t-set="now_date" t-value="datetime.datetime.now()" />
 
-        <div class="page" style="font-size: 10pt;">
+        <div class="page" style="font-size: 16pt;">
           <!-- Title -->
           <div class="text-center mb-3">
             <h5>
@@ -317,10 +317,10 @@
                     <span t-field="crop.CropWeight" />
                   </td>
                   <td>
-                    <span t-esc="floor(crop.FinalPrice)" />
+                    <span t-esc="crop.FinalPrice/60" t-options='{"widget": "float", "precision": 4}'/>
                   </td>
                   <td>
-                    <span t-esc="floor(crop.TotalPrice)" />
+                    <span t-esc="'{0:,.0f}'.format(floor(crop.TotalPrice))" />
                   </td>
                   <td>
                     <span />
@@ -335,10 +335,11 @@
                     <span t-field="add_item.amount" />
                   </td>
                   <td class="align-middle">
-                    <span t-field="add_item.unit_price" />
+                    <span t-esc="'{0:,.0f}'.format(floor(add_item.unit_price))" />
+                    <!-- <span t-field="add_item.unit_price" /> -->
                   </td>
                   <td class="align-middle">
-                    <span t-esc="floor(add_item.total_price)" />
+                    <span t-esc="'{0:,.0f}'.format(floor(crop.TotalPrice))" />
                   </td>
                   <td class="align-middle">
                     <span />
@@ -349,7 +350,8 @@
                   <td colspan="3">小計</td>
                   <!-- 金額 -->
                   <td colspan="2">
-                    <span t-esc="floor(doc.TotalExpenditure)" />
+                    <span t-esc="'{0:,.0f}'.format(floor(doc.TotalExpenditure))" />
+                    <!-- <span t-esc="floor(doc.TotalExpenditure)" /> -->
                   </td>
                 </tr>
                 <!-- 合計新台幣 -->
