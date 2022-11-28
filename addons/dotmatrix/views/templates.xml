@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <record id="dotmatrix_stock_picking" model="mail.template">
+      <field name="name">Stock Picking Dot Matrix</field>
+      <field name="model_id" ref="stock.model_stock_picking"/>
+      <field name="subject">Stock Picking Dot Matrix</field>
+      <field name="body_html">
+      </field>
+    </record>
+  </data>
+</odoo>
