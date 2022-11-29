@@ -9,7 +9,7 @@ class dotmatrix(models.Model):
     _inherit = 'stock.picking'
 
     print_data = fields.Text(
-        string='Printer Data' readonly=True)
+        string='Printer Data', readonly=True)
 
     def action_refresh_printer_data(self):
         temlate = self.env["mail.template"].search(
