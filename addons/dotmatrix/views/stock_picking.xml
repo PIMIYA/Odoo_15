@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_stock_dotmatrix_form" model="ir.ui.view">
-        <field name="name">view_stock_dotmatrix_form</field>
-        <field name="model">stock.picking</field>
-        <field name="inherit_id" ref="stock.view_picking_form"/>
-        <field name="priority" eval="8"/>
-        <field name="arch" type="xml">
-            <xpath expr="//notebook" position="inside">
-                <page string="Dot Matrix">
-                    <button string="Refresh" type="object" state="draft" name="action_refresh_printer_data" icon="fa-print">
-                    </button>
-                    <pre>
-                        <field name="print_data" widget="html"/>
-                    </pre>
-                </page>
-            </xpath>
-        </field>
-    </record>
+    <data>
+        <record id="view_stock_dotmatrix_form" model="ir.ui.view">
+            <field name="name">view_stock_dotmatrix_form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='do_print_picking']" position="before">
+                    <button type="object" string="Dot Matrix" icon="fa-print" name="action_print" custom="print_dotmatrix" state="done"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Dot Matrix">
+                        <button string="Refresh" type="object" state="draft" name="action_refresh_printer_data" icon="fa-print">
+                        </button>
+                        <!-- <pre>
+                            <field name="print_data" widget="html"/>
+                        </pre> -->
+                        <pre>
+                            <field name="print_data"/>
+                        </pre>
+                        <!-- <field name="print_data"/> -->
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
 </odoo>

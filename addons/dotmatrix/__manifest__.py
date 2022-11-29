@@ -24,9 +24,19 @@
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views/stock_picking.xml',
         'views/templates.xml',
+        'views/stock_picking.xml',
+        # 'views/assets.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'dotmatrix/static/src/js/print.js',
+        ],
+        'web.assets_common': [
+        ],
+        'web.qunit_suite_tests': [
+        ],
+    },
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
