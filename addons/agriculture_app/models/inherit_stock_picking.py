@@ -33,6 +33,8 @@ class Inherit_stock_picking(models.Model):
     HopeArriveDate = fields.Date(
         "HopeArriveDate", require=True, default=date.today()+timedelta(days=3))
 
+    Shipping_method = fields.Char('Shipping Method', default='')
+
     @api.depends('BlackcatObtIds')
     def compute_blackcat_obt(self):
         idx = len(self.BlackcatObtIds)
@@ -56,6 +58,22 @@ class Inherit_stock_picking(models.Model):
             'params': {
                 'title': _('Success'),
                 'message': _('Success'),
+                'type': 'success',
+                'sticky': False,
+                'fadeout': 'slow',
+                'next': {
+                    'type': 'ir.actions.act_window_close',
+                }
+            }
+        }
+
+    def no_carrier_notification(self):
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Success'),
+                'message': _('no carrier selected!'),
                 'type': 'success',
                 'sticky': False,
                 'fadeout': 'slow',
@@ -250,8 +268,6 @@ class Inherit_stock_picking(models.Model):
         else:
             raise exceptions.ValidationError(orderReponse['error'])
 
-
-
     def requestECan(self, packageItems):
 
         pass
@@ -268,9 +284,19 @@ class Inherit_stock_picking(models.Model):
                 # 呼叫物流貨運公司
                 if self.requestECan(self.move_ids_without_package):
                     return self.create_notification()
+        else:
+            return self.no_carrier_notification()
         return True
+
+    @api.onchange('carrier_id')
+    def _onchange_(self):
+        self.Shipping_method = self.carrier_id.name
 
     @ api.model
     def create(self, vals):
         self.env.cr.commit()
         return super(Inherit_stock_picking, self).create(vals)
+
+    def write(self, vals):
+        vals['Shipping_method'] = self.carrier_id.name
+        return super(Inherit_stock_picking, self).write(vals)

@@ -14,12 +14,12 @@
                     <page string="Dot Matrix">
                         <button string="Refresh" type="object" state="draft" name="action_refresh_printer_data" icon="fa-print">
                         </button>
-                        <!-- <pre>
-                            <field name="print_data" widget="html"/>
-                        </pre> -->
                         <pre>
-                            <field name="print_data"/>
+                            <field name="print_data" widget="html"/>
                         </pre>
+                        <!-- <pre>
+                            <field name="print_data"/>
+                        </pre> -->
                         <!-- <field name="print_data"/> -->
                     </page>
                 </xpath>

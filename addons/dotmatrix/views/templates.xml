@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <record id="dotmatrix_stock_picking" model="mail.template">
-      <field name="name">Stock Picking Dot Matrix</field>
+    <record id="ECAN_dotmatrix_stock_picking" model="mail.template">
+      <field name="name">宅配通</field>
       <field name="model_id" ref="stock.model_stock_picking"/>
-      <field name="subject">Stock Picking Dot Matrix</field>
-      <field name="body_html">
+      <field name="subject">E-Can Stock Picking Dot Matrix</field>
+      <field name="body_html" type="html">
+        <div>
+          宅配通
+          <t t-field="object.partner_id.name"/>
+        </div>
       </field>
     </record>
+
+    <record id="KTJ_dotmatrix_stock_picking" model="mail.template">
+      <field name="name">大榮貨運</field>
+      <field name="model_id" ref="stock.model_stock_picking"/>
+      <field name="subject">KTJ Stock Picking Dot Matrix </field>
+      <field name="body_html" type="html">
+        <div>
+          大榮貨運
+          <t t-field="object.partner_id.name"/>
+        </div>
+      </field>
+    </record>
+
   </data>
 </odoo>
