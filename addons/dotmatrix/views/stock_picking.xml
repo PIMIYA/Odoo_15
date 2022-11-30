@@ -15,12 +15,9 @@
                         <button string="Refresh" type="object" state="draft" name="action_refresh_printer_data" icon="fa-print">
                         </button>
                         <pre>
-                            <field name="print_data" widget="html"/>
-                        </pre>
-                        <!-- <pre>
                             <field name="print_data"/>
-                        </pre> -->
-                        <!-- <field name="print_data"/> -->
+                        </pre>
+                        <!-- <field name="print_data" widget="html" class="oe-bordered-editor" options="{'style-inline': true, 'codeview': true, 'dynamic_placeholder': false}"/> -->
                     </page>
                 </xpath>
             </field>

@@ -33,7 +33,7 @@ class Inherit_stock_picking(models.Model):
     HopeArriveDate = fields.Date(
         "HopeArriveDate", require=True, default=date.today()+timedelta(days=3))
 
-    Shipping_method = fields.Char('Shipping Method', default='')
+    Shipping_method = fields.Char('Shipping Method', default='', readonly=True)
 
     @api.depends('BlackcatObtIds')
     def compute_blackcat_obt(self):
@@ -290,13 +290,11 @@ class Inherit_stock_picking(models.Model):
 
     @api.onchange('carrier_id')
     def _onchange_(self):
-        self.Shipping_method = self.carrier_id.name
+        for rec in self:
+            rec.Shipping_method = self.carrier_id.name
+            _logger.info(f"carrier_id name: {rec.Shipping_method}")
 
-    @ api.model
+    @api.model
     def create(self, vals):
         self.env.cr.commit()
         return super(Inherit_stock_picking, self).create(vals)
-
-    def write(self, vals):
-        vals['Shipping_method'] = self.carrier_id.name
-        return super(Inherit_stock_picking, self).write(vals)

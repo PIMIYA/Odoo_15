@@ -5,11 +5,13 @@
       <field name="name">宅配通</field>
       <field name="model_id" ref="stock.model_stock_picking"/>
       <field name="subject">E-Can Stock Picking Dot Matrix</field>
-      <field name="body_html" type="html">
-        <div>
-          宅配通
-          <t t-field="object.partner_id.name"/>
-        </div>
+      <field name="body_html">
+        <![CDATA[
+                                     "測試文件"
+          Dear <t t-out="object.partner_id.name"></t>
+          請查收附件
+          _________________________________________________________________
+      ]]>
       </field>
     </record>
 
@@ -17,11 +19,12 @@
       <field name="name">大榮貨運</field>
       <field name="model_id" ref="stock.model_stock_picking"/>
       <field name="subject">KTJ Stock Picking Dot Matrix </field>
-      <field name="body_html" type="html">
-        <div>
-          大榮貨運
-          <t t-field="object.partner_id.name"/>
-        </div>
+      <field name="body_html">
+        <![CDATA[
+         "測試文件"
+          Dear <t t-out="object.partner_id.name"></t>
+          請查收附件
+      ]]>
       </field>
     </record>
 
