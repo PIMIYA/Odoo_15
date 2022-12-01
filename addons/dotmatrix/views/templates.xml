@@ -6,33 +6,39 @@
       <field name="model_id" ref="stock.model_stock_picking"/>
       <field name="subject">E-Can Stock Picking Dot Matrix</field>
       <field name="body_html" type="html">
-        <pre>
-          <p>
-            <t t-out="object.partner_id.zip"></t>
+        <table>
+          <tr>
+            <pre>
+              <p>
+                <t t-out="object.partner_id.zip"></t>
 
-            <t t-out="object.partner_id.city"></t>
-            <t t-out="object.partner_id.street"></t>
-            <t t-out="object.partner_id.street2"></t>
+                <t t-out="object.partner_id.city"></t>
+                <t t-out="object.partner_id.street"></t>
+                <t t-out="object.partner_id.street2"></t>
 
 
-            <t t-out="object.partner_id.name"/>
-            <t t-out="object.partner_id.phone"/>
-            <t t-out="object.partner_id.mobile"/>
-          </p>
+                <t t-out="object.partner_id.name"/>
+                <t t-out="object.partner_id.phone"/>
+                <t t-out="object.partner_id.mobile"/>
+              </p>
+            </pre>
+          </tr>
+          <tr>
+            <pre>
+              <p>
+                <t t-out="object.sender_name"/>
 
-          <p>
-            <t t-out="object.sender_name"/>
+                <t t-out="object.sender_phone"/>
+                <t t-out="object.sender_mobile"/>
 
-            <t t-out="object.sender_phone"/>
-            <t t-out="object.sender_mobile"/>
+                <t t-out="object.sender_zip"/>
+                <t t-out="object.sender_address"/>
 
-            <t t-out="object.sender_zip"/>
-            <t t-out="object.sender_address"/>
-
-            <t t-out="object.ecan_customerId"></t>
-          </p>
-
-        </pre>
+                <t t-out="object.ecan_customerId"></t>
+              </p>
+            </pre>
+          </tr>
+        </table>
       </field>
     </record>
 
@@ -41,34 +47,43 @@
       <field name="model_id" ref="stock.model_stock_picking"/>
       <field name="subject">KTJ Stock Picking Dot Matrix </field>
       <field name="body_html" type="html">
-        <pre>
-          <p>
-            <t t-out="object.ktj_customerId"></t>
+        <!-- <pre> -->
+        <table>
+          <tr colspan="2">
+            <td>
+              <pre>
+                <p>
+                  <t t-out="object.ktj_customerId"></t>
 
-            <t t-out="object.sender_name"/>
+                  <t t-out="object.sender_name"/>
 
-            <t t-out="object.sender_phone"/>
-            <t t-out="object.sender_mobile"/>
+                  <t t-out="object.sender_phone"/>
+                  <t t-out="object.sender_mobile"/>
 
-            <t t-out="object.sender_zip"/>
-            <t t-out="object.sender_address"/>
-          </p>
+                  <t t-out="object.sender_zip"/>
+                  <t t-out="object.sender_address"/>
+                </p>
+              </pre>
+            </td>
+            <td>
+              <pre>
+                <p>
+                  <t t-out="object.partner_id.zip"></t>
 
-          <p>
-            <t t-out="object.partner_id.zip"></t>
-
-            <t t-out="object.partner_id.city"></t>
-            <t t-out="object.partner_id.street"></t>
-            <t t-out="object.partner_id.street2"></t>
-
-
-            <t t-out="object.partner_id.name"/>
-            <t t-out="object.partner_id.phone"/>
-            <t t-out="object.partner_id.mobile"/>
+                  <t t-out="object.partner_id.city"></t>
+                  <t t-out="object.partner_id.street"></t>
+                  <t t-out="object.partner_id.street2"></t>
 
 
-          </p>
-        </pre>
+                  <t t-out="object.partner_id.name"/>
+                  <t t-out="object.partner_id.phone"/>
+                  <t t-out="object.partner_id.mobile"/>
+                </p>
+              </pre>
+            </td>
+          </tr>
+        </table>
+        <!-- </pre> -->
       </field>
     </record>
 
