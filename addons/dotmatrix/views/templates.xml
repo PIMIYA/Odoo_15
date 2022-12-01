@@ -5,13 +5,34 @@
       <field name="name">宅配通</field>
       <field name="model_id" ref="stock.model_stock_picking"/>
       <field name="subject">E-Can Stock Picking Dot Matrix</field>
-      <field name="body_html">
-        <![CDATA[
-                                     "測試文件"
-          Dear <t t-out="object.partner_id.name"></t>
-          請查收附件
-          _________________________________________________________________
-      ]]>
+      <field name="body_html" type="html">
+        <pre>
+          <p>
+            <t t-out="object.partner_id.zip"></t>
+
+            <t t-out="object.partner_id.city"></t>
+            <t t-out="object.partner_id.street"></t>
+            <t t-out="object.partner_id.street2"></t>
+
+
+            <t t-out="object.partner_id.name"/>
+            <t t-out="object.partner_id.phone"/>
+            <t t-out="object.partner_id.mobile"/>
+          </p>
+
+          <p>
+            <t t-out="object.sender_name"/>
+
+            <t t-out="object.sender_phone"/>
+            <t t-out="object.sender_mobile"/>
+
+            <t t-out="object.sender_zip"/>
+            <t t-out="object.sender_address"/>
+
+            <t t-out="object.ecan_customerId"></t>
+          </p>
+
+        </pre>
       </field>
     </record>
 
@@ -19,12 +40,35 @@
       <field name="name">大榮貨運</field>
       <field name="model_id" ref="stock.model_stock_picking"/>
       <field name="subject">KTJ Stock Picking Dot Matrix </field>
-      <field name="body_html">
-        <![CDATA[
-         "測試文件"
-          Dear <t t-out="object.partner_id.name"></t>
-          請查收附件
-      ]]>
+      <field name="body_html" type="html">
+        <pre>
+          <p>
+            <t t-out="object.ktj_customerId"></t>
+
+            <t t-out="object.sender_name"/>
+
+            <t t-out="object.sender_phone"/>
+            <t t-out="object.sender_mobile"/>
+
+            <t t-out="object.sender_zip"/>
+            <t t-out="object.sender_address"/>
+          </p>
+
+          <p>
+            <t t-out="object.partner_id.zip"></t>
+
+            <t t-out="object.partner_id.city"></t>
+            <t t-out="object.partner_id.street"></t>
+            <t t-out="object.partner_id.street2"></t>
+
+
+            <t t-out="object.partner_id.name"/>
+            <t t-out="object.partner_id.phone"/>
+            <t t-out="object.partner_id.mobile"/>
+
+
+          </p>
+        </pre>
       </field>
     </record>
 

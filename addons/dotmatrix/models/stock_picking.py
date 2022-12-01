@@ -1,4 +1,4 @@
-from odoo import models, fields, api, tools, _
+from odoo import models, fields, api, tools, _, exceptions
 from odoo.exceptions import UserError
 import logging
 _logger = logging.getLogger(__name__)
@@ -11,9 +11,35 @@ class dotmatrix(models.Model):
     # print_data = fields.Html(
     #     string='Printer Data', render_engine='qweb', translate=True, sanitize=False)
     print_data = fields.Text(string='Printer Data')
+    sender_name = fields.Char(string='Sender Name')
+    sender_phone = fields.Char(string='Sender Phone')
+    sender_address = fields.Char(string='Sender Address')
+    sender_mobile = fields.Char(string='Sender Mobile')
+    sender_zip = fields.Char(string='Sender Zip')
+    ecan_customerId = fields.Char(string='ECAN Customer ID')
+    ktj_customerId = fields.Char(string='KTJ Customer ID')
 
     def action_refresh_printer_data(self):
-        _logger.info(self.carrier_id.name)
+        current_company = self.env.company
+        if not current_company.phone:
+            raise exceptions.ValidationError(
+                'Company phone must not be empty')
+        senderAddress = "{0}{1}".format(
+            current_company.city, current_company.street)
+        if not senderAddress:
+            raise exceptions.ValidationError(
+                'Company address must not be empty')
+
+        self.sender_name = current_company.name
+        self.sender_address = senderAddress
+        self.sender_phone = current_company.phone
+        self.sender_mobile = current_company.mobile
+        self.sender_zip = current_company.zip
+
+        config = self.env['ir.config_parameter'].sudo()
+        self.ecan_customerId = config.get_param('agriculture.ecan_customer_id')
+        self.ktj_customerId = config.get_param('agriculture.ktj_customer_id')
+
         if self.carrier_id:
             if self.carrier_id.name == "宅配通":
                 template = self.env["mail.template"].search(
@@ -39,12 +65,19 @@ class dotmatrix(models.Model):
                 data = template._render_template(
                     template.body_html, 'stock.picking', self.ids, engine='qweb')
                 temp = data[self.ids[0]]
+                # truncated_text = self.env["ir.fields.converter"].text_from_html(
+                #     temp, 40, 100, "...")
                 self.print_data = temp
                 _logger.info(f"render data : {self.print_data}")
 
             else:
                 _logger.info('no carrier')
-                self.print_data = '請選擇運送方式, 按下更新列印資料，以列印紙本出貨單！'
+                raise exceptions.ValidationError(
+                    '請選擇運送方式, 按下更新列印資料，以列印紙本出貨單！或是選擇電子出單！')
+        else:
+            _logger.info('no carrier')
+            raise exceptions.ValidationError(
+                '請選擇運送方式, 按下更新列印資料，以列印紙本出貨單！或是選擇電子出單！')
 
     def action_print(self):
         pass

@@ -99,8 +99,13 @@ class Preferences(models.TransientModel):
     blackCat_api_token = fields.Char('BlackCat_Api_Token')
     blackCat_api_url = fields.Char('BlackCat_Api_Url')
 
+    # Logistics configuration print
+    # ----------------------------------------------------------
+    ecan_customer_id = fields.Char('Ecan_Customer_Id')
+    ktj_customer_id = fields.Char('KTJ_Customer_Id')
+
     def set_values(self):
-        """agriculture setting field values"""
+        '''agriculture setting field values'''
         res = super(Preferences, self).set_values()
         icp = self.env['ir.config_parameter']
         icp.set_param('agriculture.BasePrice', self.BasePrice)
@@ -151,16 +156,21 @@ class Preferences(models.TransientModel):
         icp.set_param('agriculture.multiplication', self.multiplication)
         icp.set_param('agriculture.maxPurchaseQTYPerHectare',
                       self.maxPurchaseQTYPerHectare)
+        '''Logistics configuration'''
         icp.set_param('agriculture.blackCat_customer_id',
                       self.blackCat_customer_id),
         icp.set_param('agriculture.blackCat_api_token',
                       self.blackCat_api_token),
         icp.set_param('agriculture.blackCat_api_url',
                       self.blackCat_api_url)
+
+        icp.set_param('agriculture.ecan_customer_id', self.ecan_customer_id)
+        icp.set_param('agriculture.ktj_customer_id', self.ktj_customer_id)
+
         return res
 
     def get_values(self):
-        """agriculture limit getting field values"""
+        '''agriculture limit getting field values'''
         res = super(Preferences, self).get_values()
         icp = self.env['ir.config_parameter']
         value_BasePrice = icp.sudo(
@@ -221,9 +231,15 @@ class Preferences(models.TransientModel):
         ).get_param('agriculture.multiplication', default=20.0)
         value_maxPurchaseQTYPerHectare = icp.sudo().get_param(
             'agriculture.maxPurchaseQTYPerHectare', default=6000.0)
-        value_blackCat_customer_id = icp.sudo().get_param('agriculture.blackCat_customer_id')
+
+        '''Logistics configuration'''
+        value_blackCat_customer_id = icp.sudo().get_param(
+            'agriculture.blackCat_customer_id')
         value_blackCat_api_token = icp.sudo().get_param('agriculture.blackCat_api_token')
         value_blackCat_api_url = icp.sudo().get_param('agriculture.blackCat_api_url')
+
+        value_ecan_customer_id = icp.sudo().get_param('agriculture.ecan_customer_id')
+        value_ktj_customer_id = icp.sudo().get_param('agriculture.ktj_customer_id')
 
         res.update(
             BasePrice=float(value_BasePrice),
@@ -260,5 +276,7 @@ class Preferences(models.TransientModel):
             blackCat_customer_id=value_blackCat_customer_id,
             blackCat_api_token=value_blackCat_api_token,
             blackCat_api_url=value_blackCat_api_url,
+            ecan_customer_id=value_ecan_customer_id,
+            ktj_customer_id=value_ktj_customer_id,
         )
         return res

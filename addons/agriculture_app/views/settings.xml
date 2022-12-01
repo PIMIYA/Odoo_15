@@ -72,6 +72,12 @@
                                 <field name="blackCat_api_url" string="BlackCat API Base URL" />
                                 <field name="blackCat_api_token" string="BlackCat API Token" />
                             </group>
+                            <group string="ECANLogisticConfig">
+                                <field name="ecan_customer_id" string="ECAN Customer Id" />
+                            </group>
+                            <group string="KTJLogisticConfig">
+                                <field name="ktj_customer_id" string="KTJ Customer Id" />
+                            </group>
                         </div>
                     </div>
                 </div>

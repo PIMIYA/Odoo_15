@@ -7,6 +7,7 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="priority" eval="8"/>
             <field name="arch" type="xml">
+
                 <xpath expr="//button[@name='do_print_picking']" position="before">
                     <button type="object" string="Dot Matrix" icon="fa-print" name="action_print" custom="print_dotmatrix" state="done"/>
                 </xpath>
@@ -14,10 +15,9 @@
                     <page string="Dot Matrix">
                         <button string="Refresh" type="object" state="draft" name="action_refresh_printer_data" icon="fa-print">
                         </button>
+                        <field name="print_data" widget="html"/>
                         <pre>
-                            <field name="print_data"/>
                         </pre>
-                        <!-- <field name="print_data" widget="html" class="oe-bordered-editor" options="{'style-inline': true, 'codeview': true, 'dynamic_placeholder': false}"/> -->
                     </page>
                 </xpath>
             </field>
