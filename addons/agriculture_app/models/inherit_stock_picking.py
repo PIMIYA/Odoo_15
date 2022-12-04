@@ -34,6 +34,7 @@ class Inherit_stock_picking(models.Model):
         "HopeArriveDate", require=True, default=date.today()+timedelta(days=3))
 
     Shipping_method = fields.Char('Shipping Method', default='', readonly=True)
+    temp_conpany_phone = fields.Char('temp_conpany_phone', default='')
 
     @api.depends('BlackcatObtIds')
     def compute_blackcat_obt(self):
@@ -200,7 +201,7 @@ class Inherit_stock_picking(models.Model):
             raise exceptions.ValidationError(addressResponse['error'])
 
         if current_company.phone.startswith('+886'):
-            temp_conpany_phone = current_company.phone.replace(
+            self.temp_conpany_phone = current_company.phone.replace(
                 '+886', '0').replace(" ", "")
 
         orderData = PrintObtOrder(
@@ -213,7 +214,7 @@ class Inherit_stock_picking(models.Model):
             RecipientTel=recipientPhone,
             RecipientAddress=recipientAddress,
             SenderName=current_company.name,
-            SenderTel=temp_conpany_phone,
+            SenderTel=self.temp_conpany_phone,
             SenderZipCode=zipCode,
             SenderAddress=senderAddress,
             ShipmentDate=self.ShipmentDate.strftime('%Y%m%d'),
