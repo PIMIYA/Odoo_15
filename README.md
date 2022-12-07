@@ -54,5 +54,12 @@ volumes:
 
 You can start to create custom addons and interactive with it.
 
+###list of new tasks for 2nd stage
+-[] 宅配通API出單串接
+-[] 綠界invoice電子發票
+-[] 銷售流程簡化與收穀部分借貸與會計整合
+-[] 轉穀流程討論與開發（暫定）
+
+
 
 
