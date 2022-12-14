@@ -80,7 +80,7 @@
             <h5>應付款:</h5>
           </div>
           <div class="">
-            <table class="table table-bordered text-center table-sm" style="table-layout: fixed; border: 1px solid; border-color:black; border-collapse:collapse;">
+            <table class="table table-bordered text-center table-sm" style="border: 1px solid; border-color:black; border-collapse:collapse;">
               <!-- <thead style="font-size: 12pt;"> -->
               <tr style="background-color:rgb(218,220,224);">
                 <th>編號</th>
@@ -97,7 +97,7 @@
               <t t-set="crops" t-value="doc.mapped('seq_numbers')" />
               <tr t-foreach="crops" t-as="crop">
                 <t t-set="total_weight" t-value="total_weight+crop.CropWeight" />
-                <td class="align-middle">
+                <td style="white-space: nowrap; width: 55px;">
                   <span t-esc="idx" />
                 </td>
                 <td class="align-middle">
@@ -132,7 +132,7 @@
                 <t t-set="idx" t-value="idx+1" />
               </tr>
               <tr t-foreach="add_items.filtered(lambda x: x.item_kind == 'expenditure')" t-as="add_item">
-                <td class="align-middle">
+                <td style="white-space: nowrap; width: 55px;">
                   <span t-esc="idx" />
                 </td>
                 <td class="align-middle">
@@ -173,7 +173,7 @@
             <h5>應收款:</h5>
           </div>
           <div class="">
-            <table class="table table-bordered text-center table-sm" style="table-layout: fixed; border: 1px solid; border-color:black; border-collapse:collapse;">
+            <table class="table table-bordered text-center table-sm" style="border: 1px solid; border-color:black; border-collapse:collapse;">
               <!-- <thead style="font-size: 12pt;"> -->
               <tr style="background-color:rgb(218,220,224);">
                 <th>編號</th>
@@ -189,7 +189,7 @@
               <t t-set="idx" t-value="1" />
               <tr t-foreach="add_items.filtered(lambda x: x.item_kind == 'income')" t-as="add_item">
                 <t t-set="total_income" t-value="total_income+floor(add_item.total_price)" />
-                <td class="align-middle">
+                <td style="white-space: nowrap; width: 55px;">
                   <span t-esc="idx" />
                 </td>
                 <td class="align-middle">
@@ -202,7 +202,7 @@
                   <span t-field="add_item.amount" />
                 </td>
                 <td class="align-middle">
-                  <span t-esc="'{0:,.0f}'.format(floor(add_item.unit_price))" />
+                  <span t-esc="add_item.unit_price" t-options='{"widget": "float", "precision": 4}' />
                 </td>
                 <td class="align-middle">
                   <span t-esc="'{0:,.0f}'.format(floor(add_item.total_price))" />
