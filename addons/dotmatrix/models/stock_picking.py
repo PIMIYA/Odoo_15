@@ -8,9 +8,9 @@ class dotmatrix(models.Model):
     _name = 'stock.picking'
     _inherit = 'stock.picking'
 
-    # print_data = fields.Html(
-    #     string='Printer Data', render_engine='qweb', translate=True, sanitize=False)
-    print_data = fields.Text(string='Printer Data')
+    print_data = fields.Html(
+        string='Printer Data', render_engine='qweb', translate=True, sanitize=False)
+
     sender_name = fields.Char(string='Sender Name')
     sender_phone = fields.Char(string='Sender Phone')
     sender_address = fields.Char(string='Sender Address')
@@ -79,8 +79,10 @@ class dotmatrix(models.Model):
             raise exceptions.ValidationError(
                 '請選擇運送方式, 按下更新列印資料，以列印紙本出貨單！或是選擇電子出單！')
 
-    def action_print(self):
-        pass
+    def logistic_print(self):
+
+        _logger.info('logistic_print')
+        return self.env.ref('dotmatrix.action_logistic_report').report_action(self)
 
     def button_validate(self):
         res = super(dotmatrix, self).button_validate()

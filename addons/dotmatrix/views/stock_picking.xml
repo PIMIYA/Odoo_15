@@ -9,10 +9,10 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//button[@name='do_print_picking']" position="before">
-                    <button type="object" string="Dot Matrix" icon="fa-print" name="action_print" custom="print_dotmatrix" state="done"/>
+                    <button type="object" string="Print Logistic Sheet" icon="fa-print" name="logistic_print" custom="print_dotmatrix" state="done"/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
-                    <page string="Dot Matrix">
+                    <page string="Preview Logistic Printing Content">
                         <button string="Refresh" type="object" state="draft" name="action_refresh_printer_data" icon="fa-print">
                         </button>
                         <field name="print_data" widget="html"/>
