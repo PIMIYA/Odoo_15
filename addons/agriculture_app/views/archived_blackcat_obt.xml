@@ -9,6 +9,7 @@
         <form>
           <sheet>
             <group>
+              <field name="StockPickingId_Customer" readonly="1" />
               <field name="SrvTranId" readonly="1" />
               <field name="OBTNumber" readonly="1" />
               <field name="FileNo" readonly="1" invisible="1" />
@@ -27,6 +28,8 @@
       <field name="model">agriculture.blackcat_obt</field>
       <field name="arch" type="xml">
         <tree>
+          <field name="StockPickingId_Customer" string="StockPickingId_Customer" />
+          <field name="StockPickingId" string="StockPickingId"/>
           <field name="SrvTranId" string="SrvTranId" />
           <field name="OBTNumber" string="OBTNumber" />
         </tree>
@@ -40,9 +43,14 @@
       <field name="arch" type="xml">
         <search>
           <field name="OBTNumber" string="OBTNumber" />
+          <field name="StockPickingId_Customer" string="StockPickingId_Customer" />
+          <field name="StockPickingId" string="StockPickingId" />
+          <filter name="StockPickingId" string="StockPickingId" icon="terp-partner" context="{'group_by':'StockPickingId'}"/>
         </search>
       </field>
     </record>
+
+
 
   </data>
 </odoo>

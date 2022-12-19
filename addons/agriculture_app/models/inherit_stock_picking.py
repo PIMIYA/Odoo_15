@@ -1,6 +1,7 @@
 from odoo import models, fields, api, exceptions
 from odoo.tools.translate import _
 from datetime import timedelta, date
+from lxml import etree
 import logging
 from .blackcatapi import PrintObtOrder, PrintObtRequestData, SearchAddress, AddressRequestData, ShippingPdfRequestData, \
     get_zipcode, request_print_obt, request_address, request_pdf
@@ -33,7 +34,9 @@ class Inherit_stock_picking(models.Model):
     HopeArriveDate = fields.Date(
         "HopeArriveDate", require=True, default=date.today()+timedelta(days=3))
 
-    Shipping_method = fields.Char('Shipping Method', default='', readonly=True)
+    Shipping_method = fields.Char(
+        'Shipping_method', default='')
+
     temp_conpany_phone = fields.Char('temp_conpany_phone', default='')
 
     @api.depends('BlackcatObtIds')
@@ -295,7 +298,18 @@ class Inherit_stock_picking(models.Model):
             rec.Shipping_method = self.carrier_id.name
             _logger.info(f"carrier_id name: {rec.Shipping_method}")
 
+    @api.depends('Shipping_method')
+    def _compute_shipping_method(self):
+        for rec in self:
+            rec.Shipping_method = self.carrier_id.name
+            _logger.info(f"carrier_id name: {rec.Shipping_method}")
+
     @api.model
     def create(self, vals):
         self.env.cr.commit()
         return super(Inherit_stock_picking, self).create(vals)
+
+    def default_get(self, fields):
+        res = super(Inherit_stock_picking, self).default_get(fields)
+        res['Shipping_method'] = self.carrier_id.name
+        return res

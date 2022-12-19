@@ -19,7 +19,7 @@
     <record id="action_logistic_report" model="ir.actions.report">
         <field name="name">物流列印單據</field>
         <field name="model">stock.picking</field>
-        <field name="report_type">qweb-pdf</field>
+        <field name="report_type">qweb-html</field>
         <field name="report_name">dotmatrix.logistic_stock_picking_report</field>
         <field name="report_file">dotmatrix.logistic_stock_picking_report</field>
         <field name="binding_model_id" ref="stock.model_stock_picking" />

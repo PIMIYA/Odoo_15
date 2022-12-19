@@ -9,6 +9,8 @@ class BlackcatObt(models.Model):
     _description = 'Blackcat OBT'
 
     StockPickingId = fields.Many2one('stock.picking')
+    StockPickingId_Customer = fields.Char(
+        "Customer", related="StockPickingId.partner_id.name", required=False)
     SrvTranId = fields.Char('SrvTranId', require=True)
     OBTNumber = fields.Char('OBTNumber', require=True)
     FileNo = fields.Char('FileNo', require=True)

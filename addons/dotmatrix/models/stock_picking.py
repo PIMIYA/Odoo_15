@@ -79,10 +79,19 @@ class dotmatrix(models.Model):
             raise exceptions.ValidationError(
                 '請選擇運送方式, 按下更新列印資料，以列印紙本出貨單！或是選擇電子出單！')
 
-    def logistic_print(self):
+    @api.onchange('carrier_id')
+    def onchange_carrier_id(self):
+        if self.carrier_id.name == "宅配通" or self.carrier_id.name == "大榮貨運":
+            self.action_refresh_printer_data()
+        else:
+            pass
 
+    def logistic_print(self):
         _logger.info('logistic_print')
-        return self.env.ref('dotmatrix.action_logistic_report').report_action(self)
+        if self.carrier_id.name == "宅配通" or self.carrier_id.name == "大榮貨運":
+            return self.env.ref('dotmatrix.action_logistic_report').report_action(self)
+        else:
+            pass
 
     def button_validate(self):
         res = super(dotmatrix, self).button_validate()

@@ -76,7 +76,7 @@
     <record id="action_agriculture_blackcat_obt" model="ir.actions.act_window">
         <field name="name">Blackcat OBT</field>
         <field name="res_model">agriculture.blackcat_obt</field>
-        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_mode">tree,form</field>
     </record>
     <menuitem id="menu_agriculture_blackcat" name="Blackcat" parent="menu_agriculture" sequence="99" />
     <menuitem id="menu_agriculture_blackcat_obt" name="Blackcat OBT" parent="menu_agriculture_blackcat" action="action_agriculture_blackcat_obt" />
