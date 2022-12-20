@@ -9,13 +9,11 @@
         <table>
           <pre>
             <br/>
-            <t t-out="object.Shipping_method"/>
-            <br/>
             <tr>
-              <p>收件人</p>
               <pre>
+                <p>收件人</p>
                 <t t-out="object.partner_id.zip"></t>
-                <t t-out="object.partner_id.state_id"></t>
+                <t t-out="object.partner_id.state_id.name"></t>
                 <t t-out="object.partner_id.city"></t>
                 <t t-out="object.partner_id.street"></t>
                 <t t-out="object.partner_id.street2"></t>
@@ -25,8 +23,8 @@
               </pre>
             </tr>
             <tr>
-              <p>寄件人</p>
               <pre>
+                <p>寄件人</p>
                 <t t-out="object.sender_zip"/>
                 <t t-out="object.sender_address"/>
                 <t t-out="object.sender_name"/>
@@ -48,33 +46,29 @@
         <table>
           <pre>
             <br/>
-            <t t-out="object.Shipping_method"/>
-            <br/>
-            <tr colspan = "2">
-              <td colspan = "1">
+            <tr>
+              <pre>
                 <p>寄件人</p>
-                <pre>
-                  <t t-out="object.ktj_customerId"/>
-                  <t t-out="object.sender_phone"/>
-                  <t t-out="object.sender_mobile"/>
-                  <t t-out="object.sender_name"/>
-                  <t t-out="object.sender_zip"/>
-                  <t t-out="object.sender_address"/>
-                </pre>
-              </td>
-              <td colspan = "1">
+                <t t-out="object.ktj_customerId"/>
+                <t t-out="object.sender_phone"/>
+                <t t-out="object.sender_mobile"/>
+                <t t-out="object.sender_name"/>
+                <t t-out="object.sender_zip"/>
+                <t t-out="object.sender_address"/>
+              </pre>
+            </tr>
+            <tr>
+              <pre>
                 <p>收件人</p>
-                <pre>
-                  <t t-out="object.partner_id.phone"/>
-                  <t t-out="object.partner_id.mobile"/>
-                  <t t-out="object.partner_id.name"/>
-                  <t t-out="object.partner_id.zip"/>
-                  <t t-out="object.partner_id.state_id"></t>
-                  <t t-out="object.partner_id.city"/>
-                  <t t-out="object.partner_id.street"/>
-                  <t t-out="object.partner_id.street2"/>
-                </pre>
-              </td>
+                <t t-out="object.partner_id.phone"/>
+                <t t-out="object.partner_id.mobile"/>
+                <t t-out="object.partner_id.name"/>
+                <t t-out="object.partner_id.zip"/>
+                <t t-out="object.partner_id.state_id.name"></t>
+                <t t-out="object.partner_id.city"/>
+                <t t-out="object.partner_id.street"/>
+                <t t-out="object.partner_id.street2"/>
+              </pre>
             </tr>
           </pre>
         </table>

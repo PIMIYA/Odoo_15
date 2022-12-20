@@ -76,7 +76,7 @@
                                 <tr>
                                     <td />
                                     <td colspan="8">
-                                        <span t-field="doc.partner_id.state_id" />
+                                        <span t-field="doc.partner_id.state_id.name" />
                                         <span t-field="doc.partner_id.city" />
                                     </td>
                                 </tr>
@@ -258,7 +258,7 @@
                                 <td class="tg-s1" colspan="2">
                                     <span t-field="doc.partner_id.zip" />
                                     <br />
-                                    <span t-field="doc.partner_id.state_id" />
+                                    <span t-field="doc.partner_id.state_id.name" />
                                 </td>
                                 <td colspan="5">
                                     <span t-field="doc.partner_id.city" />
