@@ -92,13 +92,3 @@ class dotmatrix(models.Model):
             return self.env.ref('dotmatrix.action_logistic_report').report_action(self)
         else:
             pass
-
-    def button_validate(self):
-        res = super(dotmatrix, self).button_validate()
-        self.action_refresh_printer_data()
-        return res
-
-        # def print_dotmatrix(self):
-        #     self.ensure_one()
-        #     _logger.info('print_dotmatrix')
-        #     return self.env.ref('dotmatrix.action_report_stock_picking').report_action(self)
