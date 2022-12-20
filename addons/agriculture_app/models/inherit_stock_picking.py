@@ -118,11 +118,19 @@ class Inherit_stock_picking(models.Model):
         # recipientAddress = self.partner_id.Member.get_partner_attr('address')
         # recipientAddress = self.partner_id.contact_address
         if self.partner_id.street2:
-            recipientAddress = "{0}{1}{2}{3}".format(
-                self.partner_id.zip, self.partner_id.city, self.partner_id.street, self.partner_id.street2)
+            if self.partner_id.state_id.name == self.partner_id.city:
+                recipientAddress = "{0}{1}{2}{3}".format(
+                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.street, self.partner_id.street2)
+            else:
+                recipientAddress = "{0}{1}{2}{3}{4}".format(
+                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street, self.partner_id.street2)
         else:
-            recipientAddress = "{0}{1}{2}".format(
-                self.partner_id.zip, self.partner_id.city, self.partner_id.street)
+            if self.partner_id.state_id.name == self.partner_id.city:
+                recipientAddress = "{0}{1}{2}".format(
+                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.street)
+            else:
+                recipientAddress = "{0}{1}{2}{3}".format(
+                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street)
 
         _logger.info('recipientAddress: %s', recipientAddress)
 
@@ -134,8 +142,13 @@ class Inherit_stock_picking(models.Model):
         if not current_company.phone:
             raise exceptions.ValidationError(
                 'Company phone must not be empty')
-        senderAddress = "{0}{1}".format(
-            current_company.city, current_company.street)
+        if current_company.state_id.name == current_company.city:
+            senderAddress = "{0}{1}{2}".format(
+                current_company.zip, current_company.city, current_company.street)
+        else:
+            senderAddress = "{0}{1}{2}{3}".format(
+                current_company.zip, current_company.state_id.name, current_company.city, current_company.street)
+
         if not senderAddress:
             raise exceptions.ValidationError(
                 'Company address must not be empty')

@@ -228,11 +228,11 @@
                                 <td class="tg-02"></td>
                             </tr>
                             <tr>
-                                <!--
+
                                 <td>
                                     <span t-field="doc.ktj_customerId" />
                                 </td>
-                                -->
+
                                 <td></td>
                                 <td></td>
                                 <td class="tg-z9od" colspan="6">
