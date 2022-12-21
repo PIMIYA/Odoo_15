@@ -7,279 +7,284 @@
                 <span></span>
             </t>
             <t t-if="doc.Shipping_method=='宅配通'">
-                <t t-call="web.basic_layout">
-                    <div style="font-size: 16pt;">
-                        <style type="text/css">
-                            .tg {
-                                border-collapse: collapse;
-                                table-layout: fixed;
-                                Width: 820px;
-                            }
+            <t t-call="web.basic_layout">
+                <div style="font-size: 16pt;">
+                    <style type="text/css">
+                        .tg {
+                            border-collapse: collapse;
+                            table-layout: fixed;
+                            Width: 328px;
+                        }
 
-                            .tg td {
-                                height: 45px;
-                                line-height: 45px;
-                                border-color: #3f3b3b;
-                                border-style: solid;
-                                border-width: 1px;
-                                font-family: Arial, sans-serif;
-                                font-size: 24px;
-                                overflow: visible;
-                                word-break: normal;
-                            }
+                        .tg td {
+                            height: 45px;
+                            line-height: 45px;
+                            border-color: #F8F8F8;
+                            border-style: solid;
+                            border-width: 1px;
+                            font-family: Arial, sans-serif;
+                            font-size: 24px;
+                            overflow: visible;
+                            word-break: normal;
+                        }
 
-                            .tg .tg-0 {
-                                height: 20px;
-                                line-height: 20px;
-                            }
+                        .tg .tg-0 {
+                            height: 20px;
+                            line-height: 20px;
+                        }
 
-                            .tg .tg-01 {
-                                font-size: 20px;
-                                letter-spacing: 20px;
-                            }
+                        .tg .tg-01 {
+                            font-size: 20px;
+                            letter-spacing: 20px;
+                        }
 
-                            .tg .tg-02 {
-                                font-size: 16px;
-                                height: 40px;
-                                line-height: 40px;
-                                text-align: left;
-                                vertical-align: top;
-                            }
+                        .tg .tg-02 {
+                            font-size: 20px;
+                            height: 26px;
+                            line-height: 26px;
+                            text-align: left;
+                            vertical-align: top;
+                        }
 
-                            .tg .tg-z9od {
-                                height: 16px;
-                                line-height: 16px;
-                                font-size: 14px;
-                                text-align: left;
-                                vertical-align: top;
-                            }
-                        </style>
-                        <table class="tg">
-                            <tbody>
-                                <tr>
-                                    <td class="tg-0"></td>
-                                    <td class="tg-0"></td>
-                                    <td class="tg-0"></td>
-                                    <td class="tg-0"></td>
-                                    <td class="tg-0"></td>
-                                    <td class="tg-0"></td>
-                                    <td class="tg-0"></td>
-                                    <td class="tg-0"></td>
-                                    <td class="tg-0"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td class="tg-01" colspan="7">
-                                        <span t-field="doc.partner_id.zip" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td />
-                                    <td colspan="8">
-                                        <span t-field="doc.partner_id.state_id.name" />
-                                        <span t-field="doc.partner_id.city" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td />
-                                    <td colspan="8">
-                                        <span t-field="doc.partner_id.street" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td />
-                                    <td colspan="8">
-                                        <span t-field="doc.partner_id.street2" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td />
-                                    <td></td>
-                                    <td colspan="7">
-                                        <span t-field="doc.partner_id.name" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td />
-                                    <td />
-                                    <td colspan="7" class="tg-z9od">
-                                        <span t-field="doc.partner_id.phone" />
-                                        <br />
-                                        <span t-field="doc.partner_id.mobile" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tg-02" colspan="3"></td>
-                                    <td class="tg-02" colspan="6">
-                                        <span t-field="doc.sender_zip" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tg-02" colspan="2"></td>
-                                    <td class="tg-02" colspan="7">
-                                        <span t-field="doc.sender_address" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tg-02" colspan="2"></td>
-                                    <td class="tg-02" colspan="7">
-                                        <span t-field="doc.sender_name" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td colspan="7" class="tg-z9od">
-                                        <span t-field="doc.sender_phone" />
-                                        <br />
-                                        <span t-field="doc.sender_mobile" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tg-02" colspan="4"></td>
-                                    <td class="tg-02" colspan="5">
-                                        <span t-field="doc.ecan_customerId" />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </t>
-            </t>
-            <t t-if="doc.Shipping_method=='大榮貨運'">
-                <t t-call="web.basic_layout">
-                    <div style="font-size: 12pt;">
-                        <style type="text/css">
-                            .tg {
-                                border-collapse: collapse;
-                                table-layout: fixed;
-                                Width: 820px;
-                            }
+                        .tg .tg-03 {
+                            font-size: 16px;
+                            height: 30px;
+                            line-height: 30px;
+                            text-align: left;
+                            vertical-align: top;
+                        }
 
-                            .tg td {
-                                height: 30px;
-                                line-height: 30px;
-                                border-color: #F8F8F8;
-                                border-style: solid;
-                                border-width: 1px;
-                                font-family: Arial, sans-serif;
-                                font-size: 20px;
-                                overflow: visable;
-                                word-break: normal;
-                                vertical-align: center;
-                            }
-
-                            .tg .tg-01 {
-                                width: 250px;
-                                font-size: 20px;
-                                height: 45px;
-                                line-height: 45px;
-                                text-align: left;
-                                vertical-align: center;
-
-                            }
-
-                            .tg .tg-02 {
-                                width: 40px;
-                                height: 45px;
-                                line-height: 45px;
-                            }
-
-                            .tg .tg-03 {
-                                width: 50px;
-                                height: 45px;
-                            }
-
-                            .tg .tg-z9od {
-                                font-size: 12px;
-                                height: 12px;
-                                line-height: 12px;
-                                text-align: left;
-                                vertical-align: center;
-                                letter-spacing: 1px;
-                            }
-
-                            .tg .tg-s1 {
-                                height: 20px;
-                                line-height: 20px;
-                                font-size: 16px;
-                                text-align: left;
-                                vertical-align: top;
-                            }
-
-                            .tg .tg-b1 {
-                                height: 40px;
-                                line-height: 20px;
-                                font-size: 18px;
-                                text-align: left;
-                                vertical-align: top;
-                                padding: 2px;
-                                letter-spacing: 4px;
-                            }
-                        </style>
-                        <table class="tg">
+                        .tg .tg-z9od {
+                            height: 16px;
+                            line-height: 16px;
+                            font-size: 14px;
+                            text-align: left;
+                            vertical-align: top;
+                        }
+                    </style>
+                    <table class="tg">
+                        <tbody>
                             <tr>
-                                <td class="tg-01"></td>
-                                <td class="tg-03"></td>
-                                <td class="tg-02"></td>
-                                <td class="tg-02"></td>
-                                <td class="tg-02"></td>
-                                <td class="tg-02"></td>
-                                <td class="tg-02"></td>
-                                <td class="tg-02"></td>
+                                <td class="tg-0" />
+                                <td class="tg-0" />
+                                <td class="tg-0" />
+                                <td class="tg-0" />
+                                <td class="tg-0" />
+                                <td class="tg-0" />
+                                <td class="tg-0" />
+                                <td class="tg-0" />
+                                <td class="tg-0" />
                             </tr>
                             <tr>
-
-                                <td>
-                                    <span t-field="doc.ktj_customerId" />
-                                </td>
-
-                                <td></td>
-                                <td></td>
-                                <td class="tg-z9od" colspan="6">
-                                    <span t-field="doc.partner_id.mobile" />
-                                    <br />
-                                    <span t-field="doc.partner_id.phone" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span t-field="doc.sender_phone" />
-                                    <span t-field="doc.sender_mobile" />
-                                </td>
-                                <td></td>
-                                <td colspan="6">
-                                    <span t-field="doc.partner_id.name" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span t-field="doc.sender_name" />
-                                </td>
-                                <td class="tg-s1" colspan="2">
+                                <td />
+                                <td class="tg-01" colspan="8">
                                     <span t-field="doc.partner_id.zip" />
-                                    <br />
-                                    <span t-field="doc.partner_id.state_id.name" />
                                 </td>
-                                <td colspan="5">
+                            </tr>
+                            <tr>
+                                <td />
+                                <td colspan="8">
+                                    <span t-field="doc.partner_id.state_id.name" />
                                     <span t-field="doc.partner_id.city" />
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <span t-field="doc.sender_zip" />
-                                    <br />
-                                    <span t-field="doc.sender_address" />
-                                </td>
-                                <td colspan="7" class="tg-b1">
+                                <td />
+                                <td colspan="8">
                                     <span t-field="doc.partner_id.street" />
-                                    <br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tg-03" />
+                                <td class="tg-03" colspan="8">
                                     <span t-field="doc.partner_id.street2" />
                                 </td>
                             </tr>
-                        </table>
-                    </div>
-                </t>
+                            <tr>
+                                <td class="tg-02" />
+                                <td class="tg-02" />
+                                <td class="tg-02" colspan="7">
+                                    <span t-field="doc.partner_id.name" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tg-02" />
+                                <td class="tg-02" />
+                                <td colspan="7" class="tg-z9od">
+                                    <span t-field="doc.partner_id.phone" />
+                                    <br />
+                                    <span t-field="doc.partner_id.mobile" />
+                                </td>
+                            </tr>
+                            <!--
+                                <tr>
+                                    <td class="tg-02" colspan="3"/>
+                                    <td class="tg-02" colspan="6">
+                                        <span />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tg-02" colspan="2"/>
+                                    <td class="tg-02" colspan="7">
+                                        <span />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tg-02" colspan="2"/>
+                                    <td class="tg-02" colspan="7">
+                                        <span />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"/>
+                                    <td colspan="7" class="tg-z9od">
+                                        <span />
+                                        <br/>
+                                        <span />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tg-02" colspan="4"/>
+                                    <td class="tg-02" colspan="5">
+                                        <span />
+                                    </td>
+                                </tr>
+                                -->
+                        </tbody>
+                    </table>
+                </div>
             </t>
+        </t>
+        <t t-if="doc.Shipping_method=='大榮貨運'">
+            <t t-call="web.basic_layout">
+                <div style="font-size: 12pt;">
+                    <style type="text/css">
+                        .tg {
+                            border-collapse: collapse;
+                            table-layout: fixed;
+                            Width: 820px;
+                        }
+
+                        .tg td {
+                            height: 30px;
+                            line-height: 30px;
+                            border-color: #F8F8F8;
+                            border-style: solid;
+                            border-width: 1px;
+                            font-family: Arial, sans-serif;
+                            font-size: 20px;
+                            overflow: visable;
+                            word-break: normal;
+                            vertical-align: center;
+                        }
+
+                        .tg .tg-01 {
+                            width: 260px;
+                            font-size: 20px;
+                            height: 45px;
+                            line-height: 45px;
+                            text-align: left;
+                            vertical-align: center;
+
+                        }
+
+                        .tg .tg-02 {
+                            width: 40px;
+                            height: 45px;
+                            line-height: 45px;
+                        }
+
+                        .tg .tg-03 {
+                            width: 50px;
+                            height: 45px;
+                        }
+
+                        .tg .tg-z9od {
+                            font-size: 12px;
+                            height: 12px;
+                            line-height: 12px;
+                            text-align: left;
+                            vertical-align: center;
+                            letter-spacing: 1px;
+                        }
+
+                        .tg .tg-s1 {
+                            height: 20px;
+                            line-height: 20px;
+                            font-size: 16px;
+                            text-align: left;
+                            vertical-align: top;
+                        }
+
+                        .tg .tg-b1 {
+                            height: 40px;
+                            line-height: 20px;
+                            font-size: 18px;
+                            text-align: left;
+                            vertical-align: top;
+                            padding: 2px;
+                            letter-spacing: 4px;
+                        }
+                    </style>
+                    <table class="tg">
+                        <tr>
+                            <td class="tg-01" />
+                            <td class="tg-03" />
+                            <td class="tg-02" />
+                            <td class="tg-02" />
+                            <td class="tg-02" />
+                            <td class="tg-02" />
+                            <td class="tg-02" />
+                            <td class="tg-02" />
+                            <td class="tg-02" />
+                        </tr>
+                        <tr>
+                            <td>
+                                <span />
+                            </td>
+
+                            <td />
+                            <td />
+                            <td class="tg-z9od" colspan="6">
+                                <span t-field="doc.partner_id.mobile" />
+                                <br />
+                                <span t-field="doc.partner_id.phone" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td />
+                            <td />
+                            <td colspan="7">
+                                <span t-field="doc.partner_id.name" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span />
+                            </td>
+                            <td colspan="2">
+                                <span t-field="doc.partner_id.state_id.name" />
+                            </td>
+                            <td colspan="6">
+                                <span t-field="doc.partner_id.city" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span />
+                                <br />
+                                <span />
+                            </td>
+                            <td colspan="8" class="tg-b1">
+                                <span t-field="doc.partner_id.street" />
+                                <br />
+                                <span t-field="doc.partner_id.street2" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
         </t>
     </template>
 </odoo>

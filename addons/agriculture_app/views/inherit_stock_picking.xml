@@ -30,6 +30,7 @@
           <label for="HopeArriveDate" string="Hope Arrive Date" attrs="{'invisible': [('Shipping_method', '!=', 'Blackcat'),('Shipping_method', '!=', '黑貓宅急便')]}"/>
         </div>
         <field name="HopeArriveDate" nolabel="1" widget="date" attrs="{'invisible': [('Shipping_method', '!=', 'Blackcat'),('Shipping_method', '!=', '黑貓宅急便')]}"/>
+        <field name="Shipping_destination"></field>
       </field>
 
       <xpath expr="//notebook" position="inside">
@@ -46,7 +47,33 @@
           </field>
         </page>
       </xpath>
+    </field>
+  </record>
 
+
+  <!-- inherit view from tree -->
+  <record id="list_inherit_from_stock_picking" model="ir.ui.view">
+    <field name="name">list_inherit_form_stock_picking</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.vpicktree"></field>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='state']" position="before">
+        <field name="Shipping_destination"></field>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- search view definition -->
+  <record id="search_from_stock_picking" model="ir.ui.view">
+    <field name="name">search_from_stock_picking filter</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_internal_search"></field>
+    <field name="arch" type="xml">
+      <xpath expr="//filter[@name='status']" position="before">
+        <filter name="Shipping_method" string="Shipping method" icon="terp-partner" context="{'group_by':'Shipping_method'}"/>
+        <filter name="location_dest_id" string="Destination" icon="terp-partner" context="{'group_by':'location_dest_id'}"/>
+        <filter name="Shipping_destination" string="Shipping destination" icon="terp-partner" context="{'group_by':'Shipping_destination'}"/>
+      </xpath>
     </field>
   </record>
 </odoo>

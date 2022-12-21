@@ -17,6 +17,7 @@ DefinedBlackcatState = [
 
 
 class Inherit_stock_picking(models.Model):
+    _name = 'stock.picking'
     _inherit = 'stock.picking'
 
     BlackcatObtId = fields.Many2one(
@@ -36,6 +37,8 @@ class Inherit_stock_picking(models.Model):
 
     Shipping_method = fields.Char(
         'Shipping_method', default='')
+
+    Shipping_destination = fields.Char('Shipping_destination', default='')
 
     temp_conpany_phone = fields.Char('temp_conpany_phone', default='')
 
@@ -309,12 +312,14 @@ class Inherit_stock_picking(models.Model):
     def _onchange_(self):
         for rec in self:
             rec.Shipping_method = self.carrier_id.name
+            rec.Shipping_destination = self.partner_id.state_id.name
             _logger.info(f"carrier_id name: {rec.Shipping_method}")
 
     @api.depends('Shipping_method')
     def _compute_shipping_method(self):
         for rec in self:
             rec.Shipping_method = self.carrier_id.name
+            rec.Shipping_destination = self.partner_id.state_id.name
             _logger.info(f"carrier_id name: {rec.Shipping_method}")
 
     @api.model
@@ -325,4 +330,5 @@ class Inherit_stock_picking(models.Model):
     def default_get(self, fields):
         res = super(Inherit_stock_picking, self).default_get(fields)
         res['Shipping_method'] = self.carrier_id.name
+        res['Shipping_destination'] = self.partner_id.state_id.name
         return res
