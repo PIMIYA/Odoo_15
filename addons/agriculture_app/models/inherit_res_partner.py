@@ -5,7 +5,7 @@ class Inherit_res_partner(models.Model):
     _inherit = 'res.partner'
 
     is_agriculture_member = fields.Boolean(string='Is an Agriculture Member', default=False,
-                                           help="Check if the contact is a agriculture_member, otherwise it is a person or company", required=False, translate=True)
+                                           help="Check if the contact is a agriculture_member, otherwise it is a person or company", required=False)
 
     Member = fields.Many2one("agriculture.member",
                              string="SellerName", required=False)
