@@ -24,7 +24,7 @@ You can find the detail in docker-compose.yml file.
 
 ## Setup
 
-1. 進入 `docker` 安裝 `pypeg2`
+1. 進入 `docker` 安裝 `pypeg2` 與其他綠界電子發票相關套件
   ```sh
   pip install pypeg2
   ```
