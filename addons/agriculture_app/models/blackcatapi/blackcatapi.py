@@ -8,9 +8,9 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-BASE_URL_DEV = 'http://apitestsuda.southeastasia.cloudapp.azure.com:8081/api/egs/{cmd}'
-BASE_URL_PRODUCT = 'https://api.suda.com.tw/api/egs/{cmd}'
-BASE_URL = BASE_URL_DEV
+# BASE_URL_DEV = 'http://apitestsuda.southeastasia.cloudapp.azure.com:8081/api/egs/{cmd}'
+# BASE_URL_PRODUCT = 'https://api.suda.com.tw/api/egs/{cmd}'
+# BASE_URL = BASE_URL_DEV
 
 
 class ApiDataEncoder(json.JSONEncoder):

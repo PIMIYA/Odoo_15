@@ -22,6 +22,15 @@ You can find the detail in docker-compose.yml file.
 
 已移除使用secret file, 可視情況補上。
 
+## Setup
+
+1. 進入 `docker` 安裝 `pypeg2`
+  ```sh
+  pip install pypeg2
+  ```
+2. Odoo install `Dolimi Agriculture`
+
+## docker compose config
 ```
 version: '3.1'
 services:
