@@ -28,6 +28,15 @@ You can find the detail in docker-compose.yml file.
   ```sh
   pip install pypeg2
   ```
+  ```sh
+  pip install ecpay_invoice3
+  ```
+  ```sh
+  apt-get install ttf-wqy-zenhei -y
+  ```
+  ```sh
+  apt-get install ttf-wqy-microhei -y
+  ```
 2. Odoo install `Dolimi Agriculture`
 
 ## docker compose config
