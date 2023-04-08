@@ -8,7 +8,7 @@ import decimal
 
 
 class ECPAYINVOICEInherit(models.Model):
-    _inherit = "account.invoice"
+    _inherit = "account.move"
 
     ecpay_invoice_id = fields.Many2one(
         comodel_name='uniform.invoice', string='統一發票號碼')
@@ -136,7 +136,7 @@ class ECPAYINVOICEInherit(models.Model):
             res.append({
                 'ItemName': line.product_id.name[:30],
                 'ItemCount': int(line.quantity),
-                'ItemWord': line.uom_id.name[:6],
+                'ItemWord': line.product_uom_id.name[:6],
                 'ItemPrice': ItemPrice,
                 'ItemTaxType': '',
                 'ItemAmount': ItemAmount,

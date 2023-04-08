@@ -11,7 +11,7 @@
         sudo pip3 install ecpay_invoice3
     """,
     'summary': '電子發票 (Invoice): ECPay 綠界第三方電子發票模組',
-    'depends': ['account', 'sale','sale_management', 'website_sale'],
+    'depends': ['account', 'sale', 'sale_management', 'website_sale'],
     'data': [
         'views/res_config_setting_view.xml',
         'data/demo.xml',
@@ -24,12 +24,17 @@
         'views/account_invoice_refund_view.xml',
         'security/ir.model.access.csv',
     ],
+    'assets': {
+        'web.assets_frontend': [
+            '/ecpay_invoice_tw/static/src/js/invoice.js',
+        ],
+    },
     'external_dependencies': {
         'python': [
             'ecpay_invoice'
         ],
         'bin': []
-    },  
+    },
     'installable': True,
     'application': True,
 }

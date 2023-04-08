@@ -88,7 +88,7 @@ class UniformInvoice(models.Model):
 
         invoice = EcpayInvoice()
 
-        self.env['account.invoice'].demo_invoice_init(
+        self.env['account.move'].demo_invoice_init(
             invoice, 'Query/Issue', 'INVOICE_SEARCH')
 
         invoice.Send['RelateNumber'] = self.related_number

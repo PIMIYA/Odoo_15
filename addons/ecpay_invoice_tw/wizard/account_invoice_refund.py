@@ -3,7 +3,7 @@ from odoo.exceptions import UserError
 
 
 class ECPAYINVOICEREFUNDInherit(models.TransientModel):
-    _inherit = 'account.invoice.refund'
+    _inherit = 'account.move.reversal'
 
     refund_ecpay_kind = fields.Selection([('offline', '紙本同意'), ('online', '線上同意')],
                                          default='offline', string='同意類型', required=True, help='折讓電子發票同意類型')
@@ -16,7 +16,7 @@ class ECPAYINVOICEREFUNDInherit(models.TransientModel):
         res = super(ECPAYINVOICEREFUNDInherit, self).compute_refund(mode)
         context = dict(self._context or {})
         # 取得欲作廢或折讓的發票
-        inv_obj = self.env['account.invoice'].browse(context.get('active_ids'))
+        inv_obj = self.env['account.move'].browse(context.get('active_ids'))
         if len(inv_obj) == 0:
             raise UserError('錯誤，找不到欲作廢或折讓的發票！')
         if type(res) == dict:
@@ -27,7 +27,7 @@ class ECPAYINVOICEREFUNDInherit(models.TransientModel):
                 if line[0] == 'id':
                     target = line[2]
                     break
-            refund_inv = self.env['account.invoice'].browse(target)
+            refund_inv = self.env['account.move'].browse(target)
             if len(refund_inv) == 0:
                 raise UserError('錯誤，找不到建立的折讓單！')
             if mode == 'cancel':

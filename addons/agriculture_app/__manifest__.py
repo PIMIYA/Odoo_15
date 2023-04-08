@@ -14,7 +14,7 @@
     "category": "Operations/Agriculture",
     "version": "15.0.1.0.8",
     # any module necessary for this one to work correctly
-    "depends": ["base", "contacts", "account", "sale", "stock"],
+    "depends": ["base", "contacts", "account", "sale", "stock", "sale_management"],
     # always loaded
     "data": [
         # "security/agriculture_security.xml",
