@@ -2,7 +2,6 @@
 from odoo import models, fields, api
 from ecpay_invoice.ecpay_main import *
 from odoo.exceptions import UserError
-from werkzeug import urls
 
 import decimal
 
@@ -10,61 +9,39 @@ import decimal
 class ECPAYINVOICEInherit(models.Model):
     _inherit = "account.move"
 
-    ecpay_invoice_id = fields.Many2one(
-        comodel_name='uniform.invoice', string='統一發票號碼')
+    ecpay_invoice_id = fields.Many2one(comodel_name='uniform.invoice', string='統一發票號碼')
     uniform_state = fields.Selection(selection=[('to invoice', '未開電子發票'), ('invoiced', '已開電子發票'), ('invalid', '已作廢')], string='電子發票狀態',
                                      default='to invoice')
     ecpay_tax_type = fields.Selection(selection=[('1', '含稅'), ('0', '未稅')], string='商品單價是否含稅', default='1',
                                       readonly=True, states={'draft': [('readonly', False)]})
-    show_create_invoice = fields.Boolean(
-        string='控制是否顯示串接電子發票', compute='get_access_invoce_mode')
-    show_hand_in_field = fields.Boolean(
-        string='控制是否顯示手動填入的選項', compute='get_access_invoce_mode')
+    show_create_invoice = fields.Boolean(string='控制是否顯示串接電子發票', compute='get_access_invoce_mode')
+    show_hand_in_field = fields.Boolean(string='控制是否顯示手動填入的選項', compute='get_access_invoce_mode')
 
     is_donation = fields.Boolean(string='是否捐贈發票')
     lovecode = fields.Char(string='捐贈碼')
     is_print = fields.Boolean(string='是否索取紙本發票')
-    carruerType = fields.Selection(
-        selection=[('1', '綠界科技電子發票載具'), ('2', '自然人憑證'), ('3', '手機條碼')], string='載具類別')
+    carruerType = fields.Selection(selection=[('1', '綠界科技電子發票載具'), ('2', '自然人憑證'), ('3', '手機條碼')], string='載具類別')
     carruernum = fields.Char(string='載具號碼')
     ecpay_CustomerIdentifier = fields.Char(string='統一編號')
     ec_print_address = fields.Char(string='發票寄送地址')
     ec_ident_name = fields.Char(string='發票抬頭')
 
-    IIS__Sales_Amount = fields.Char(
-        string='發票金額', related='ecpay_invoice_id.IIS_Sales_Amount')
-    IIS_Invalid_Status = fields.Selection(
-        related='ecpay_invoice_id.IIS_Invalid_Status')
-    IIS_Issue_Status = fields.Selection(
-        related='ecpay_invoice_id.IIS_Issue_Status')
-    IIS_Relate_Number = fields.Char(
-        related='ecpay_invoice_id.IIS_Relate_Number')
+    IIS__Sales_Amount = fields.Char(string='發票金額', related='ecpay_invoice_id.IIS_Sales_Amount')
+    IIS_Invalid_Status = fields.Selection(related='ecpay_invoice_id.IIS_Invalid_Status')
+    IIS_Issue_Status = fields.Selection(related='ecpay_invoice_id.IIS_Issue_Status')
+    IIS_Relate_Number = fields.Char(related='ecpay_invoice_id.IIS_Relate_Number')
 
     is_refund = fields.Boolean(string='是否為折讓')
     refund_finish = fields.Boolean(string='折讓完成')
-    refund_state = fields.Selection(selection=[('draft', '草稿'), ('to be agreed', '待同意'), ('agreed', '開立成功'), ('disagree', '開立失敗')],
-                                    string='折讓通知狀態',
-                                    default='draft')
-    refund_ecpay_kind = fields.Selection([('offline', '紙本同意'), ('online', '線上同意')],
-                                         default='offline', string='同意類型', required=True, help='折讓電子發票同意類型')
-
     IA_Allow_No = fields.Char(string='折讓單號')
-    IA_Invoice_No = fields.Many2one(
-        string='被折讓的發票', related='ecpay_invoice_id')
-    IIS_Remain_Allowance_Amt = fields.Char(
-        string='剩餘可折讓金額', related='ecpay_invoice_id.IIS_Remain_Allowance_Amt')
+    IA_Invoice_No = fields.Many2one(string='被折讓的發票', related='ecpay_invoice_id')
+    IIS_Remain_Allowance_Amt = fields.Char(string='剩餘可折讓金額', related='ecpay_invoice_id.IIS_Remain_Allowance_Amt')
 
-    ecpay_invoice_code = fields.Char(string='綠界電子發票自訂編號 ')
-
-    @api.onchange('is_print', 'carruerType', 'carruernum')
+    @api.onchange('is_print', 'carruerType')
     def set_carruerType_false(self):
-        if self.is_print is True:
-            self.is_donation = False
+        if self.is_print is True and self.carruerType is not False:
             self.carruerType = False
             self.carruernum = False
-        # if self.is_print is True and self.carruerType is not False:
-        #    self.carruerType = False
-        #    self.carruernum = False
 
     @api.onchange('is_donation')
     def set_is_print_false(self):
@@ -75,8 +52,7 @@ class ECPAYINVOICEInherit(models.Model):
     # 注意depends的self有時會有多筆，需要以for loop來執行。
     @api.depends('ecpay_invoice_id')
     def get_access_invoce_mode(self):
-        auto_invoice_mode = self.env['ir.config_parameter'].sudo(
-        ).get_param('ecpay_invoice_tw.auto_invoice')
+        auto_invoice_mode = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.auto_invoice')
         for row in self:
             if auto_invoice_mode == 'automatic':
                 row.show_create_invoice = False
@@ -87,16 +63,12 @@ class ECPAYINVOICEInherit(models.Model):
                 row.show_hand_in_field = False
 
     # 當開立模式是自動開立時，在發票進行驗證(打開)時，同時進行開立發票的動作。
-    # @api.multi
-    # review: 這裡的api.multi已經被棄用，改用api.model
-    @api.model
     def action_invoice_open(self):
         res = super(ECPAYINVOICEInherit, self).action_invoice_open()
-        auto_invoice = self.env['ir.config_parameter'].sudo(
-        ).get_param('ecpay_invoice_tw.auto_invoice')
+        auto_invoice = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.auto_invoice')
         # 如果發票為折讓，則不自動產生電子發票
         if auto_invoice == 'automatic':
-            if self.type in ['out_invoice']:
+            if self.type not in ['in_refund', 'out_refund']:
                 self.create_ecpay_invoice()
             elif self.is_refund is True:
                 self.run_refund()
@@ -106,43 +78,31 @@ class ECPAYINVOICEInherit(models.Model):
     def demo_invoice_init(self, ecpay_invoice, type, method):
         # 判斷設定是否為測試電子發票模式
         url = 'https://einvoice.ecpay.com.tw/' + type
-        ecpay_demo_mode = self.env['ir.config_parameter'].sudo(
-        ).get_param('ecpay_invoice_tw.ecpay_demo_mode')
+        ecpay_demo_mode = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_demo_mode')
         if ecpay_demo_mode:
             url = 'https://einvoice-stage.ecpay.com.tw/' + type
 
         ecpay_invoice.Invoice_Method = method
         ecpay_invoice.Invoice_Url = url
-        ecpay_invoice.MerchantID = self.env['ir.config_parameter'].sudo(
-        ).get_param('ecpay_invoice_tw.ecpay_MerchantID')
-        ecpay_invoice.HashKey = self.env['ir.config_parameter'].sudo(
-        ).get_param('ecpay_invoice_tw.ecpay_HashKey')
-        ecpay_invoice.HashIV = self.env['ir.config_parameter'].sudo(
-        ).get_param('ecpay_invoice_tw.ecpay_HashIV')
+        ecpay_invoice.MerchantID = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_MerchantID')
+        ecpay_invoice.HashKey = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_HashKey')
+        ecpay_invoice.HashIV = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_HashIV')
 
     # 匯入Odoo發票明細到電子發票中
     def prepare_item_list(self):
         res = []
         amount_total = 0.0
         for line in self.invoice_line_ids:
-            # 若Vat = 0(免稅)，商品金額需為免稅金額若Vat = 1(含稅)，商品金額需為含稅金額
-            if self.ecpay_tax_type == '0':
-                ItemPrice = line.price_subtotal / int(line.quantity)
-                ItemAmount = line.price_subtotal
-            else:
-                ItemPrice = line.price_total / int(line.quantity)
-                ItemAmount = line.price_total
-
             res.append({
                 'ItemName': line.product_id.name[:30],
                 'ItemCount': int(line.quantity),
                 'ItemWord': line.product_uom_id.name[:6],
-                'ItemPrice': ItemPrice,
+                'ItemPrice': line.price_unit,
                 'ItemTaxType': '',
-                'ItemAmount': ItemAmount,
+                'ItemAmount': line.price_unit * int(line.quantity),
                 'ItemRemark': line.name[:40]
             })
-            amount_total += line.price_total
+            amount_total += line.price_unit * line.quantity
         return res, amount_total
 
     # 準備客戶基本資料
@@ -283,28 +243,11 @@ class ECPAYINVOICEInherit(models.Model):
         # 檢查欲折讓的發票是否有被設定
         if self.ecpay_invoice_id.id is False:
             raise UserError('找不到欲折讓的發票！')
-        # 取得折讓方式(紙本開立或線上開立)
-        #refund_mode = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_AllowanceByCollegiate')
-        if self.refund_ecpay_kind == "offline":
-            refund_mode = False
-        else:
-            refund_mode = True
 
         # 建立物件
         invoice = EcpayInvoice()
-        # 初始化物件,依折讓方式(紙本開立或線上開立)
-        if refund_mode:
-            if not self.partner_id.email:
-                raise UserError('必需要有客戶e-mail才能通知！')
-            self.demo_invoice_init(
-                invoice, 'Invoice/AllowanceByCollegiate', 'AllowanceByCollegiate')
-            # 取得 domain
-            base_url = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_allowance_domain') if self.env['ir.config_parameter'].sudo(
-            ).get_param('ecpay_invoice_tw.ecpay_allowance_domain') else self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            invoice.Send['ReturnURL'] = urls.url_join(
-                base_url, '/invoice/ecpay/agreed_invoice_allowance')
-        else:
-            self.demo_invoice_init(invoice, 'Invoice/Allowance', 'ALLOWANCE')
+        # 初始化物件
+        self.demo_invoice_init(invoice, 'Invoice/Allowance', 'ALLOWANCE')
 
         invoice.Send['InvoiceNo'] = self.ecpay_invoice_id.name
         invoice.Send['AllowanceNotify'] = 'E'
@@ -325,11 +268,6 @@ class ECPAYINVOICEInherit(models.Model):
         # 更新發票的剩餘折讓金額
         self.ecpay_invoice_id.IA_Remain_Allowance_Amt = aReturn_Info['IA_Remain_Allowance_Amt']
         self.refund_finish = True
-        # 若為線上開立，還需處理後續狀態
-        if refund_mode:
-            self.refund_state = 'to be agreed'
-        else:
-            self.refund_state = 'agreed'
 
     # 電子發票前端驗證手機條碼ＡＰＩ
     @api.model
@@ -337,8 +275,7 @@ class ECPAYINVOICEInherit(models.Model):
         # 建立電子發票物件
         invoice = EcpayInvoice()
         # 初始化物件
-        self.demo_invoice_init(
-            invoice, 'Query/CheckMobileBarCode', 'CHECK_MOBILE_BARCODE')
+        self.demo_invoice_init(invoice, 'Query/CheckMobileBarCode', 'CHECK_MOBILE_BARCODE')
 
         # 準備傳送參數
         invoice.Send['BarCode'] = text
@@ -358,8 +295,7 @@ class ECPAYINVOICEInherit(models.Model):
         # 建立電子發票物件
         invoice = EcpayInvoice()
         # 初始化物件
-        self.demo_invoice_init(
-            invoice, 'Query/CheckLoveCode', 'CHECK_LOVE_CODE')
+        self.demo_invoice_init(invoice, 'Query/CheckLoveCode', 'CHECK_LOVE_CODE')
 
         # 準備傳送參數
         invoice.Send['LoveCode'] = text
@@ -372,28 +308,3 @@ class ECPAYINVOICEInherit(models.Model):
             return True
         else:
             return False
-
-    # 人工填入電子發票
-    def get_ecpay_invoice(self):
-        if self.ecpay_invoice_code is False:
-            raise UserError('請填入綠界電子發票自訂編號 ！！')
-
-        # 建立Odoo中，新的uniform.invoice的紀錄
-        record = self.env['uniform.invoice'].create({})
-
-        #invoice.Send['RelateNumber'] = record.related_number
-        record.related_number = self.ecpay_invoice_code
-
-        # 設定發票號碼
-        #record.name = aReturn_Info['InvoiceNumber']
-
-        # 成功開立發票後，將電子發票與Odoo發票關聯
-        self.ecpay_invoice_id = record
-
-        # 利用RelateNumber到綠界後台取得電子發票的詳細資訊並儲存到Odoo電子發票模組
-        record.get_ecpay_invoice_info()
-        record.name = record.IIS_Number
-
-        # 設定Odoo發票為已開電子發票
-        self.uniform_state = 'invoiced'
-        return True

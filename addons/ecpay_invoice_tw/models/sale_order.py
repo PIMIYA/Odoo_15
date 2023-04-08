@@ -11,12 +11,9 @@ class EcpayInvoiceSaleOrder(models.Model):
     ec_ident_name = fields.Char(string="發票抬頭")
     ec_ident = fields.Char(string="統一編號")
     ec_carruer_type = fields.Selection(string='載具類別', selection=[('1', '綠界科技電子發票載具'), ('2', '消費者自然人憑證'),
-                                                                 ('3', '消費者手機條碼')])
+                                                                  ('3', '消費者手機條碼')])
     ec_carruer_number = fields.Char(string="載具號碼")
 
-    # @api.multi
-    # review: api.multi is deprecated
-    @api.model
     def _prepare_invoice(self):
         res = super(EcpayInvoiceSaleOrder, self)._prepare_invoice()
 

@@ -6,12 +6,20 @@
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//div[@name='button_box']" position="replace">
+                <!-- <xpath expr="//div[@name='button_box']" position="replace">
                     <div class="oe_button_box" name="button_box">
                         <button name="create_ecpay_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" string="串接電子發票" attrs="{'invisible': ['|','|',('show_create_invoice','!=',True),('uniform_state', '!=', 'to invoice'),('type','in',['in_refund','out_refund'])]}"/>
                     </div>
                     <div class="oe_button_box" name="button_box">
                         <button name="run_refund" type="object" class="oe_stat_button" icon="fa-trash-o" string="折讓電子發票" attrs="{'invisible': ['|','|',('show_create_invoice','!=',True), ('refund_finish', '=', True),('type','not in',['in_refund','out_refund'])]}"/>
+                    </div>
+                </xpath> -->
+                <xpath expr="//div[@name='button_box']" position="replace">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="create_ecpay_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" string="串接電子發票"/>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="run_refund" type="object" class="oe_stat_button" icon="fa-trash-o" string="折讓電子發票"/>
                     </div>
                 </xpath>
                 <xpath expr="//page[@id='invoice_tab']" position="after">
@@ -40,15 +48,12 @@
                                 <field name="carruernum"/>
                             </group>
                         </group>
-                        <!-- <group string="綠界發票折讓" attrs="{'invisible': [('type','not in',['in_refund','out_refund'])]}">
-                         -->
+                        <!-- <group string="綠界發票折讓" attrs="{'invisible': [('type','not in',['in_refund','out_refund'])]}"> -->
                         <group string="綠界發票折讓">
                             <group>
                                 <field name="IA_Invoice_No"/>
                                 <field name="IA_Allow_No"/>
                                 <field name="refund_finish" invisible="1"/>
-                                <field name="refund_state" readonly="1"/>
-                                <field name="refund_ecpay_kind" />
                             </group>
                         </group>
                     </page>

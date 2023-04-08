@@ -13,6 +13,7 @@
                     <div class="col-md-12">
                         <h2 class="page-header mt8">電子發票</h2>
                     </div>
+
                     <div class="col-md-12" id="ecpay_invoice_print">
                         <ul class="list-group">
                             <li class="list-group-item">
@@ -29,6 +30,7 @@
                             </li>
                         </ul>
                     </div>
+
                     <div class="col-md-12" id="ecpay_invoice_identifier">
                         <ul class="list-group">
                             <li class="list-group-item">
@@ -41,6 +43,7 @@
                             </li>
                         </ul>
                     </div>
+
                     <div class="col-md-12 store-info" id="ecpay_invoice_identifier_name">
                         <div id="div-identifier_name" class="form-group col-md-6">
                             <label for="identifier_name">受買人名稱</label>
@@ -53,12 +56,15 @@
                             <p id="warning-identifier" class="bg-danger" style="padding:5px;">請填寫正確統一編號</p>
                         </div>
                     </div>
+
                     <div class="clearfix"/>
+
                     <div id="div-invoice_address" class="col-md-12">
                         <label for="invoice_address">發票寄送地址</label>
                         <input class="form-control" id="invoice_address" name="invoice_address" type="text" />
                         <p id="warning-invoice_address" class="bg-danger" style="padding:5px;">請填寫正確發票寄送地址</p>
                     </div>
+
                     <div class="col-md-12 o_website_sale_rightfit" id="invoice_type_selection">
                         <label for="invoice_type">使用載具</label>
                         <select class="form-control" id="invoice_type" ReceiverName="invoice_type">
@@ -68,11 +74,13 @@
                             <option t-attf-value="3">手機條碼</option>
                         </select>
                     </div>
+
                     <div class="col-md-12" id="ecpay_invoice_CarruerNum">
                         <label for="CarruerNum">載具名稱</label>
                         <input class="form-control" id="CarruerNum" maxlength="20" name="CarruerNum" type="text" />
                         <p id="warning-CarruerNum" class="bg-danger" style="padding:5px;">載具格式為1碼斜線「/」加上7碼由數字及大寫英文字母及+-.符號組成的字串</p>
                     </div>
+
                     <div class="col-md-12" id="ecpay_invoice_LoveCode">
                         <label for="LoveCode">捐贈碼                            <a href="https://www.einvoice.nat.gov.tw/APCONSUMER/BTC603W/" target="_blank">捐贈碼查詢</a>
                         </label>
@@ -82,5 +90,6 @@
                 </div>
             </xpath>
         </template>
+
     </data>
 </odoo>
