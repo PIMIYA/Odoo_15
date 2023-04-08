@@ -23,6 +23,10 @@ class BlackcatObt(models.Model):
     @api.depends('ShippingPdf')
     def _compute_pdf_filename(self):
         self.ensure_one()
+        if not self.OBTNumber:
+            self.ShippingPdfFilename = ''
+            return
+            
         name = self.OBTNumber.replace('/', '_')
         name = name.replace('.', '_')
         name = name + '.pdf'
