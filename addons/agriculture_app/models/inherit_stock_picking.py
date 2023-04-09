@@ -6,6 +6,7 @@ import logging
 from .blackcatapi import PrintObtOrder, PrintObtRequestData, SearchAddress, AddressRequestData, ShippingPdfRequestData, \
     get_zipcode, request_print_obt, request_address, request_pdf
 from .ecan import ecan_request
+from .helper import get_phone_info, get_address_info
 
 _logger = logging.getLogger(__name__)
 
@@ -101,43 +102,44 @@ class Inherit_stock_picking(models.Model):
             raise exceptions.ValidationError(
                 'HopeArrive date must not be empty')
         # recipientPhone = self.partner_id.Member.get_partner_attr(
-        #     'mobile-or-phone').replace('+886', '0').replace(" ", "")
-        if self.partner_id.mobile:
-            if self.partner_id.mobile.startswith('+886'):
-                recipientPhone = self.partner_id.mobile.replace(
-                    '+886', '0').replace(" ", "")
-            else:
-                recipientPhone = self.partner_id.mobile
-        else:
-            if self.partner_id.phone.startswith('+886'):
-                recipientPhone = self.partner_id.phone.replace(
-                    '+886', '0').replace(" ", "")
-            else:
-                recipientPhone = self.partner_id.phone
-
+        #     'mobile-or-phone').replace('+88
+        # 6', '0').replace(" ", "")
+        # if self.partner_id.mobile:
+        #     if self.partner_id.mobile.startswith('+886'):
+        #         recipientPhone = self.partner_id.mobile.replace(
+        #             '+886', '0').replace(" ", "")
+        #     else:
+        #         recipientPhone = self.partner_id.mobile
+        # else:
+        #     if self.partner_id.phone.startswith('+886'):
+        #         recipientPhone = self.partner_id.phone.replace(
+        #             '+886', '0').replace(" ", "")
+        #     else:
+        #         recipientPhone = self.partner_id.phone
+        recipientPhone = get_phone_info(self.partner_id)
+        # _logger.info('recipientPhone: %s', recipientPhone)
         if not recipientPhone:
             raise exceptions.ValidationError(
                 'Recipient phone must not be empty')
         # recipientAddress = self.partner_id.Member.get_partner_attr('address')
         # recipientAddress = self.partner_id.contact_address
-        if self.partner_id.street2:
-            if self.partner_id.state_id.name == self.partner_id.city:
-                recipientAddress = "{0}{1}{2}{3}".format(
-                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.street, self.partner_id.street2)
-            else:
-                recipientAddress = "{0}{1}{2}{3}{4}".format(
-                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street,
-                    self.partner_id.street2)
-        else:
-            if self.partner_id.state_id.name == self.partner_id.city:
-                recipientAddress = "{0}{1}{2}".format(
-                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.street)
-            else:
-                recipientAddress = "{0}{1}{2}{3}".format(
-                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street)
-
-        _logger.info('recipientAddress: %s', recipientAddress)
-
+        # if self.partner_id.street2:
+        #     if self.partner_id.state_id.name == self.partner_id.city:
+        #         recipientAddress = "{0}{1}{2}{3}".format(
+        #             self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.street, self.partner_id.street2)
+        #     else:
+        #         recipientAddress = "{0}{1}{2}{3}{4}".format(
+        #             self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street,
+        #             self.partner_id.street2)
+        # else:
+        #     if self.partner_id.state_id.name == self.partner_id.city:
+        #         recipientAddress = "{0}{1}{2}".format(
+        #             self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.street)
+        #     else:
+        #         recipientAddress = "{0}{1}{2}{3}".format(
+        #             self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street)
+        recipientAddress = get_address_info(self.partner_id)
+        # _logger.info('recipientAddress: %s', recipientAddress)
         if not recipientAddress:
             raise exceptions.ValidationError(
                 'Recipient address must not be empty')
@@ -146,16 +148,24 @@ class Inherit_stock_picking(models.Model):
         if not current_company.phone:
             raise exceptions.ValidationError(
                 'Company phone must not be empty')
+        senderAddress = None
         if current_company.state_id.name == current_company.city:
             senderAddress = "{0}{1}{2}".format(
                 current_company.zip, current_company.city, current_company.street)
         else:
             senderAddress = "{0}{1}{2}{3}".format(
                 current_company.zip, current_company.state_id.name, current_company.city, current_company.street)
-
+        _logger.info('senderAddress: %s', senderAddress)
         if not senderAddress:
             raise exceptions.ValidationError(
                 'Company address must not be empty')
+
+        senderPhone = get_phone_info(current_company)
+        _logger.info('senderPhone: %s', senderPhone)
+        if not senderPhone:
+            raise exceptions.ValidationError(
+                'Company phone must not be empty')
+        self.temp_conpany_phone = senderPhone
 
         # _logger.info('order id: {0}'.format(self.origin))
         # _logger.info('customer.name: {0}'.format(self.partner_id.SellerName))
@@ -219,10 +229,6 @@ class Inherit_stock_picking(models.Model):
             zipCode = get_zipcode(postNumber=postNumber)
         else:
             raise exceptions.ValidationError(addressResponse['error'])
-
-        if current_company.phone.startswith('+886'):
-            self.temp_conpany_phone = current_company.phone.replace(
-                '+886', '0').replace(" ", "")
 
         orderData = PrintObtOrder(
             OrderId=self.origin,
