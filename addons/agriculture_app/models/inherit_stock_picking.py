@@ -404,8 +404,9 @@ class Inherit_stock_picking(models.Model):
             # ]})
 
             # 直接用 BlackcatState
-            self.BlackcatState = DefinedBlackcatState[1][0]
-            self.BlackcatState = DefinedBlackcatState[2][0]
+            # self.BlackcatState = DefinedBlackcatState[1][0]
+            # self.BlackcatState = DefinedBlackcatState[2][0]
+            # return True
         else:
             raise exceptions.ValidationError(response['error'])
 
