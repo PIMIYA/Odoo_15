@@ -5,8 +5,8 @@ from lxml import etree
 import logging
 from .blackcatapi import PrintObtOrder, PrintObtRequestData, SearchAddress, AddressRequestData, ShippingPdfRequestData, \
     get_zipcode, request_print_obt, request_address, request_pdf
-from .ecan import ecan_request
-from .helper import get_phone_info, get_address_info
+from .ecan import EcanShipOrder, EcanShipOrderRequest, ecan_request_ship, ecan_request_zip
+from .helper import get_phone_info, get_address_info, get_company_phone, get_company_address
 
 _logger = logging.getLogger(__name__)
 
@@ -148,19 +148,12 @@ class Inherit_stock_picking(models.Model):
         if not current_company.phone:
             raise exceptions.ValidationError(
                 'Company phone must not be empty')
-        senderAddress = None
-        if current_company.state_id.name == current_company.city:
-            senderAddress = "{0}{1}{2}".format(
-                current_company.zip, current_company.city, current_company.street)
-        else:
-            senderAddress = "{0}{1}{2}{3}".format(
-                current_company.zip, current_company.state_id.name, current_company.city, current_company.street)
+        senderAddress = get_company_address(current_company)
         _logger.info('senderAddress: %s', senderAddress)
         if not senderAddress:
             raise exceptions.ValidationError(
                 'Company address must not be empty')
-
-        senderPhone = get_phone_info(current_company)
+        senderPhone = get_company_phone(current_company)
         _logger.info('senderPhone: %s', senderPhone)
         if not senderPhone:
             raise exceptions.ValidationError(
@@ -303,82 +296,60 @@ class Inherit_stock_picking(models.Model):
         if not self.HopeArriveDate:
             raise exceptions.ValidationError(
                 'HopeArrive date must not be empty')
-        if self.partner_id.mobile:
-            if self.partner_id.mobile.startswith('+886'):
-                recipientPhone = self.partner_id.mobile.replace(
-                    '+886', '0').replace(" ", "")
-            else:
-                recipientPhone = self.partner_id.mobile
-        else:
-            if self.partner_id.phone.startswith('+886'):
-                recipientPhone = self.partner_id.phone.replace(
-                    '+886', '0').replace(" ", "")
-            else:
-                recipientPhone = self.partner_id.phone
-
+        recipientName = self.partner_id.name,
+        recipientPhone = get_phone_info(self.partner_id)
+        # _logger.info('recipientPhone: %s', recipientPhone)
         if not recipientPhone:
             raise exceptions.ValidationError(
                 'Recipient phone must not be empty')
-        if self.partner_id.street2:
-            if self.partner_id.state_id.name == self.partner_id.city:
-                recipientAddress = "{0}{1}{2}{3}".format(
-                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.street, self.partner_id.street2)
-            else:
-                recipientAddress = "{0}{1}{2}{3}{4}".format(
-                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street,
-                    self.partner_id.street2)
-        else:
-            if self.partner_id.state_id.name == self.partner_id.city:
-                recipientAddress = "{0}{1}{2}".format(
-                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.street)
-            else:
-                recipientAddress = "{0}{1}{2}{3}".format(
-                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street)
-
-        _logger.info('recipientAddress: %s', recipientAddress)
-
+        recipientAddress = get_address_info(self.partner_id)
+        # _logger.info('recipientAddress: %s', recipientAddress)
         if not recipientAddress:
             raise exceptions.ValidationError(
                 'Recipient address must not be empty')
 
         current_company = self.env.company
-        if not current_company.phone:
-            raise exceptions.ValidationError(
-                'Company phone must not be empty')
-        if current_company.state_id.name == current_company.city:
-            senderAddress = "{0}{1}{2}".format(
-                current_company.zip, current_company.city, current_company.street)
-        else:
-            senderAddress = "{0}{1}{2}{3}".format(
-                current_company.zip, current_company.state_id.name, current_company.city, current_company.street)
-
+        senderName = current_company.name
+        senderAddress = get_company_address(current_company)
+        _logger.info('senderAddress: %s', senderAddress)
         if not senderAddress:
             raise exceptions.ValidationError(
                 'Company address must not be empty')
+        senderPhone = get_company_phone(current_company)
+        _logger.info('senderPhone: %s', senderPhone)
+        if not senderPhone:
+            raise exceptions.ValidationError(
+                'Company phone must not be empty')
+        self.temp_conpany_phone = senderPhone
 
-        # _logger.info('order id: {0}'.format(self.origin))
-        # _logger.info('customer.name: {0}'.format(self.partner_id.SellerName))
-        # _logger.info('customer.phone: {0}'.format(
-        #     self.partner_id.Member.get_partner_attr('total-phone')))
-        # _logger.info('customer.address: {0}'.format(
-        #     self.partner_id.Member.get_partner_attr('address')))
-        # _logger.info('==========')
+        # 商品名稱、數量
+        productName = ''
+        productCount = 0
+        for record in self.move_line_ids_without_package:
+            productCount += 1
+            productName += record.product_id.name + ' '
+        # _logger.info('productName: %s', productName)
+        # _logger.info('productCount: %s', productCount)
 
-        # _logger.info('customer.name: {0}'.format(current_company.name))
-        # _logger.info('customer.phone: {0}'.format(current_company.phone))
-        # _logger.info('customer.address: {0}{1}'.format(
-        #     current_company.city, current_company.street))
-        # _logger.info('==========')
-        # _logger.info('product.name: {0}'.format(self.PackageName))
-        # _logger.info('shipment date: {0}'.format(
-        #     self.ShipmentDate.strftime('%Y%m%d')))
-        # _logger.info('delivery date: {0}'.format(
-        #     self.HopeArriveDate.strftime('%Y%m%d')))
+        recipientZipResponse = ecan_request_zip(recipientAddress)
+        # _logger.info('recipientZipResponse: %s', recipientZipResponse)
+        if not recipientZipResponse['success']:
+            raise exceptions.ValidationError(
+                '收件者地址取得區碼錯誤, {0}'.format(recipientZipResponse['error']))
+        recipientZip = recipientZipResponse['data']
+        senderZipResponse = ecan_request_zip(senderAddress)
+        # _logger.info('senderZipResponse: %s', senderZipResponse)
+        if not senderZipResponse['success']:
+            raise exceptions.ValidationError(
+                '收件者地址取得區碼錯誤, {0}'.format(senderZipResponse['error']))
+        senderZip = senderZipResponse['data']
 
-        # _logger.info('phone: {0}'.format(recipientPhone))
-        # _logger.info('company_phone: {0}'.format(
-        #     current_company.phone.replace('+886', '0').replace(" ", "")))
+        order_no = self.origin
+        _logger.info("order_no: %s", order_no)
+        hopeArriveDate = self.HopeArriveDate.strftime('%Y%m%d')
+        _logger.info("hopeArriveDate: %s", hopeArriveDate)
 
+        # process response
         config = self.env['ir.config_parameter'].sudo()
         customerId = config.get_param('agriculture.ecan_customer_id')
         apiBaseUrl = config.get_param('agriculture.ecan_api_url')
@@ -386,8 +357,57 @@ class Inherit_stock_picking(models.Model):
             raise exceptions.ValidationError('請設定宅配通客戶編號')
         if not apiBaseUrl:
             raise exceptions.ValidationError('請設定宅配通 API URL')
-        # process response
-        pass
+
+        ecanShipOrder = EcanShipOrder(
+            customer_no=customerId,
+            order_no=order_no,
+            ttl_pcs=productCount,
+            spec="04",  # TODO 01, 02, 03, 04?
+            sender_name=senderName,
+            sender_phone=senderPhone,
+            sender_address=senderAddress,
+            sender_zipcode=senderZip,
+            cnee_name=recipientName,
+            cnee_phone=recipientPhone,
+            cnee_zipcode=recipientZip,
+            cnee_address=recipientAddress,
+            hope_arrive_date=hopeArriveDate,
+            specified_time="00",
+            collection="0",
+            product_type="01",
+            operation_type="1",
+            remark="",
+            collection_mark="0"
+        )
+        ecanShipOrderRequest = EcanShipOrderRequest(ship_order=[ecanShipOrder])
+        response = ecan_request_ship(ecanShipOrderRequest, apiBaseUrl)
+        _logger.info("response: %s", response)
+        if response['success']:
+            data = response['data']
+            if not data:
+                raise exceptions.ValidationError(
+                    'e-can Response data is null')
+            shippingData = data['successData']
+            if not shippingData:
+                raise exceptions.ValidationError(
+                    'e-can shipping data is null')
+            pdfUrl = data['pdfDownloadUrl']
+            # TODO: create e-can obt?
+            # self.write({'BlackcatObtIds': [
+            #     (0, 0, {
+            #         'SrvTranId': data['SrvTranId'],
+            #         'OBTNumber': data['Data']['Orders'][0]['OBTNumber'],
+            #         'FileNo': pdfRequestData.FileNo,
+            #         'ShippingPdf': binaryData,
+            #         'StockPickingId': self
+            #     })
+            # ]})
+
+            # 直接用 BlackcatState
+            self.BlackcatState = DefinedBlackcatState[1][0]
+            self.BlackcatState = DefinedBlackcatState[2][0]
+        else:
+            raise exceptions.ValidationError(response['error'])
 
     def button_carrier_call(self):
         self.ensure_one()
