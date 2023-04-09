@@ -1,18 +1,18 @@
-python版本 3.9
+python 版本 3.9
 
-postgresql版本 13
+postgresql 版本 13
 
-## Pull images from docker hub ##
+## Pull images from docker hub
 
-### odoo ###
+### odoo
 
 `docker pull pimiya/odoo`
 
-### postgres ###
+### postgres
 
 `docker pull pimiya/postgres`
 
-## Start an Odoo instance ##
+## Start an Odoo instance
 
 in directory /odoo/
 
@@ -20,26 +20,31 @@ in directory /odoo/
 
 You can find the detail in docker-compose.yml file.
 
-已移除使用secret file, 可視情況補上。
+已移除使用 secret file, 可視情況補上。
 
 ## Setup
 
 1. 進入 `docker` 安裝 `pypeg2` 與其他綠界電子發票相關套件
-  ```sh
-  pip install pypeg2
-  ```
-  ```sh
-  pip install ecpay_invoice3
-  ```
-  ```sh
-  apt-get install ttf-wqy-zenhei -y
-  ```
-  ```sh
-  apt-get install ttf-wqy-microhei -y
-  ```
+
+以 `root` 身分進入 Container
+
+```sh
+docker exec -it --user root {image id} /bin/bash
+```
+
+進入後安裝必要套件
+
+```sh
+apt-get update
+pip install pypeg2
+pip install ecpay_invoice3
+apt-get install ttf-wqy-zenhei ttf-wqy-microhei -y
+```
+
 2. Odoo install `Dolimi Agriculture`
 
 ## docker compose config
+
 ```
 version: '3.1'
 services:
@@ -52,7 +57,7 @@ services:
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo
-      - ./addons:/mnt/extra-addons    
+      - ./addons:/mnt/extra-addons
   db:
     image: pimiya/postgres:latest
     environment:
@@ -67,17 +72,13 @@ volumes:
   odoo-db-data:
 ```
 
-
-#### once you start the odoo instance, the addons and config folder will be created. ####
+#### once you start the odoo instance, the addons and config folder will be created.
 
 You can start to create custom addons and interactive with it.
 
-## list of new tasks for 2nd stage ##
-- [ ] 宅配通API出單串接
-- [ ] 綠界invoice電子發票
+## list of new tasks for 2nd stage
+
+- [ ] 宅配通 API 出單串接
+- [ ] 綠界 invoice 電子發票
 - [ ] 銷售流程簡化與收穀部分借貸與會計整合
 - [ ] 轉穀流程討論與開發（暫定）
-
-
-
-
