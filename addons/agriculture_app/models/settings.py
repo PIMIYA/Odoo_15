@@ -93,15 +93,20 @@ class Preferences(models.TransientModel):
     maxPurchaseQTYPerHectare = fields.Float(
         'MaxPurchaseQTYPerHectare', default=6000.0)
 
-    # Logistics configuration
+    # 黑貓 configuration
     # ----------------------------------------------------------
     blackCat_customer_id = fields.Char('BlackCat_Customer_Id')
     blackCat_api_token = fields.Char('BlackCat_Api_Token')
     blackCat_api_url = fields.Char('BlackCat_Api_Url')
 
-    # Logistics configuration print
+    # 宅配通 configuration
     # ----------------------------------------------------------
     ecan_customer_id = fields.Char('Ecan_Customer_Id')
+    ecan_api_token = fields.Char('Ecan_Api_Token')
+    ecan_api_url = fields.Char('Ecan_Api_Url')
+
+    # Logistics configuration print
+    # ----------------------------------------------------------
     ktj_customer_id = fields.Char('KTJ_Customer_Id')
 
     def set_values(self):
@@ -156,7 +161,8 @@ class Preferences(models.TransientModel):
         icp.set_param('agriculture.multiplication', self.multiplication)
         icp.set_param('agriculture.maxPurchaseQTYPerHectare',
                       self.maxPurchaseQTYPerHectare)
-        '''Logistics configuration'''
+        
+        '''黑貓 configuration'''
         icp.set_param('agriculture.blackCat_customer_id',
                       self.blackCat_customer_id),
         icp.set_param('agriculture.blackCat_api_token',
@@ -164,7 +170,11 @@ class Preferences(models.TransientModel):
         icp.set_param('agriculture.blackCat_api_url',
                       self.blackCat_api_url)
 
+        '''宅配通 configuration'''
         icp.set_param('agriculture.ecan_customer_id', self.ecan_customer_id)
+        icp.set_param('agriculture.ecan_api_token', self.ecan_api_token),
+        icp.set_param('agriculture.ecan_api_url', self.ecan_api_url)
+
         icp.set_param('agriculture.ktj_customer_id', self.ktj_customer_id)
 
         return res
@@ -232,13 +242,17 @@ class Preferences(models.TransientModel):
         value_maxPurchaseQTYPerHectare = icp.sudo().get_param(
             'agriculture.maxPurchaseQTYPerHectare', default=6000.0)
 
-        '''Logistics configuration'''
+        '''黑貓 configuration'''
         value_blackCat_customer_id = icp.sudo().get_param(
             'agriculture.blackCat_customer_id')
         value_blackCat_api_token = icp.sudo().get_param('agriculture.blackCat_api_token')
         value_blackCat_api_url = icp.sudo().get_param('agriculture.blackCat_api_url')
 
+        '''宅配通 configuration'''
         value_ecan_customer_id = icp.sudo().get_param('agriculture.ecan_customer_id')
+        value_ecan_api_token = icp.sudo().get_param('agriculture.ecan_api_token')
+        value_ecan_api_url = icp.sudo().get_param('agriculture.ecan_api_url')
+
         value_ktj_customer_id = icp.sudo().get_param('agriculture.ktj_customer_id')
 
         res.update(
@@ -277,6 +291,8 @@ class Preferences(models.TransientModel):
             blackCat_api_token=value_blackCat_api_token,
             blackCat_api_url=value_blackCat_api_url,
             ecan_customer_id=value_ecan_customer_id,
+            ecan_api_token=value_ecan_api_token,
+            ecan_api_url=value_ecan_api_url,
             ktj_customer_id=value_ktj_customer_id,
         )
         return res

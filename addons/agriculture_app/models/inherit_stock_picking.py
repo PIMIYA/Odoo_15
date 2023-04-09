@@ -5,9 +5,9 @@ from lxml import etree
 import logging
 from .blackcatapi import PrintObtOrder, PrintObtRequestData, SearchAddress, AddressRequestData, ShippingPdfRequestData, \
     get_zipcode, request_print_obt, request_address, request_pdf
+from .ecan import ecan_request
 
 _logger = logging.getLogger(__name__)
-
 
 DefinedBlackcatState = [
     ('none', 'None'),
@@ -33,7 +33,7 @@ class Inherit_stock_picking(models.Model):
     ShipmentDate = fields.Date(
         "ShipmentDate", require=True, default=date.today())
     HopeArriveDate = fields.Date(
-        "HopeArriveDate", require=True, default=date.today()+timedelta(days=3))
+        "HopeArriveDate", require=True, default=date.today() + timedelta(days=3))
 
     Shipping_method = fields.Char(
         'Shipping_method', default='')
@@ -126,7 +126,8 @@ class Inherit_stock_picking(models.Model):
                     self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.street, self.partner_id.street2)
             else:
                 recipientAddress = "{0}{1}{2}{3}{4}".format(
-                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street, self.partner_id.street2)
+                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street,
+                    self.partner_id.street2)
         else:
             if self.partner_id.state_id.name == self.partner_id.city:
                 recipientAddress = "{0}{1}{2}".format(
@@ -289,7 +290,97 @@ class Inherit_stock_picking(models.Model):
             raise exceptions.ValidationError(orderReponse['error'])
 
     def requestECan(self, packageItems):
+        # prepare api request data
+        if not self.ShipmentDate:
+            raise exceptions.ValidationError(
+                'Shipment date must not be empty')
+        if not self.HopeArriveDate:
+            raise exceptions.ValidationError(
+                'HopeArrive date must not be empty')
+        if self.partner_id.mobile:
+            if self.partner_id.mobile.startswith('+886'):
+                recipientPhone = self.partner_id.mobile.replace(
+                    '+886', '0').replace(" ", "")
+            else:
+                recipientPhone = self.partner_id.mobile
+        else:
+            if self.partner_id.phone.startswith('+886'):
+                recipientPhone = self.partner_id.phone.replace(
+                    '+886', '0').replace(" ", "")
+            else:
+                recipientPhone = self.partner_id.phone
 
+        if not recipientPhone:
+            raise exceptions.ValidationError(
+                'Recipient phone must not be empty')
+        if self.partner_id.street2:
+            if self.partner_id.state_id.name == self.partner_id.city:
+                recipientAddress = "{0}{1}{2}{3}".format(
+                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.street, self.partner_id.street2)
+            else:
+                recipientAddress = "{0}{1}{2}{3}{4}".format(
+                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street,
+                    self.partner_id.street2)
+        else:
+            if self.partner_id.state_id.name == self.partner_id.city:
+                recipientAddress = "{0}{1}{2}".format(
+                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.street)
+            else:
+                recipientAddress = "{0}{1}{2}{3}".format(
+                    self.partner_id.zip, self.partner_id.state_id.name, self.partner_id.city, self.partner_id.street)
+
+        _logger.info('recipientAddress: %s', recipientAddress)
+
+        if not recipientAddress:
+            raise exceptions.ValidationError(
+                'Recipient address must not be empty')
+
+        current_company = self.env.company
+        if not current_company.phone:
+            raise exceptions.ValidationError(
+                'Company phone must not be empty')
+        if current_company.state_id.name == current_company.city:
+            senderAddress = "{0}{1}{2}".format(
+                current_company.zip, current_company.city, current_company.street)
+        else:
+            senderAddress = "{0}{1}{2}{3}".format(
+                current_company.zip, current_company.state_id.name, current_company.city, current_company.street)
+
+        if not senderAddress:
+            raise exceptions.ValidationError(
+                'Company address must not be empty')
+
+        # _logger.info('order id: {0}'.format(self.origin))
+        # _logger.info('customer.name: {0}'.format(self.partner_id.SellerName))
+        # _logger.info('customer.phone: {0}'.format(
+        #     self.partner_id.Member.get_partner_attr('total-phone')))
+        # _logger.info('customer.address: {0}'.format(
+        #     self.partner_id.Member.get_partner_attr('address')))
+        # _logger.info('==========')
+
+        # _logger.info('customer.name: {0}'.format(current_company.name))
+        # _logger.info('customer.phone: {0}'.format(current_company.phone))
+        # _logger.info('customer.address: {0}{1}'.format(
+        #     current_company.city, current_company.street))
+        # _logger.info('==========')
+        # _logger.info('product.name: {0}'.format(self.PackageName))
+        # _logger.info('shipment date: {0}'.format(
+        #     self.ShipmentDate.strftime('%Y%m%d')))
+        # _logger.info('delivery date: {0}'.format(
+        #     self.HopeArriveDate.strftime('%Y%m%d')))
+
+        # _logger.info('phone: {0}'.format(recipientPhone))
+        # _logger.info('company_phone: {0}'.format(
+        #     current_company.phone.replace('+886', '0').replace(" ", "")))
+
+        config = self.env['ir.config_parameter'].sudo()
+        customerId = config.get_param('agriculture.ecan_customer_id')
+        apiBaseUrl = config.get_param('agriculture.ecan_api_url')
+        if not customerId:
+            raise exceptions.ValidationError('請設定宅配通客戶編號')
+        if not apiBaseUrl:
+            raise exceptions.ValidationError('請設定宅配通 API URL')
+        # process response
         pass
 
     def button_carrier_call(self):
