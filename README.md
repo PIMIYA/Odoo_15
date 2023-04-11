@@ -79,6 +79,5 @@ You can start to create custom addons and interactive with it.
 ## list of new tasks for 2nd stage
 
 - [ ] 宅配通 API 出單串接
-- [ ] 綠界 invoice 電子發票
+- [x] 綠界 invoice 電子發票(已完成測試中)
 - [ ] 銷售流程簡化與收穀部分借貸與會計整合
-- [ ] 轉穀流程討論與開發（暫定）
