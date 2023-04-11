@@ -52,26 +52,6 @@
     <menuitem id="menu_agriculture_crop_variety" name="CropVariety" parent="menu_agriculture_configuration" action="action_agriculture_crop_variety" />
     <menuitem id="menu_agriculture_settings" name="Price Estimated Settings" parent="menu_agriculture_configuration" action="res_config_settings_menu_action" />
 
-
-    <!-- Action to open the Storage all materials -->
-    <record id="action_agriculture_materials" model="ir.actions.act_window">
-        <field name="name">Materials</field>
-        <field name="res_model">agriculture.storagematerials</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-    <!-- Action to open the Storage  -->
-    <record id="action_agriculture_storage_area" model="ir.actions.act_window">
-        <field name="name">Storage Area</field>
-        <field name="res_model">agriculture.storage</field>
-        <field name="view_mode">kanban,form</field>
-    </record>
-
-    <!-- Menu item to open the Storage  -->
-    <menuitem id="menu_agriculture_storage" name="Storage" parent="menu_agriculture" sequence="10" />
-    <menuitem id="menu_agriculture_materials" name="Materials" parent="menu_agriculture_storage" action="action_agriculture_materials" />
-    <menuitem id="menu_agriculture_storage_area" name="Storage ID" parent="menu_agriculture_storage" action="action_agriculture_storage_area" />
-
-
     <!-- Menu item for blackcat obt -->
     <record id="action_agriculture_blackcat_obt" model="ir.actions.act_window">
         <field name="name">Blackcat OBT</field>
