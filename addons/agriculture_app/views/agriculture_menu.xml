@@ -80,4 +80,22 @@
     </record>
     <menuitem id="menu_agriculture_blackcat" name="Blackcat" parent="menu_agriculture" sequence="99" />
     <menuitem id="menu_agriculture_blackcat_obt" name="Blackcat OBT" parent="menu_agriculture_blackcat" action="action_agriculture_blackcat_obt" />
+
+    <!-- Menu item for invoice app -->
+    <record id="action_agriculture_invoice_send" model="ir.actions.act_window">
+        <field name="name">應付款項</field>
+        <field name="res_model">agriculture.invoice_send</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_agriculture_invoice_recieve" model="ir.actions.act_window">
+        <field name="name">應收款項</field>
+        <field name="res_model">agriculture.invoice_recieve</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_agriculture_invoice" name="稻穀收購交易" parent="account.menu_finance" sequence="3" />
+    <menuitem id="invoice_send" name="應付款項" parent="menu_agriculture_invoice" action="action_agriculture_invoice_send" sequence="2" />
+    <menuitem id="invoice_recieve" name="應收款項" parent="menu_agriculture_invoice" action="action_agriculture_invoice_recieve" sequence="3" />
+
+
 </odoo>

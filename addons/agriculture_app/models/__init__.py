@@ -16,3 +16,5 @@ from . import inherit_stock_picking
 from . import agriculture_blackcat_obt
 from . import ecan
 from . import helper
+from . import agriculture_invoice_send
+from . import agriculture_invoice_recieve
