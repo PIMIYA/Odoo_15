@@ -10,7 +10,7 @@ from .helper import get_phone_info, get_address_info, get_company_phone, get_com
 
 _logger = logging.getLogger(__name__)
 
-DefinedBlackcatState = [
+DefinedBShippState = [
     ('none', 'None'),
     ('obtRequested', 'OBT Requested'),
     ('printRequested', 'Print Requested'),
@@ -25,8 +25,8 @@ class Inherit_stock_picking(models.Model):
         'agriculture.blackcat_obt', compute='compute_blackcat_obt', inverse='blackcat_obt_inverse')
     BlackcatObtIds = fields.One2many(
         'agriculture.blackcat_obt', 'StockPickingId', 'Blackcat OBT')
-    BlackcatState = fields.Selection(
-        DefinedBlackcatState, 'State', default=DefinedBlackcatState[0][0])
+    ShippingState = fields.Selection(
+        DefinedBShippState, 'State', default=DefinedBShippState[0][0])
 
     # '''需新增packageName對應至商品分類項目'''
     # PackageName = fields.Char(
@@ -258,7 +258,7 @@ class Inherit_stock_picking(models.Model):
         orderReponse = request_print_obt(apiBaseUrl, orderRequest)
         # _logger.info(response)
         if orderReponse['success']:
-            self.BlackcatState = DefinedBlackcatState[1][0]
+            self.ShippingState = DefinedBShippState[1][0]
             # Create black obt
             data = orderReponse['data']
             # _logger.info(data)
@@ -282,7 +282,7 @@ class Inherit_stock_picking(models.Model):
                     'StockPickingId': self
                 })
             ]})
-            self.BlackcatState = DefinedBlackcatState[2][0]
+            self.ShippingState = DefinedBShippState[2][0]
 
             return True
         else:
@@ -403,9 +403,9 @@ class Inherit_stock_picking(models.Model):
             #     })
             # ]})
 
-            # 直接用 BlackcatState
-            # self.BlackcatState = DefinedBlackcatState[1][0]
-            # self.BlackcatState = DefinedBlackcatState[2][0]
+            # 直接用 ShippingState
+            # self.ShippingState = DefinedBShippState[1][0]
+            # self.ShippingState = DefinedBShippState[2][0]
             # return True
         else:
             raise exceptions.ValidationError(response['error'])

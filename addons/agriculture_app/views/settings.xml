@@ -75,7 +75,7 @@
                             <group string="ECANLogisticConfig">
                                 <field name="ecan_customer_id" string="ECAN Customer Id" />
                                 <field name="ecan_api_url" string="ECAN API Base URL" />
-                                <field name="ecan_api_token" string="ECAN API Token" />
+                                <!-- <field name="ecan_api_token" string="ECAN API Token" /> -->
                             </group>
                             <group string="KTJLogisticConfig">
                                 <field name="ktj_customer_id" string="KTJ Customer Id" />
