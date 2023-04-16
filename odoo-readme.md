@@ -28,3 +28,14 @@
 - `BlackCat Customer Id`
 - `BlackCat API Base URL`
 - `BlackCat API Token`
+
+### 宅配通
+
+- `ECAN Customer Id`
+- `ECAN API Base URL`
+- `ECAN API Token` 為預留暫關閉
+
+### 公司資訊
+
+- 公司地址
+- 公司電話(手機或市話)
