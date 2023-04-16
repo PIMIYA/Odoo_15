@@ -1,0 +1,54 @@
+<odoo>
+  <data>
+
+    <!-- form view definition -->
+    <record id="view_form_ecan_obt" model="ir.ui.view">
+      <field name="name">e-can OBT Form</field>
+      <field name="model">agriculture.ecan_obt</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="StockPickingId_Customer" readonly="1" />
+              <field name="OBTNumber" readonly="1" />
+              <field name="FileNo" readonly="1" />
+              <field name="ShippingPdfFilename" invisible="1" />
+              <field name="ShippingPdf" filename="ShippingPdfFilename" readonly="1" />
+              <field name="StockPickingId" string="Stock Picking" readonly="1" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- list view definition -->
+    <record id="view_tree_ecan_obt" model="ir.ui.view">
+      <field name="name">Ecan OBT list</field>
+      <field name="model">agriculture.ecan_obt</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="StockPickingId_Customer" string="StockPickingId_Customer" />
+          <field name="StockPickingId" string="StockPickingId" />
+          <field name="OBTNumber" string="OBTNumber" />
+        </tree>
+      </field>
+    </record>
+
+    <!-- search view definition -->
+    <record id="view_search_ecan_obt" model="ir.ui.view">
+      <field name="name">Ecan OBT Filters</field>
+      <field name="model">agriculture.ecan_obt</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="OBTNumber" string="OBTNumber" />
+          <field name="StockPickingId_Customer" string="StockPickingId_Customer" />
+          <field name="StockPickingId" string="StockPickingId" />
+          <filter name="StockPickingId" string="StockPickingId" icon="terp-partner"
+            context="{'group_by':'StockPickingId'}" />
+        </search>
+      </field>
+    </record>
+
+
+  </data>
+</odoo>

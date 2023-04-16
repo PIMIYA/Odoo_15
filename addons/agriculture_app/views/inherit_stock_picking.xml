@@ -56,6 +56,16 @@
             </tree>
           </field>
         </page>
+
+        <page string="E-Can orders">
+          <field name="EcanObtIds" nolabel="1">
+            <tree create="0" delete="0">
+              <field name="StockPickingId" />
+              <field name="StockPickingId_Customer" />
+              <field name="OBTNumber" />
+            </tree>
+          </field>
+        </page>
       </xpath>
     </field>
   </record>

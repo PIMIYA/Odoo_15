@@ -107,10 +107,10 @@ class EcanShipOrderRequest(object):
 
 def ecan_request_ship(body: object, url: str):
     try:
-        _logger.info(json.dumps(body, cls=ApiDataEncoder))
+        # _logger.info(json.dumps(body, cls=ApiDataEncoder))
         data = json.dumps(body, cls=ApiDataEncoder).encode()
         req = Request(url, method='POST', data=data, headers={
-            'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'})
+            'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json;charset=utf-8'})
         with urlopen(req, timeout=120) as response:
             content = response.read().decode('utf-8')
             result = json.loads(content)
@@ -166,6 +166,38 @@ def ecan_request_zip(address: str):
             return {
                 'success': True,
                 'data': result['result'][0]['PZip5'][0:3],
+                'error': None
+            }
+    except HTTPError as error:
+        return {
+            'success': False,
+            'data': None,
+            'error': f"Http error {error.code=}"
+        }
+    except URLError as error:
+        return {
+            'success': False,
+            'data': None,
+            'error': error.reason
+        }
+    except Exception as error:
+        return {
+            'success': False,
+            'data': None,
+            'error': f"Unexpected {error=}, {type(error)=}"
+        }
+
+
+def ecan_request_pdf(pdfUrl: str):
+    try:
+        req = Request(pdfUrl, method='GET', headers={
+            'User-Agent': 'Mozilla/5.0'})
+        with urlopen(req, timeout=120) as response:
+            content = response.read()
+
+            return {
+                'success': True,
+                'data': base64.b64encode(content),
                 'error': None
             }
     except HTTPError as error:

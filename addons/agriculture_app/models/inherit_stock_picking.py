@@ -5,7 +5,7 @@ from lxml import etree
 import logging
 from .blackcatapi import PrintObtOrder, PrintObtRequestData, SearchAddress, AddressRequestData, ShippingPdfRequestData, \
     get_zipcode, request_print_obt, request_address, request_pdf
-from .ecan import EcanShipOrder, EcanShipOrderRequest, ecan_request_ship, ecan_request_zip
+from .ecan import EcanShipOrder, EcanShipOrderRequest, ecan_request_ship, ecan_request_zip, ecan_request_pdf
 from .helper import get_phone_info, get_address_info, get_company_phone, get_company_address
 
 _logger = logging.getLogger(__name__)
@@ -25,6 +25,12 @@ class Inherit_stock_picking(models.Model):
         'agriculture.blackcat_obt', compute='compute_blackcat_obt', inverse='blackcat_obt_inverse')
     BlackcatObtIds = fields.One2many(
         'agriculture.blackcat_obt', 'StockPickingId', 'Blackcat OBT')
+
+    EcanObtId = fields.Many2one(
+        'agriculture.ecan_obt', compute='compute_ecan_obt', inverse='ecan_obt_inverse')
+    EcanObtIds = fields.One2many(
+        'agriculture.ecan_obt', 'StockPickingId', 'Ecan OBT')
+
     ShippingState = fields.Selection(
         DefinedBShippState, 'State', default=DefinedBShippState[0][0])
 
@@ -59,6 +65,22 @@ class Inherit_stock_picking(models.Model):
         # set new reference
         self.BlackcatObtId.StockPickingId = self
 
+    @api.depends('EcanObtIds')
+    def compute_ecan_obt(self):
+        idx = len(self.EcanObtIds)
+        if idx > 0:
+            self.EcanObtId = self.EcanObtIds[idx - 1]
+
+    def ecan_obt_inverse(self):
+        idx = len(self.EcanObtIds)
+        if idx > 0:
+            # delete previous reference
+            asset = self.env['agriculture.ecan_obt'].browse(
+                self.EcanObtIds[0].id)
+            asset.StockPickingId = False
+        # set new reference
+        self.EcanObtId.StockPickingId = self
+
     def create_notification(self):
         return {
             'type': 'ir.actions.client',
@@ -66,7 +88,23 @@ class Inherit_stock_picking(models.Model):
             'params': {
                 'title': _('Success'),
                 'message': _('Success'),
-                'type': 'success',
+                'type': 'success',  # types: success,warning,danger,info
+                'sticky': False,
+                'fadeout': 'slow',
+                'next': {
+                    'type': 'ir.actions.act_window_close',
+                }
+            }
+        }
+
+    def carrier_failed_notification(self):
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Error'),
+                'message': _('call carrier failed!'),
+                'type': 'danger',  # types: success,warning,danger,info
                 'sticky': False,
                 'fadeout': 'slow',
                 'next': {
@@ -80,9 +118,9 @@ class Inherit_stock_picking(models.Model):
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': _('Success'),
+                'title': _('Warning'),
                 'message': _('no carrier selected!'),
-                'type': 'success',
+                'type': 'warning',  # types: success,warning,danger,info
                 'sticky': False,
                 'fadeout': 'slow',
                 'next': {
@@ -367,7 +405,7 @@ class Inherit_stock_picking(models.Model):
             sender_phone=senderPhone,
             sender_address=senderAddress,
             sender_zipcode=senderZip,
-            cnee_name=recipientName,
+            cnee_name=''.join(recipientName),
             cnee_phone=recipientPhone,
             cnee_zipcode=recipientZip,
             cnee_address=recipientAddress,
@@ -385,28 +423,31 @@ class Inherit_stock_picking(models.Model):
         if response['success']:
             data = response['data']
             if not data:
-                raise exceptions.ValidationError(
-                    'e-can Response data is null')
+                raise exceptions.ValidationError('e-can Response data is null')
             shippingData = data['successData']
             if not shippingData:
-                raise exceptions.ValidationError(
-                    'e-can shipping data is null')
-            pdfUrl = data['pdfDownloadUrl']
-            # TODO: create e-can obt?
-            # self.write({'BlackcatObtIds': [
-            #     (0, 0, {
-            #         'SrvTranId': data['SrvTranId'],
-            #         'OBTNumber': data['Data']['Orders'][0]['OBTNumber'],
-            #         'FileNo': pdfRequestData.FileNo,
-            #         'ShippingPdf': binaryData,
-            #         'StockPickingId': self
-            #     })
-            # ]})
+                raise exceptions.ValidationError('e-can shipping data is null')
 
-            # 直接用 ShippingState
+            # download pdf
+            pdfUrl = data['pdfDownloadUrl']
+            pdfResponse = ecan_request_pdf(pdfUrl)
+            if not pdfResponse['success']:
+                raise exceptions.ValidationError(pdfResponse['error'])
+
+            self.write({'EcanObtIds': [
+                (0, 0, {
+                    'OBTNumber': shippingData[0]['shipping_no'],
+                    'FileNo': pdfUrl,
+                    'ShippingPdf': pdfResponse['data'],
+                    'StockPickingId': self
+                })
+            ]})
+
+            # 直接用 ShippingState 宅配通直接匯給 PDF 不用另外要求
             # self.ShippingState = DefinedBShippState[1][0]
-            # self.ShippingState = DefinedBShippState[2][0]
-            # return True
+            self.ShippingState = DefinedBShippState[2][0]
+
+            return True
         else:
             raise exceptions.ValidationError(response['error'])
 
@@ -418,10 +459,14 @@ class Inherit_stock_picking(models.Model):
                 # 呼叫物流貨運公司
                 if self.requestBlackCat(self.move_ids_without_package):
                     return self.create_notification()
+                else:
+                    return self.carrier_failed_notification()
             if self.carrier_id.name == 'e-can' or '宅配通':
                 # 呼叫物流貨運公司
                 if self.requestECan(self.move_ids_without_package):
                     return self.create_notification()
+                else:
+                    return self.carrier_failed_notification()
 
             return self.no_carrier_notification()
         else:

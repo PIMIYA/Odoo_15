@@ -205,7 +205,7 @@ def request_pdf(baseUrl: str, body: ShippingPdfRequestData):
         # _logger.info(url)
         data = json.dumps(body, cls=ApiDataEncoder).encode()
         req = Request(url, method='POST', data=data, headers={
-            'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'})
+            'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json;charset=utf-8'})
         with urlopen(req, timeout=120) as response:
             content = response.read()
             return base64.b64encode(content)
