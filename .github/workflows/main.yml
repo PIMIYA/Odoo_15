@@ -21,22 +21,23 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     
-#     steps:
-#       - uses: actions/checkout@v2 
-#       - name: EC2 deployment
-#         env:
-#             PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
-#             HOSTNAME : ${{ secrets.HOSTNAME  }}
-#             USER_NAME : ${{ secrets.USER_NAME  }}
+    steps:
+      - uses: actions/checkout@v2 
+      - name: EC2 deployment
+        env:
+            PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
+            HOSTNAME : ${{ secrets.HOSTNAME  }}
+            USER_NAME : ${{ secrets.USER_NAME  }}
             
-#         run: |
-#           # Get access
-#           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-#           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+        run: |
+          # Get access
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
           
-#             # Deploy commands 
-#             cd /home/ubuntu/ &&
-#             git checkout main &&
-#             git fetch --all &&
-#             git pull origin main &&
-#             docker compose up -d  
+            # Deploy commands 
+            # add app file in /home/ubuntu
+            cd /home/ubuntu/app &&
+            git checkout main &&
+            git fetch --all &&
+            git pull origin main &&
+            docker compose up -d  
