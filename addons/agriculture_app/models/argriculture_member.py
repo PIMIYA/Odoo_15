@@ -7,10 +7,12 @@ _logger = logging.getLogger(__name__)
 
 class Member(models.Model):
     _name = 'agriculture.member'
-    _inherit = 'mail.thread'
+    _inherit = 'res.partner'
     _description = 'Member of agriculture app'
     _rec_name = 'SellerName'
     _order = "SellerName desc"
+
+    channel_ids = fields.Many2many('partner_id', 'channel_id', copy=False)
 
     SellerName = fields.Char(required=False)
     SellerId = fields.Char(string='SellerId', required=True,

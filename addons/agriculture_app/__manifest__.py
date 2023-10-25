@@ -25,7 +25,7 @@
         "views/archived_additional_item.xml",
         "views/member_view.xml",
         "views/member_list_template.xml",
-        "views/inherit_res_partner.xml",
+        # "views/inherit_res_partner.xml",
         "views/crop_variety_view.xml",
         "views/settings.xml",
         "views/crop_storage.xml",
