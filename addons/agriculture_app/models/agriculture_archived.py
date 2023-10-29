@@ -16,7 +16,7 @@ class Archived(models.Model):
 
     # 農民資料
     member = fields.Many2one(
-        "agriculture.member", "Member", required=True)
+        "res.partner", "Member", required=True)
     SellerName = fields.Char(
         "SellerName", related="member.SellerName")
     SellerId = fields.Char(

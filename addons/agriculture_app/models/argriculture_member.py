@@ -6,15 +6,18 @@ _logger = logging.getLogger(__name__)
 
 
 class Member(models.Model):
-    _name = 'agriculture.member'
+    # _name = 'agriculture.member'
     _inherit = 'res.partner'
-    _description = 'Member of agriculture app'
-    _rec_name = 'SellerName'
-    _order = "SellerName desc"
+    # _description = 'Member of agriculture app'
+    # _rec_name = 'SellerName'
+    # _order = "SellerName desc"
 
-    channel_ids = fields.Many2many('partner_id', 'channel_id', copy=False)
+    is_agriculture_member = fields.Boolean(string='Is an Agriculture Member', default=False,
+                                           help="Check if the contact is a agriculture_member, otherwise it is a person or company", required=False)
 
-    SellerName = fields.Char(required=False)
+    # channel_ids = fields.Many2many('partner_id', 'channel_id', copy=False)
+
+    SellerName = fields.Char(related='name', required=False)
     SellerId = fields.Char(string='SellerId', required=True,
                            readonly=True, default=lambda self: _(' '))
     FarmerType = fields.Selection(
@@ -46,7 +49,7 @@ class Member(models.Model):
     def create(self, fields):
         if fields.get('SellerId', _(' ')) == _(' '):
             fields['SellerId'] = self.env['ir.sequence'].next_by_code(
-                'agriculture.member') or _(' ')
+                'res.partner') or _(' ')
         res = super(Member, self).create(fields)
         return res
 
