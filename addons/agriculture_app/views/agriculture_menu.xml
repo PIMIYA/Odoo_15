@@ -31,13 +31,13 @@
 
 
     <!-- Action to open the Mnmber list -->
-    <record id="action_agriculture_member" model="ir.actions.act_window">
+    <!-- <record id="action_agriculture_member" model="ir.actions.act_window">
         <field name="name">Members</field>
         <field name="res_model">agriculture.member</field>
         <field name="view_mode">tree,form,kanban</field>
-    </record>
+    </record> -->
     <!-- Menu item to open the Member list -->
-    <menuitem id="menu_agriculture_member" name="Members" parent="menu_agriculture" action="action_agriculture_member" sequence="8" />
+    <!-- <menuitem id="menu_agriculture_member" name="Members" parent="menu_agriculture" action="action_agriculture_member" sequence="8" /> -->
 
 
     <!-- Action to open the CropVariety list -->

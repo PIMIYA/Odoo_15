@@ -8,9 +8,35 @@
           <xpath expr="//field[@name='name']" position="after">
             <group name="group_left">
               <field name="is_agriculture_member" widget="boolean_button"/>
-              <field name="SellerId" attrs="{'invisible': [('is_agriculture_member', '=', False)]}" />
-              <field name="Member" attrs="{'invisible': [('is_agriculture_member', '=', False)]}" />
+              <!-- <field name="SellerId" attrs="{'invisible': [('is_agriculture_member', '=', False)]}" /> -->
+              <!-- <field name="Member" attrs="{'invisible': [('is_agriculture_member', '=', False)]}" /> -->
             </group>
+          </xpath>
+          
+          <xpath expr="//div[contains(@class, 'oe_title mb24')]" position="after">
+            <div>
+              <div class="o_row" attrs="{'invisible': [('is_agriculture_member', '=', False)]}">
+                <group>
+                  <field name="SellerId" />
+                  <field name="Region" />
+                  <field name="FarmerType" />
+                </group>
+              </div>
+              <div attrs="{'invisible':[('FarmerType', '!=', 'contract')]}">
+                <group>
+                  <h3>Area</h3>
+                  <field name="ContractArea" />
+                  <field name="ChishangRArea" />
+                  <field name="TGAPArea" />
+                </group>
+                <group>
+                  <h3>Date of Cerification</h3>
+                  <field name="OrganicVerifyDate" widget="date" options="{'format': 'YYYY-MM-DD'}" />
+                  <field name="OrganiCertifiedArea" />
+                  <field name="NonLeasedArea" />
+                </group>
+              </div>
+            </div>
           </xpath>
       </field>
     </record>

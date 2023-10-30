@@ -22,7 +22,7 @@ class Crop(models.Model):
         "SeqNumber",  required=False, readonly=True)
     # ******農夫的資訊從member中取得******
     SellerName = fields.Many2one(
-        "agriculture.member", string="SellerName", required=False)
+        "res.partner", string="SellerName", required=False)
     SellerId = fields.Char(
         "SellerId", related="SellerName.SellerId", required=False)
 

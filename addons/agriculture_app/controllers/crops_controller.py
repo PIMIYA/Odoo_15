@@ -202,7 +202,7 @@ class Members(http.Controller):
     @http.route('/api/v1/agriculture/member/records', type='http', auth="public", methods=['GET'], csrf=False)
     def get_member_records(self, **kwargs):
         try:
-            records = http.request.env['agriculture.member'].sudo().search([])
+            records = http.request.env['res.partner'].sudo().search([])
         except KeyError:
             msg = "The model does not exist."
             raise exceptions.ValidationError(msg)
