@@ -81,3 +81,13 @@ You can start to create custom addons and interactive with it.
 - [ ] 宅配通 API 出單串接
 - [x] 綠界 invoice 電子發票(已完成測試中)
 - [ ] 銷售流程簡化與收穀部分借貸與會計整合
+
+## Tips
+* Preview PDF File: In debug mode:
+  - Setting/Technical/Reporting/Reports
+  - Search Report(PDF) Name
+  - Config Report Type from PDF to HTML
+  Example:
+  ![image](https://github.com/PIMIYA/Odoo_15/assets/52248840/f7cf5ad2-d134-458e-ace8-084d0611ce06)
+
+  
