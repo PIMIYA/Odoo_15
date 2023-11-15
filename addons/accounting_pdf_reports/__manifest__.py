@@ -1,29 +1,26 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Odoo 14 Accounting Financial Reports',
-    'version': '14.0.6.0.0',
+    'name': 'Odoo 15 Accounting Financial Reports',
+    'version': '15.0.8.2.0',
     'category': 'Invoicing Management',
-    'description': 'Accounting Reports For Odoo 14, Accounting Financial Reports,'
-                   ' Odoo 14 Financial Reports',
-    'summary': 'Accounting Reports For Odoo 14',
-    'sequence': '10',
+    'description': 'Accounting Reports For Odoo 15, Accounting Financial Reports, '
+                   'Odoo 15 Financial Reports',
+    'summary': 'Accounting Reports For Odoo 15',
+    'sequence': '1',
     'author': 'Odoo Mates, Odoo SA',
     'license': 'LGPL-3',
     'company': 'Odoo Mates',
     'maintainer': 'Odoo Mates',
     'support': 'odoomates@gmail.com',
-    'website': 'https://www.odoomates.tech',
+    'website': 'https://www.youtube.com/watch?v=yA4NLwOLZms',
     'depends': ['account'],
-    'live_test_url': 'https://www.youtube.com/watch?v=Qu6R3yNKR60',
-    'demo': [],
+    'live_test_url': 'https://www.youtube.com/watch?v=yA4NLwOLZms',
     'data': [
         'security/ir.model.access.csv',
-        'security/security.xml',
         'views/menu.xml',
         'views/financial_report.xml',
-        'views/account_settings.xml',
+        'views/settings.xml',
         'wizard/partner_ledger.xml',
         'wizard/general_ledger.xml',
         'wizard/trial_balance.xml',
@@ -47,5 +44,4 @@
     'application': False,
     'auto_install': False,
     'images': ['static/description/banner.gif'],
-    'qweb': [],
 }

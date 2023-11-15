@@ -21,8 +21,9 @@ class Crop(models.Model):
     SeqNumber = fields.Char(
         "SeqNumber",  required=False, readonly=True)
     # ******農夫的資訊從member中取得******
+    # add domain to filter out non-agriculture member
     SellerName = fields.Many2one(
-        "res.partner", string="SellerName", required=False)
+        "res.partner", string="SellerName", domain = "[('is_agriculture_member','=',True)]", required=False)
     SellerId = fields.Char(
         "SellerId", related="SellerName.SellerId", required=False)
 

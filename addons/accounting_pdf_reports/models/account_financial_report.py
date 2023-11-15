@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, models, fields
 
@@ -31,7 +30,7 @@ class AccountFinancialReport(models.Model):
     parent_id = fields.Many2one('account.financial.report', 'Parent')
     children_ids = fields.One2many('account.financial.report', 'parent_id', 'Account Report')
     sequence = fields.Integer('Sequence')
-    level = fields.Integer(compute='_get_level', string='Level', store=True)
+    level = fields.Integer(compute='_get_level', string='Level', store=True, recursive=True)
     type = fields.Selection([
         ('sum', 'View'),
         ('accounts', 'Accounts'),
@@ -65,3 +64,5 @@ class AccountFinancialReport(models.Model):
         help="You can set up here the format you want this record to be displayed. "
              "If you leave the automatic formatting, it will be computed based on the "
              "financial reports hierarchy (auto-computed field 'level').")
+    children_ids = fields.One2many('account.financial.report', 'parent_id', string='Children')
+

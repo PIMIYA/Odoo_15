@@ -1,8 +1,9 @@
 ====================================
-Odoo 14 Accounting Financial Reports
+Odoo 15 Accounting Financial Reports
 ====================================
 
-This Module will bring back the accounting reports for Odoo 14 Community Edition
+This Module will provide all the financial reports for odoo 15
+community edition
 
 Installation
 ============

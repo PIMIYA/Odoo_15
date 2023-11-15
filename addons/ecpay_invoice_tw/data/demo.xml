@@ -26,5 +26,7 @@
             <field name="key">ecpay_invoice_tw.auto_invoice</field>
             <field name="value">automatic</field>
         </record>
+
+
     </data>
 </odoo>
