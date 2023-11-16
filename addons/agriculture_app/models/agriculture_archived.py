@@ -153,3 +153,49 @@ class Archived(models.Model):
     def delete(self, vals):
         for seq in self.seq_numbers:
             seq.unlink_archiveItem()
+
+    @api.model
+    def create(self, vals):
+        try:
+            _logger.info('Start create method in Archived model')
+
+            # Create the record in the current model
+            record = super(Archived, self).create(vals)
+            _logger.info('Create archived record!!!!!!!!!!!')
+
+            # Let Odoo compute the TotalActuallyPaid field
+            record._compute_TotalActuallyPaid()
+
+            # Access the computed value
+            total_actually_paid = record.TotalActuallyPaid
+            _logger.info('TotalActuallyPaid: %s', total_actually_paid)
+
+            if total_actually_paid is not None:
+                if total_actually_paid > 0:
+                    _logger.info('Creating outbound payment')
+                    self.env['account.payment'].create({
+                        'amount': total_actually_paid,
+                        'payment_type': 'outbound',
+                        'partner_type': 'supplier',
+                        'partner_id': record.member.id,
+                        'partner_bank_id': record.member.bank_ids[0].id,
+                        # Add other required fields
+                    })
+                elif total_actually_paid < 0:
+                    _logger.info('Creating inbound payment')
+                    self.env['account.payment'].create({
+                        'amount': total_actually_paid,
+                        'payment_type': 'inbound',
+                        'partner_type': 'supplier',
+                        'partner_id': record.member.id,
+                        'partner_bank_id': record.member.bank_ids[0].id,
+                        # Add other required fields
+                    })
+
+            _logger.info('End create method in Archived model')
+            return record
+
+        except Exception as e:
+            _logger.error('An error occurred: %s', str(e))
+            # You can raise the exception again or handle it as needed
+            raise
