@@ -17,9 +17,11 @@
             <div>
               <div class="o_row" attrs="{'invisible': [('is_agriculture_member', '=', False)]}">
                 <group>
-                  <field name="SellerId" />
+                
+                  <field name="SellerId"/>
                   <field name="Region" />
                   <field name="FarmerType" />
+                
                 </group>
               </div>
               <div attrs="{'invisible':[('FarmerType', '!=', 'contract')]}">
@@ -64,7 +66,6 @@
           </field>
       </field>
     </record>
-
 
 
   </odoo>

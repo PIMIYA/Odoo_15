@@ -19,7 +19,7 @@ class Member(models.Model):
 
     SellerName = fields.Char(related='name', required=False)
     SellerId = fields.Char(string='SellerId', required=True,
-                           readonly=True, default=lambda self: _(' '))
+                           readonly=True, default=lambda self: _('New'))
     FarmerType = fields.Selection(
         [('non_contract', '非契作農民'), ('contract', '契作農民')], string='FarmerType', default='non_contract', required=False)
     Region = fields.Char(required=False)
@@ -44,14 +44,6 @@ class Member(models.Model):
             'agriculture.maxPurchaseQTYPerHectare'))
         for rec in self:
             rec.MaxPurchaseQTY = rec.ContractArea * maxPurchaseQTYPerHectare
-
-    @api.model
-    def create(self, fields):
-        if fields.get('SellerId', _(' ')) == _(' '):
-            fields['SellerId'] = self.env['ir.sequence'].next_by_code(
-                'res.partner') or _(' ')
-        res = super(Member, self).create(fields)
-        return res
 
     def get_partner_attr(self, attr):
         for rec in self:
@@ -110,3 +102,36 @@ class Member(models.Model):
             result['bank_name'] = partnerData['bank_ids'][0].bank_name
             result['acc_holder_name'] = partnerData['bank_ids'][0].acc_holder_name
         return result
+    
+    @api.model
+    def create(self, fields):
+        _logger.info('Start create method in Member model')
+        if fields["is_agriculture_member"] == True:
+            try:
+                if fields.get('SellerId', _('New')) == _('New'):
+                    fields['SellerId'] = self.env['ir.sequence'].next_by_code('new.sellerID') or _('New')
+                    _logger.info('SellerId: %s', fields['SellerId'])
+            except Exception as e:
+                _logger.error('Error generating sequence: %s', str(e))
+        else:
+            pass
+
+        res = super(Member, self).create(fields)
+        return res
+    
+    def write(self, fields):
+        _logger.info('Start write method in Member model')
+        if fields.get('is_agriculture_member') == True and fields.get('SellerId') == _('New'):
+            try:
+                if fields.get('SellerId', _('New')) == _('New'):
+                    fields['SellerId'] = self.env['ir.sequence'].next_by_code('new.sellerID') or _('New')
+                    _logger.info('SellerId: %s', fields['SellerId'])
+            except Exception as e:
+                _logger.error('Error generating sequence: %s', str(e))
+        else:
+            pass
+
+        res = super(Member, self).write(fields)
+        return res
+
+

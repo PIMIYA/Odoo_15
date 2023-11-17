@@ -39,6 +39,7 @@
         "report/agriculture_crop_reports.xml",
         "report/agriculture_crop_templatex.xml",
         "data/crop_stage_data.xml",
+        "data/seq_sellerID.xml",
     ],
     # only loaded in demonstration mode
     "demo": [
