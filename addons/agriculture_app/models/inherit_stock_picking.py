@@ -490,10 +490,10 @@ class Inherit_stock_picking(models.Model):
     @api.model
     def create(self, vals):
         self.env.cr.commit()
+        vals['Shipping_method'] = self.carrier_id.name
+        vals['Shipping_destination'] = self.partner_id.state_id.name
         return super(Inherit_stock_picking, self).create(vals)
 
-    def default_get(self, fields):
-        fields['Shipping_method'] = self.carrier_id.name
-        fields['Shipping_destination'] = self.partner_id.state_id.name
-        res = super(Inherit_stock_picking, self).default_get(fields)
-        return res
+    # def default_get(self, fields):
+    #     res = super(Inherit_stock_picking, self).default_get(fields)
+    #     return res
