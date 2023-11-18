@@ -27,10 +27,9 @@ apt-get install ttf-wqy-zenhei ttf-wqy-microhei -y
 ```
 
 2. Odoo install `Dolimi Agriculture`
-3. Odoo install `l10n_tw`
-4. Odoo install `l10n_tw_standard_ifrss`
 5. Odoo install `ecpay_invoice_tw`
-6. Odoo install `ecpay_invoice_website`
+
+* 角色管理中，將綠界電子發票的角色設定為 `綠界電子發票管理員`。
 
 
 
