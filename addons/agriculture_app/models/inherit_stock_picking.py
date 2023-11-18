@@ -493,7 +493,7 @@ class Inherit_stock_picking(models.Model):
         return super(Inherit_stock_picking, self).create(vals)
 
     def default_get(self, fields):
+        fields['Shipping_method'] = self.carrier_id.name
+        fields['Shipping_destination'] = self.partner_id.state_id.name
         res = super(Inherit_stock_picking, self).default_get(fields)
-        res['Shipping_method'] = self.carrier_id.name
-        res['Shipping_destination'] = self.partner_id.state_id.name
         return res

@@ -14,7 +14,7 @@
     "category": "Operations/Agriculture",
     "version": "15.0.1.1",
     # any module necessary for this one to work correctly
-    "depends": ["base", "contacts", "account", "sale", "stock", "sale_management", "report_pdf_options"],
+    "depends": ["base", "contacts", "account", "sale", "stock", "sale_management", "report_pdf_options", "l10n_tw_standard_ifrss"],
     # always loaded
     "data": [
         # "security/agriculture_security.xml",
