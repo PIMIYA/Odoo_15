@@ -1,7 +1,7 @@
 version: '3'
 services:
   odoo:
-    platform: linux/x86_64
+    # platform: linux/x86_64
     image: odoo:15.0
     env_file: .env
     depends_on:
@@ -13,7 +13,7 @@ services:
      - ./config:/etc/odoo
      - ./addons:/mnt/extra-addons
   postgres:
-    platform: linux/x86_64
+    # platform: linux/x86_64
     image: postgres:13
     env_file: .env
     volumes:
