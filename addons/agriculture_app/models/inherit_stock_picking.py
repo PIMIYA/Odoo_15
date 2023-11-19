@@ -490,9 +490,18 @@ class Inherit_stock_picking(models.Model):
     @api.model
     def create(self, vals):
         self.env.cr.commit()
+        _logger.info("update stocking pick create")
+        _logger.info(f"carrier_id name: {self.carrier_id.name}")
         vals['Shipping_method'] = self.carrier_id.name
         vals['Shipping_destination'] = self.partner_id.state_id.name
         return super(Inherit_stock_picking, self).create(vals)
+    
+    def write(self, vals):
+        self.env.cr.commit()
+        _logger.info("update stocking pick write")
+        vals['Shipping_method'] = self.carrier_id.name
+        vals['Shipping_destination'] = self.partner_id.state_id.name
+        return super(Inherit_stock_picking, self).write(vals)
 
     # def default_get(self, fields):
     #     res = super(Inherit_stock_picking, self).default_get(fields)

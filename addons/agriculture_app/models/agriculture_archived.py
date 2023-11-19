@@ -178,7 +178,7 @@ class Archived(models.Model):
                         'payment_type': 'outbound',
                         'partner_type': 'supplier',
                         'partner_id': record.member.id,
-                        'partner_bank_id': record.member.bank_ids[0].id,
+                        # 'partner_bank_id': record.member.bank_ids[0].id,
                         # Add other required fields
                     })
                 elif total_actually_paid < 0:
@@ -188,7 +188,7 @@ class Archived(models.Model):
                         'payment_type': 'inbound',
                         'partner_type': 'supplier',
                         'partner_id': record.member.id,
-                        'partner_bank_id': record.member.bank_ids[0].id,
+                        # 'partner_bank_id': record.member.bank_ids[0].id,
                         # Add other required fields
                     })
 
