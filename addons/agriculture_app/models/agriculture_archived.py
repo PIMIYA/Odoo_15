@@ -38,6 +38,7 @@ class Archived(models.Model):
         "NonLeasedArea", related="member.NonLeasedArea")
     MaxPurchaseQTY = fields.Float(
         "MaxPurchaseQTY", related="member.MaxPurchaseQTY")
+    
 
     # 帳號資料
     MemberBankAccount = fields.Char(
@@ -70,6 +71,11 @@ class Archived(models.Model):
     # 額外的資訊
     additional_items = fields.One2many(
         'agriculture.archived_additional_item', 'archived_id', 'Extra Items')
+    
+    
+    #商品購買->應收帳款
+    extra_orders = fields.One2many('sale.order', 'archived_id', 'Extra Orders')
+    
 
     # 單據時間
     LastCreationTime = fields.Datetime(
@@ -105,22 +111,36 @@ class Archived(models.Model):
         for rec in self:
             rec.TotalExpenditure = 0
             for crop in rec.seq_numbers:
-                rec.TotalExpenditure += crop.TotalPrice
+                if crop is not None:
+                    rec.TotalExpenditure += crop.TotalPrice
             for item in rec.additional_items:
-                if item.item_kind == 'expenditure':
+                if item.item_kind == 'expenditure' and item is not None:
                     rec.TotalExpenditure += item.total_price
             rec.TotalExpenditure = math.floor(rec.TotalExpenditure)
 
-    @api.depends('additional_items')
+    @api.depends('additional_items', 'extra_orders')
     def _compute_TotalIncome(self):
         for rec in self:
             rec.TotalIncome = 0
             for item in rec.additional_items:
-                if item.item_kind == 'income':
+                if item.item_kind == 'income' and item is not None:
                     rec.TotalIncome += item.total_price
+            for order in rec.extra_orders:
+                if order is not None:
+                    rec.TotalIncome += order.amount_total
             rec.TotalIncome = math.floor(rec.TotalIncome)
+    
+    @api.depends('extra_orders')
+    def _compute_extra_order(self):
+        extra_order_total_amount = 0
+        for rec in self:
+            for order in rec.extra_orders:
+                extra_order_total_amount += order.amount_total
 
-    @api.depends('TotalExpenditure', 'TotalIncome')
+        return extra_order_total_amount
+
+
+    @api.depends('TotalExpenditure', 'TotalIncome', 'seq_numbers', 'additional_items')
     def _compute_TotalActuallyPaid(self):
         for rec in self:
             rec.TotalActuallyPaid = math.floor(
@@ -170,27 +190,34 @@ class Archived(models.Model):
             total_actually_paid = record.TotalActuallyPaid
             _logger.info('TotalActuallyPaid: %s', total_actually_paid)
 
+            extra_order_total_amount = record._compute_extra_order()
+            _logger.info('Extra_order_total_amount: %s', extra_order_total_amount)
+
             if total_actually_paid is not None:
-                if total_actually_paid > 0:
+                suppler_invoice_amout = total_actually_paid + extra_order_total_amount
+                if total_actually_paid > 0 and suppler_invoice_amout != 0:
                     _logger.info('Creating outbound payment')
                     self.env['account.payment'].create({
-                        'amount': total_actually_paid,
+                        'amount': suppler_invoice_amout,
                         'payment_type': 'outbound',
                         'partner_type': 'supplier',
                         'partner_id': record.member.id,
-                        # 'partner_bank_id': record.member.bank_ids[0].id,
+                        'partner_bank_id': record.member.bank_ids[0].id if record.member.bank_ids else False,
                         # Add other required fields
                     })
-                elif total_actually_paid < 0:
+                elif total_actually_paid < 0 and suppler_invoice_amout != 0:
                     _logger.info('Creating inbound payment')
                     self.env['account.payment'].create({
-                        'amount': total_actually_paid,
+                        'amount': suppler_invoice_amout,
                         'payment_type': 'inbound',
                         'partner_type': 'supplier',
                         'partner_id': record.member.id,
-                        # 'partner_bank_id': record.member.bank_ids[0].id,
+                        'partner_bank_id': record.member.bank_ids[0].id if record.member.bank_ids else False,
                         # Add other required fields
                     })
+
+            for order in record.extra_orders:
+                order.action_confirm()
 
             _logger.info('End create method in Archived model')
             return record
@@ -199,3 +226,50 @@ class Archived(models.Model):
             _logger.error('An error occurred: %s', str(e))
             # You can raise the exception again or handle it as needed
             raise
+
+
+    def write(self, vals):
+        try:
+            res = super().write(vals)
+            # Update the data as needed
+            total_actually_paid = self.TotalActuallyPaid
+            _logger.info('TotalActuallyPaid: %s', total_actually_paid)
+
+            extra_order_total_amount = self._compute_extra_order()
+            _logger.info('Extra_order_total_amount: %s', extra_order_total_amount)
+
+            if total_actually_paid is not None:
+                suppler_invoice_amout = total_actually_paid + extra_order_total_amount
+                if total_actually_paid > 0 and suppler_invoice_amout != 0:
+                    _logger.info('Creating outbound payment')
+                    self.env['account.payment'].create({
+                        'amount': suppler_invoice_amout,
+                        'payment_type': 'outbound',
+                        'partner_type': 'supplier',
+                        'partner_id': self.member.id,
+                        'partner_bank_id': self.member.bank_ids[0].id if self.member.bank_ids else False,
+                        # Add other required fields
+                    })
+                elif total_actually_paid < 0 and suppler_invoice_amout != 0:
+                    _logger.info('Creating inbound payment')
+                    self.env['account.payment'].create({
+                        'amount': suppler_invoice_amout,
+                        'payment_type': 'inbound',
+                        'partner_type': 'supplier',
+                        'partner_id': self.member.id,
+                        'partner_bank_id': self.member.bank_ids[0].id if self.member.bank_ids else False,
+                        # Add other required fields
+                    })
+
+            for order in self.extra_orders:
+                order.action_confirm()
+
+            _logger.info('End update method in Archived model')
+            return res
+
+        except Exception as e:
+            _logger.error('An error occurred: %s', str(e))
+            # You can raise the exception again or handle it as needed
+            raise
+        
+
