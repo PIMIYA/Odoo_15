@@ -76,6 +76,8 @@ class Archived(models.Model):
     #商品購買->應收帳款
     extra_orders = fields.One2many('sale.order', 'archived_id', 'Extra Orders')
     
+    # account.payment
+    suuplier_payment = fields.One2many('account.payment', 'archived_id', 'Supplier Payment')
 
     # 單據時間
     LastCreationTime = fields.Datetime(
@@ -161,10 +163,20 @@ class Archived(models.Model):
         return "{:d}".format(input.year) + "/" + "{:0>2d}".format(input.month) + "/" + "{:0>2d}".format(input.day)
 
     def unlink(self):
+        _logger.info('Start unlink method in Archived model')
         for seq in self.seq_numbers:
             seq.unlink_archiveItem()
 
         return super(Archived, self).unlink()
+    
+
+    def create_invoices(self):
+        extra_orders = self.env['sale.order'].browse(self._context.get('archived_id', []))
+        for order in extra_orders:
+            order._create_invoices()
+            for inv in order.invoice_ids:
+                # make invoice:
+                inv.with_context({'active_model': 'account.move', 'active_ids': inv.ids}).create({}).action_create_payments()
 
 
 # 修正成單的序號刪除後，對應的成單也要刪除還原狀態
@@ -194,21 +206,21 @@ class Archived(models.Model):
             _logger.info('Extra_order_total_amount: %s', extra_order_total_amount)
 
             if total_actually_paid is not None:
-                suppler_invoice_amout = total_actually_paid + extra_order_total_amount
-                if total_actually_paid > 0 and suppler_invoice_amout != 0:
+                suppler_invoice_amount = total_actually_paid + extra_order_total_amount
+                if total_actually_paid > 0 and suppler_invoice_amount != 0:
                     _logger.info('Creating outbound payment')
                     self.env['account.payment'].create({
-                        'amount': suppler_invoice_amout,
+                        'amount': suppler_invoice_amount,
                         'payment_type': 'outbound',
                         'partner_type': 'supplier',
                         'partner_id': record.member.id,
                         'partner_bank_id': record.member.bank_ids[0].id if record.member.bank_ids else False,
                         # Add other required fields
                     })
-                elif total_actually_paid < 0 and suppler_invoice_amout != 0:
+                elif total_actually_paid < 0 and suppler_invoice_amount != 0:
                     _logger.info('Creating inbound payment')
                     self.env['account.payment'].create({
-                        'amount': suppler_invoice_amout,
+                        'amount': suppler_invoice_amount,
                         'payment_type': 'inbound',
                         'partner_type': 'supplier',
                         'partner_id': record.member.id,
@@ -217,7 +229,8 @@ class Archived(models.Model):
                     })
 
             for order in record.extra_orders:
-                order.action_confirm()
+                if order.invoice_status is 'to invoice':
+                    order._create_invoices()
 
             _logger.info('End create method in Archived model')
             return record
@@ -230,7 +243,7 @@ class Archived(models.Model):
 
     def write(self, vals):
         try:
-            res = super().write(vals)
+            res = super(Archived,self).write(vals)
             # Update the data as needed
             total_actually_paid = self.TotalActuallyPaid
             _logger.info('TotalActuallyPaid: %s', total_actually_paid)
@@ -239,30 +252,29 @@ class Archived(models.Model):
             _logger.info('Extra_order_total_amount: %s', extra_order_total_amount)
 
             if total_actually_paid is not None:
-                suppler_invoice_amout = total_actually_paid + extra_order_total_amount
-                if total_actually_paid > 0 and suppler_invoice_amout != 0:
-                    _logger.info('Creating outbound payment')
-                    self.env['account.payment'].create({
-                        'amount': suppler_invoice_amout,
+
+                suppler_invoice_amount = total_actually_paid + extra_order_total_amount
+                related_payment = self.env['account.payment'].search([('archived_id', '=', self.suuplier_payment.archived_id.id)])
+                
+                if total_actually_paid > 0 and suppler_invoice_amount != 0:
+                    _logger.info('updating outbound payment')
+                    # Update the related account.payment records
+                    related_payment.action_draft()
+                    related_payment.write({
+                        'amount': suppler_invoice_amount,
                         'payment_type': 'outbound',
-                        'partner_type': 'supplier',
-                        'partner_id': self.member.id,
-                        'partner_bank_id': self.member.bank_ids[0].id if self.member.bank_ids else False,
-                        # Add other required fields
                     })
-                elif total_actually_paid < 0 and suppler_invoice_amout != 0:
-                    _logger.info('Creating inbound payment')
-                    self.env['account.payment'].create({
-                        'amount': suppler_invoice_amout,
+                elif total_actually_paid < 0 and suppler_invoice_amount != 0:
+                    _logger.info('updating inbound payment')
+                    related_payment.action_draft()
+                    related_payment.write({
+                        'amount': suppler_invoice_amount,
                         'payment_type': 'inbound',
-                        'partner_type': 'supplier',
-                        'partner_id': self.member.id,
-                        'partner_bank_id': self.member.bank_ids[0].id if self.member.bank_ids else False,
-                        # Add other required fields
                     })
 
             for order in self.extra_orders:
-                order.action_confirm()
+                if order.invoice_status is 'to invoice':
+                    order._create_invoices()
 
             _logger.info('End update method in Archived model')
             return res

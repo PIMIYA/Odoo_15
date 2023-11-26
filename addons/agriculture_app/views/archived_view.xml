@@ -13,7 +13,7 @@
             </group>
             <group name="group_center">
               <field name="seq_numbers" widget="many2many" domain="['&amp;', '&amp;', ('SellerName', '=', member), '|', ('archived_id', '=', None), ('archived_id', '=', id), '|', ('PriceState', '=', 'done'), ('PriceState', '=', 'archived')]" />
-              <field name="extra_orders" widget="many2many" domain="[('partner_id', '=', member)]"/>
+              <field name="extra_orders" widget="many2many" domain="['|', ('partner_id', '=', member), ('archived_id', '=', id), ('archived_id', '=', None)]"/>
               <field name="additional_items" widget="many2many" domain="['|', ('archived_id', '=', None), ('archived_id', '=', id)]" />
             </group>
             <separator />
