@@ -1,19 +1,23 @@
 <odoo>
   <data>
-
     <!-- form view definition -->
     <record id="view_form_archived" model="ir.ui.view">
       <field name="name">Archived Form</field>
       <field name="model">agriculture.archived</field>
       <field name="arch" type="xml">
         <form>
+          <header>
+            <button name="action_draft" string="Set to Draft" type="object" attrs="{'invisible':['|',('state', '==', 'draft'), ('state', '==', 'none')]}" />
+            <button name="action_confirm" string="Confirm" type="object" attrs="{'invisible':['|',('state', '==', 'confirm'), ('state', '==', 'none')]}" />
+            <field name="state" widget="statusbar" />
+          </header>
           <sheet>
             <group name="group_top">
               <field name="member" widget="many2one" />
             </group>
             <group name="group_center">
               <field name="seq_numbers" widget="many2many" domain="['&amp;', '&amp;', ('SellerName', '=', member), '|', ('archived_id', '=', None), ('archived_id', '=', id), '|', ('PriceState', '=', 'done'), ('PriceState', '=', 'archived')]" />
-              <field name="extra_orders" widget="many2many" domain="['|', ('partner_id', '=', member), ('archived_id', '=', id), ('archived_id', '=', None)]"/>
+              <field name="extra_orders" widget="many2many" domain="['&amp;', ('partner_id', '=', member), '|', ('archived_id', '=', id), '|', ('archived_id', '=', None)]"/>
               <field name="additional_items" widget="many2many" domain="['|', ('archived_id', '=', None), ('archived_id', '=', id)]" />
             </group>
             <separator />
@@ -71,11 +75,16 @@
       <field name="name">Archived list</field>
       <field name="model">agriculture.archived</field>
       <field name="arch" type="xml">
-        <tree>
+        <tree string="Archived list" decoration-info="state == 'draft'" decoration-success="state == 'confirm'" decoration-muted="state == 'done'">
+          <field name="LastCreationTime" options="{'format': 'YYYY-MM-DD'}" />
           <field name="member" />
           <field name="seq_numbers" />
+          <field name="state" widget="badge"/>
+          <field name="extra_orders" />
           <field name="additional_items" />
-          <field name="LastCreationTime" options="{'format': 'YYYY-MM-DD'}" />
+          <field name="TotalExpenditure" />
+          <field name="TotalIncome" />
+          <field name="TotalActuallyPaid" />
         </tree>
       </field>
     </record>

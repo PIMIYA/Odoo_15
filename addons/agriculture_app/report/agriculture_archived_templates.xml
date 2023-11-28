@@ -225,6 +225,76 @@
             </table>
           </div>
 
+          <!-- 應收商品款 -->
+          <div class="">
+            <h5>應收商品款:</h5>
+          </div>
+          <div class="">
+            <table class="table table-bordered text-center table-sm" style="border: 1px solid; border-color:black; border-collapse:collapse;">
+              <!-- <thead style="font-size: 12pt;"> -->
+              <tr style="background-color:rgb(218,220,224);">
+                <th>編號</th>
+                <th>日期</th>
+                <th>貨品(摘要)</th>
+                <th>數量</th>
+                <th>單價</th>
+                <th>稅金</th>
+                <th>小計</th>
+              </tr>
+              <!-- </thead> -->
+              <!-- <tbody> -->
+              <t t-set="idx" t-value="1" />
+              <tr t-foreach="doc.extra_orders" t-as="order">
+                <tr t-foreach="order.order_line" t-as="line">
+                  <td style="white-space: nowrap; width: 55px;">
+                    <span t-esc="idx" />
+                  </td>
+                  <td class="align-middle">
+                    <span t-esc="doc.get_date(order.date_order)" />
+                  </td>
+                  <td class="align-middle">
+                    <span t-field="line.product_id.name"/>
+                  </td>
+                  <!-- Add more columns as needed -->
+                  <td class="align-middle">
+                    <span t-field="line.product_uom_qty"/>
+                  </td>
+                  <td class="align-middle">
+                    <span t-field="line.price_unit"/>
+                  </td>
+                  <td class="align-middle">
+                    <span t-esc="'{0:,.0f}'.format(floor(line.price_tax))" />
+                  </td>
+                  <td class="align-middle">
+                    <span t-esc="'{0:,.0f}'.format(floor(line.price_subtotal))" />
+                  </td>
+
+                  <t t-set="idx" t-value="idx+1" />
+
+                  <tr>
+                    <td colspan="6">訂單商品總額</td>
+                    <!-- 金額 -->
+                    <td class="align-middle" colspan="1">
+                      <span t-esc="'{0:,.0f}'.format(floor(line.price_total))" />
+                    </td>
+                  </tr>
+                </tr>
+              </tr>
+              <!-- 應收商品總金額 -->
+              <tr>
+                <td colspan="6">應收商品總金額</td>
+                <!-- 金額 -->
+                <td class="align-middle" colspan="1">
+                  <span t-esc="'{0:,.0f}'.format(floor(doc.TotalExtraOrderAmount))" />
+                </td>
+              </tr>
+
+              <!-- </tbody> -->
+
+            </table>
+          </div>
+
+
           <!-- 應付 應收 實付 -->
           <br />
           <div>

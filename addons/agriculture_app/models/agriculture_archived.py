@@ -9,14 +9,14 @@ _logger = logging.getLogger(__name__)
 
 class Archived(models.Model):
     _name = 'agriculture.archived'
-    _inherit = 'mail.thread'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'SellerName'
     _description = 'Archived'
     _order = "LastCreationTime desc"
 
     # 農民資料
     member = fields.Many2one(
-        "res.partner", "Member", required=True)
+        "res.partner", "Member", required=True, states={'confirm': [('readonly', True)]})
     SellerName = fields.Char(
         "SellerName", related="member.SellerName")
     SellerId = fields.Char(
@@ -39,6 +39,68 @@ class Archived(models.Model):
     MaxPurchaseQTY = fields.Float(
         "MaxPurchaseQTY", related="member.MaxPurchaseQTY")
     
+    state = fields.Selection([
+        ('none', 'None'),
+        ('draft', 'Draft'),
+        ('confirm', 'Confirmed')
+    ], default='none')
+
+    def action_none(self):
+        self.state = 'none'
+
+    def action_draft(self):
+        self.state = 'draft'
+        related_payment = self.env['account.payment'].search([('archived_id', '=', self.suuplier_payment.archived_id.id)])
+        related_payment.action_draft()
+        related_payment.action_cancel()
+        related_payment.unlink()
+
+        for order in self.extra_orders:
+            order.action_cancel()
+            order.action_draft()
+            order._unlink_except_draft_or_cancel()
+
+    def action_confirm(self):
+        self.state = 'confirm'
+        # Let Odoo compute the TotalActuallyPaid field
+        self._compute_TotalActuallyPaid()
+        # Access the computed value
+        total_actually_paid = self.TotalActuallyPaid
+        _logger.info('TotalActuallyPaid: %s', total_actually_paid)
+        
+        self._compute_extra_order()
+        # Access the computed value
+        extra_order_total_amount = self.TotalExtraOrderAmount
+        _logger.info('Extra_order_total_amount: %s', extra_order_total_amount)
+        if total_actually_paid is not None:
+                suppler_invoice_amount = total_actually_paid + extra_order_total_amount
+                if total_actually_paid > 0 and suppler_invoice_amount != 0:
+                    _logger.info('Creating outbound payment')
+                    self.env['account.payment'].create({
+                        'amount': suppler_invoice_amount,
+                        'payment_type': 'outbound',
+                        'partner_type': 'supplier',
+                        'partner_id': self.member.id,
+                        'partner_bank_id': self.member.bank_ids[0].id if self.member.bank_ids else False,
+                        # Add other required fields
+                    })
+                elif total_actually_paid < 0 and suppler_invoice_amount != 0:
+                    _logger.info('Creating inbound payment')
+                    self.env['account.payment'].create({
+                        'amount': suppler_invoice_amount,
+                        'payment_type': 'inbound',
+                        'partner_type': 'supplier',
+                        'partner_id': self.member.id,
+                        'partner_bank_id': self.member.bank_ids[0].id if self.member.bank_ids else False,
+                        # Add other required fields
+                    })
+                    
+                for order in self.extra_orders:
+                    if order.invoice_status == 'to invoice':
+                        order._create_invoices()
+                
+
+
 
     # 帳號資料
     MemberBankAccount = fields.Char(
@@ -66,15 +128,15 @@ class Archived(models.Model):
 
     # 成單的序號列表
     seq_numbers = fields.One2many(
-        'agriculture.crop', 'archived_id', 'Numbers of CropRecord', required=True)
+        'agriculture.crop', 'archived_id', 'Numbers of CropRecord', required=True, states={'confirm': [('readonly', True)]})
 
     # 額外的資訊
     additional_items = fields.One2many(
-        'agriculture.archived_additional_item', 'archived_id', 'Extra Items')
+        'agriculture.archived_additional_item', 'archived_id', 'Extra Items', states={'confirm': [('readonly', True)]})
     
     
     #商品購買->應收帳款
-    extra_orders = fields.One2many('sale.order', 'archived_id', 'Extra Orders')
+    extra_orders = fields.One2many('sale.order', 'archived_id', 'Extra Orders', states={'confirm': [('readonly', True)]})
     
     # account.payment
     suuplier_payment = fields.One2many('account.payment', 'archived_id', 'Supplier Payment')
@@ -90,6 +152,7 @@ class Archived(models.Model):
     TotalQTY = fields.Float(compute='_compute_TotalQTY')
     RemianingQTY = fields.Float(compute='_compute_RemianingQTY')
     IsOverflowQTY = fields.Boolean(compute='_compute_IsOverflowQTY')
+    TotalExtraOrderAmount = fields.Float(compute='_compute_extra_order')
 
     @api.depends('seq_numbers')
     def _compute_TotalQTY(self):
@@ -138,8 +201,7 @@ class Archived(models.Model):
         for rec in self:
             for order in rec.extra_orders:
                 extra_order_total_amount += order.amount_total
-
-        return extra_order_total_amount
+            rec.TotalExtraOrderAmount = extra_order_total_amount
 
 
     @api.depends('TotalExpenditure', 'TotalIncome', 'seq_numbers', 'additional_items')
@@ -197,40 +259,15 @@ class Archived(models.Model):
 
             # Let Odoo compute the TotalActuallyPaid field
             record._compute_TotalActuallyPaid()
-
             # Access the computed value
             total_actually_paid = record.TotalActuallyPaid
             _logger.info('TotalActuallyPaid: %s', total_actually_paid)
-
-            extra_order_total_amount = record._compute_extra_order()
+            record._compute_extra_order()
+            extra_order_total_amount = record.TotalExtraOrderAmount
             _logger.info('Extra_order_total_amount: %s', extra_order_total_amount)
 
-            if total_actually_paid is not None:
-                suppler_invoice_amount = total_actually_paid + extra_order_total_amount
-                if total_actually_paid > 0 and suppler_invoice_amount != 0:
-                    _logger.info('Creating outbound payment')
-                    self.env['account.payment'].create({
-                        'amount': suppler_invoice_amount,
-                        'payment_type': 'outbound',
-                        'partner_type': 'supplier',
-                        'partner_id': record.member.id,
-                        'partner_bank_id': record.member.bank_ids[0].id if record.member.bank_ids else False,
-                        # Add other required fields
-                    })
-                elif total_actually_paid < 0 and suppler_invoice_amount != 0:
-                    _logger.info('Creating inbound payment')
-                    self.env['account.payment'].create({
-                        'amount': suppler_invoice_amount,
-                        'payment_type': 'inbound',
-                        'partner_type': 'supplier',
-                        'partner_id': record.member.id,
-                        'partner_bank_id': record.member.bank_ids[0].id if record.member.bank_ids else False,
-                        # Add other required fields
-                    })
-
-            for order in record.extra_orders:
-                if order.invoice_status is 'to invoice':
-                    order._create_invoices()
+            # set state to draft
+            record.action_draft()
 
             _logger.info('End create method in Archived model')
             return record
@@ -245,36 +282,36 @@ class Archived(models.Model):
         try:
             res = super(Archived,self).write(vals)
             # Update the data as needed
-            total_actually_paid = self.TotalActuallyPaid
-            _logger.info('TotalActuallyPaid: %s', total_actually_paid)
+            # total_actually_paid = self.TotalActuallyPaid
+            # _logger.info('TotalActuallyPaid: %s', total_actually_paid)
 
-            extra_order_total_amount = self._compute_extra_order()
-            _logger.info('Extra_order_total_amount: %s', extra_order_total_amount)
+            # extra_order_total_amount = self._compute_extra_order()
+            # _logger.info('Extra_order_total_amount: %s', extra_order_total_amount)
 
-            if total_actually_paid is not None:
+            # if total_actually_paid is not None:
 
-                suppler_invoice_amount = total_actually_paid + extra_order_total_amount
-                related_payment = self.env['account.payment'].search([('archived_id', '=', self.suuplier_payment.archived_id.id)])
+            #     suppler_invoice_amount = total_actually_paid + extra_order_total_amount
+            #     related_payment = self.env['account.payment'].search([('archived_id', '=', self.suuplier_payment.archived_id.id)])
                 
-                if total_actually_paid > 0 and suppler_invoice_amount != 0:
-                    _logger.info('updating outbound payment')
-                    # Update the related account.payment records
-                    related_payment.action_draft()
-                    related_payment.write({
-                        'amount': suppler_invoice_amount,
-                        'payment_type': 'outbound',
-                    })
-                elif total_actually_paid < 0 and suppler_invoice_amount != 0:
-                    _logger.info('updating inbound payment')
-                    related_payment.action_draft()
-                    related_payment.write({
-                        'amount': suppler_invoice_amount,
-                        'payment_type': 'inbound',
-                    })
+            #     if total_actually_paid > 0 and suppler_invoice_amount != 0:
+            #         _logger.info('updating outbound payment')
+            #         # Update the related account.payment records
+            #         related_payment.action_draft()
+            #         related_payment.write({
+            #             'amount': suppler_invoice_amount,
+            #             'payment_type': 'outbound',
+            #         })
+            #     elif total_actually_paid < 0 and suppler_invoice_amount != 0:
+            #         _logger.info('updating inbound payment')
+            #         related_payment.action_draft()
+            #         related_payment.write({
+            #             'amount': suppler_invoice_amount,
+            #             'payment_type': 'inbound',
+            #         })
 
-            for order in self.extra_orders:
-                if order.invoice_status is 'to invoice':
-                    order._create_invoices()
+            # for order in self.extra_orders:
+            #     if order.invoice_status is 'to invoice':
+            #         order._create_invoices()
 
             _logger.info('End update method in Archived model')
             return res
@@ -283,5 +320,4 @@ class Archived(models.Model):
             _logger.error('An error occurred: %s', str(e))
             # You can raise the exception again or handle it as needed
             raise
-        
-
+    

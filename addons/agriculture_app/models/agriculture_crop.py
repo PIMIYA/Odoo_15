@@ -11,7 +11,7 @@ _logger = logging.getLogger(__name__)
 
 class Crop(models.Model):
     _name = "agriculture.crop"
-    _inherit = 'mail.thread'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'SeqNumber'
     _description = "Crop"
     _order = "LastCreationTime desc"
