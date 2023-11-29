@@ -50,7 +50,7 @@ class Archived(models.Model):
 
     def action_draft(self):
         self.state = 'draft'
-        related_payment = self.env['account.payment'].search([('archived_id', '=', self.suuplier_payment.archived_id.id)])
+        related_payment = self.env['account.payment'].search([('archived_id', '=', self.id)])
         related_payment.action_draft()
         related_payment.action_cancel()
         related_payment.unlink()
@@ -82,6 +82,7 @@ class Archived(models.Model):
                         'partner_type': 'supplier',
                         'partner_id': self.member.id,
                         'partner_bank_id': self.member.bank_ids[0].id if self.member.bank_ids else False,
+                        'archived_id': self.id,
                         # Add other required fields
                     })
                 elif total_actually_paid < 0 and suppler_invoice_amount != 0:
@@ -92,11 +93,13 @@ class Archived(models.Model):
                         'partner_type': 'supplier',
                         'partner_id': self.member.id,
                         'partner_bank_id': self.member.bank_ids[0].id if self.member.bank_ids else False,
+                        'archived_id': self.id,
                         # Add other required fields
                     })
                     
                 for order in self.extra_orders:
-                    if order.invoice_status == 'to invoice':
+                    if order.invoice_status is not 'to invoice':
+                        order.action_confirm()
                         order._create_invoices()
                 
 
