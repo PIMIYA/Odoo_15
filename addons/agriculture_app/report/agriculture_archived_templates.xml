@@ -355,6 +355,7 @@
                 <td class="text-center">地址</td>
                 <td>
                   <span>
+                    <span t-field="res_company.state_id" />
                     <span t-field="res_company.city" />
                     <span t-field="res_company.street" />
                   </span>
