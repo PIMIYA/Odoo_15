@@ -391,7 +391,7 @@
                   <span t-field="crop.FarmingAdaption"></span>
                 </td>
                 <td>
-                  <span t-field="crop.CropWeight" />
+                  <span t-field="crop.CropWeight" t-options='{"widget": "float", "precision": 2}'/>
                 </td>
                 <td>
                   <span t-esc="crop.FinalPrice/60" t-options='{"widget": "float", "precision": 4}'/>
@@ -438,6 +438,7 @@
                 </td>
                 <td colspan="4" class="text-center">
                   <span t-esc="doc.get_cn_num(doc.TotalExpenditure)" />
+                  <span>整</span>
                 </td>
               </tr>
               <!-- Other -->
