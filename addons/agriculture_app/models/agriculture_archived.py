@@ -174,7 +174,7 @@ class Archived(models.Model):
         for rec in self:
             rec.IsOverflowQTY = rec.RemianingQTY < 0
 
-    @api.depends('seq_numbers', 'additional_items')
+    @api.depends('seq_numbers', 'additional_items', 'extra_orders')
     def _compute_TotalExpenditure(self):
         for rec in self:
             rec.TotalExpenditure = 0
@@ -206,7 +206,7 @@ class Archived(models.Model):
                 extra_order_total_amount += order.amount_total
             rec.TotalExtraOrderAmount = extra_order_total_amount
 
-    @api.depends('TotalExpenditure', 'TotalIncome', 'seq_numbers', 'additional_items')
+    @api.depends('TotalExpenditure', 'TotalIncome', 'seq_numbers', 'additional_items', 'extra_orders')
     def _compute_TotalActuallyPaid(self):
         for rec in self:
             rec.TotalActuallyPaid = math.floor(

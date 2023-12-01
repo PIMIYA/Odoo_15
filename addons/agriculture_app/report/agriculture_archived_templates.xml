@@ -75,9 +75,9 @@
 
           <hr />
 
-          <!-- 應付款 -->
+          <!-- 應付帳款 -->
           <div class="">
-            <h5>應付款:</h5>
+            <h5>應付帳款:</h5>
           </div>
           <div class="">
             <table class="table table-bordered text-center table-sm" style="border: 1px solid; border-color:black; border-collapse:collapse;">
@@ -170,7 +170,7 @@
 
           <!-- 應收款 -->
           <div class="">
-            <h5>應收款:</h5>
+            <h5>預付款/代墊款:</h5>
           </div>
           <div class="">
             <table class="table table-bordered text-center table-sm" style="border: 1px solid; border-color:black; border-collapse:collapse;">
@@ -225,9 +225,9 @@
             </table>
           </div>
 
-          <!-- 應收商品款 -->
+          <!-- 應收帳款 -->
           <div class="">
-            <h5>應收商品款:</h5>
+            <h5>應收帳款:</h5>
           </div>
           <div class="">
             <table class="table table-bordered text-center table-sm" style="border: 1px solid; border-color:black; border-collapse:collapse;">
