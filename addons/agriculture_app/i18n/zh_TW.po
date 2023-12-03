@@ -4,47 +4,36 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0-20220425\n"
+"Project-Id-Version: Odoo Server 15.0-20220520\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-11 11:39+0000\n"
-"PO-Revision-Date: 2022-05-11 20:23+0800\n"
+"POT-Creation-Date: 2022-11-30 02:11+0000\n"
+"PO-Revision-Date: 2023-02-06 15:13+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: zh_TW\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report_doc
-msgid ""
-"<br/>\n"
-"                            /"
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_kanban_crop_storage
+msgid "<b>Materials：</b>"
 msgstr ""
 
 #. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_wet_report_doc
-msgid ""
-"<br/>\n"
-"                            /建興碾米工廠"
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_kanban_crop_storage
+msgid "<b>StorageId：</b>"
 msgstr ""
 
 #. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
-msgid "<span class=\"mt-1\">名字:</span>"
+#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_receipt_report
+msgid "<span style=\"position:absolute; right:30px;\">存根聯</span>"
 msgstr ""
 
 #. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report
-#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_wet_report
-msgid "<span style=\"position:absolute; right:30px;\">備存聯</span>"
-msgstr ""
-
-#. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report
-#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_wet_report
+#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_receipt_report
 msgid "<span style=\"position:absolute; right:30px;\">收執聯</span>"
 msgstr ""
 
@@ -57,6 +46,14 @@ msgstr ""
 #. module: agriculture_app
 #: model_terms:ir.ui.view,arch_db:agriculture_app.crop_wet_report_doc
 msgid "<span>=</span>"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
+#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report_doc
+#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_wet_report_doc
+msgid "<span>TGAP</span>"
 msgstr ""
 
 #. module: agriculture_app
@@ -92,6 +89,7 @@ msgid "<span>元</span>"
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
 #: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report_doc
 #: model_terms:ir.ui.view,arch_db:agriculture_app.crop_wet_report_doc
 msgid "<span>公斤</span>"
@@ -101,6 +99,24 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report_doc
 #: model_terms:ir.ui.view,arch_db:agriculture_app.crop_wet_report_doc
 msgid "<span>分</span>"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report_doc
+#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_wet_report_doc
+msgid "<span>台斤</span>"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid ""
+"<span>台斤</span>\n"
+"                  <span/>"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
+msgid "<span>合計新台幣</span>"
 msgstr ""
 
 #. module: agriculture_app
@@ -166,11 +182,6 @@ msgstr ""
 
 #. module: agriculture_app
 #: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report_doc
-msgid "<span>狀態：</span>"
-msgstr ""
-
-#. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report_doc
 msgid "<span>秤量傳票(乾穀)</span>"
 msgstr ""
 
@@ -189,6 +200,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report_doc
 #: model_terms:ir.ui.view,arch_db:agriculture_app.crop_wet_report_doc
 msgid "<span>糙米完整率：</span>"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report_doc
+#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_wet_report_doc
+msgid "<span>約</span>"
 msgstr ""
 
 #. module: agriculture_app
@@ -216,9 +233,32 @@ msgid "<span>車重：</span>"
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "<span>農民進出貨對帳單</span>"
+msgstr ""
+
+#. module: agriculture_app
 #: model_terms:ir.ui.view,arch_db:agriculture_app.crop_dry_report_doc
 #: model_terms:ir.ui.view,arch_db:agriculture_app.crop_wet_report_doc
 msgid "<span>食味值：</span>"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_archived
+msgid "Account Name"
+msgstr "戶名"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_archived
+msgid "Account Number"
+msgstr "銀行帳號"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_needaction
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_needaction
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_needaction
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_needaction
+msgid "Action Needed"
 msgstr ""
 
 #. module: agriculture_app
@@ -230,6 +270,26 @@ msgstr ""
 #: model:ir.ui.menu,name:agriculture_app.menu_agriculture
 msgid "Agriculture"
 msgstr "稻穀收購管理"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "Agriculture Settings"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__CropVarieties
+msgid "All CropVarieties"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__CropWeights
+msgid "All CropWeights"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model,name:agriculture_app.model_agriculture_storagematerials
+msgid "All materials in Storage"
+msgstr ""
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__amount
@@ -256,9 +316,22 @@ msgid "Archived Additional Item"
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_calendar_archived
+msgid "Archived Calendar"
+msgstr ""
+
+#. module: agriculture_app
 #: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_member
 msgid "Area"
 msgstr "耕作面積(公頃)"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_attachment_count
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_attachment_count
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_attachment_count
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__AuxId
@@ -271,19 +344,96 @@ msgid "Auxid"
 msgstr ""
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__BBRiceWeight
+msgid "BBRiceWeight"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__BBRiceYield
 msgid "BBRiceYield"
 msgstr "大碎米成品率"
 
 #. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
-msgid "Billing"
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_archived
+msgid "Bank Name"
+msgstr "銀行名稱"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__BasePrice
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "Base Price"
+msgstr "基本價格"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "BlackCat API Base URL"
+msgstr "串接URL"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "BlackCat API Token"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "BlackCat Customer Id"
+msgstr "客戶編號"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "BlackCatLogisticConfig"
+msgstr "黑貓串接設定"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__blackCat_api_token
+msgid "BlackCat_Api_Token"
+msgstr "API Token"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__blackCat_api_url
+msgid "BlackCat_Api_Url"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__blackCat_customer_id
+msgid "BlackCat_Customer_Id"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.ui.menu,name:agriculture_app.menu_agriculture_blackcat
+msgid "Blackcat"
+msgstr "黑貓"
+
+#. module: agriculture_app
+#: model:ir.actions.act_window,name:agriculture_app.action_agriculture_blackcat_obt
+#: model:ir.model,name:agriculture_app.model_agriculture_blackcat_obt
+#: model:ir.model.fields,field_description:agriculture_app.field_stock_picking__BlackcatObtIds
+#: model:ir.ui.menu,name:agriculture_app.menu_agriculture_blackcat_obt
+msgid "Blackcat OBT"
+msgstr "黑貓宅配單"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_stock_picking__BlackcatObtId
+msgid "Blackcatobtid"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__BranWeight
+msgid "BranWeight"
 msgstr ""
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__BranYield
 msgid "BranYield"
 msgstr "米糠成品率"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ffs_BrownIntactRatioIsOver
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__fs_BrownIntactRatioIsOver
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ss_BrownIntactRatioIsOver
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ts_BrownIntactRatioIsOver
+msgid "Brown Intact Ratio Is Over"
+msgstr "米粒判別(糙米)"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__BrownAmylose
@@ -331,9 +481,24 @@ msgid "BrownPestsRatio"
 msgstr "糙米被害率"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__BrownWeight
+msgid "BrownWeight"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__BrownYield
 msgid "BrownYield"
 msgstr "糙米成品率"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__BuyPrice
+msgid "BuyPrice"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_inherit_form_stock_picking
+msgid "Call Carrier"
+msgstr "列印宅配單"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__CarCropWeight
@@ -344,6 +509,24 @@ msgstr "車輛總重"
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__CarWeight
 msgid "CarWeight"
 msgstr "空車重"
+
+#. module: agriculture_app
+#: model:ir.model.fields,help:agriculture_app.field_res_partner__is_agriculture_member
+#: model:ir.model.fields,help:agriculture_app.field_res_users__is_agriculture_member
+msgid ""
+"Check if the contact is a agriculture_member, otherwise it is a person or "
+"company"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storagematerials__Checkout
+msgid "Checkout"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__ChishangRArea
+msgid "ChishangRArea"
+msgstr "池上R面積"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__ChishangRArea
@@ -357,16 +540,50 @@ msgid "Comment"
 msgstr "備註"
 
 #. module: agriculture_app
+#: code:addons/agriculture_app/models/agriculture_crop.py:0
+#, python-format
+msgid "Compute Crop Condition Successed"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model,name:agriculture_app.model_res_config_settings
+msgid "Config Settings"
+msgstr "配置設定"
+
+#. module: agriculture_app
+#: model:ir.ui.menu,name:agriculture_app.menu_agriculture_configuration
+msgid "Configuration"
+msgstr "設定"
+
+#. module: agriculture_app
+#: model:ir.model,name:agriculture_app.model_res_partner
+msgid "Contact"
+msgstr "聯絡人"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__ContractArea
+msgid "ContractArea"
+msgstr "契作面積"
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__ContractArea
 msgid "Contractarea"
 msgstr "契作面積"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ContractedMemberPrice
+msgid "Contracted Member Price"
+msgstr "加成"
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__create_uid
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__create_uid
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__create_uid
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__create_uid
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__create_uid
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__create_uid
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__create_uid
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storagematerials__create_uid
 #: model:ir.model.fields,field_description:agriculture_app.field_crop_stage__create_uid
 msgid "Created by"
 msgstr ""
@@ -374,9 +591,12 @@ msgstr ""
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__create_date
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__create_date
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__create_date
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__create_date
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__create_date
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__create_date
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__create_date
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storagematerials__create_date
 #: model:ir.model.fields,field_description:agriculture_app.field_crop_stage__create_date
 msgid "Created on"
 msgstr ""
@@ -384,6 +604,11 @@ msgstr ""
 #. module: agriculture_app
 #: model:ir.model,name:agriculture_app.model_agriculture_crop
 msgid "Crop"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_calendar_crop
+msgid "Crop Calendar"
 msgstr ""
 
 #. module: agriculture_app
@@ -395,6 +620,11 @@ msgstr "乾濕穀"
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__CropType
 msgid "CropType"
 msgstr "特殊品種"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storagematerials__CropVarieties
+msgid "CropVarieties"
+msgstr ""
 
 #. module: agriculture_app
 #: model:ir.actions.act_window,name:agriculture_app.action_agriculture_crop_variety
@@ -419,6 +649,16 @@ msgid "CropWeight"
 msgstr "稻穀總重"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__CropWeight_by_ratio
+msgid "CropWeight_by_ratio"
+msgstr "濕穀折換後重量"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storagematerials__CropWeights
+msgid "CropWeights"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.actions.act_window,name:agriculture_app.action_agriculture_crop
 #: model:ir.ui.menu,name:agriculture_app.menu_agriculture_crop
 #: model_terms:ir.ui.view,arch_db:agriculture_app.crop_list_template
@@ -434,6 +674,11 @@ msgstr "品種加成價格(TWD/百台斤)"
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__CropVariety_name
 msgid "Cropvariety Name"
 msgstr "品種名稱"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__currency_id
+msgid "Currency"
+msgstr "幣別"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__datetime
@@ -454,9 +699,12 @@ msgstr "日期"
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__display_name
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__display_name
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__display_name
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__display_name
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__display_name
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__display_name
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__display_name
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storagematerials__display_name
 #: model:ir.model.fields,field_description:agriculture_app.field_crop_stage__display_name
 msgid "Display Name"
 msgstr ""
@@ -485,9 +733,24 @@ msgid "Drying Allowance"
 msgstr "烘乾費用"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__DryingFee
+msgid "DryingFee"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__EndTime
 msgid "End Time"
 msgstr "結束檢測時間"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__EndTime_Date
+msgid "End Time Date"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__EndTime_Time
+msgid "End Time Time"
+msgstr ""
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__additional_items
@@ -495,6 +758,7 @@ msgid "Extra Items"
 msgstr "應收/應付款項"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__FarmerType
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__FarmerType
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__FarmerType
 msgid "FarmerType"
@@ -511,13 +775,64 @@ msgid "FarmingMethod"
 msgstr "耕作方式"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__FileNo
+msgid "FileNo"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "Final PrimeYield Price Bonus"
+msgstr "標準成品率"
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__FinalPrice
 msgid "FinalPrice (/百台斤)"
-msgstr ""
+msgstr "收購單價(NT/百台斤)"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "First Stage Condition"
+msgstr "等級一品質加成條件"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_crop_stage__fold
 msgid "Fold"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_follower_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_follower_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_follower_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_partner_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_partner_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_partner_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "Fourth Stage Condition"
+msgstr "等級四品質加成條件"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "General Price Bonus Settings"
+msgstr "收購價格設定"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__GlutinousRicePrice
+msgid "Glutinous Rice Price"
+msgstr "園糯米"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__GlutinousRicePrice_BR
+msgid "Glutinous Rice Price BR"
 msgstr ""
 
 #. module: agriculture_app
@@ -531,6 +846,29 @@ msgid "HarvestYear"
 msgstr "收購年份"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__has_message
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__has_message
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__has_message
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_inherit_form_stock_picking
+msgid "Hope Arrive Date"
+msgstr "預期送達日期"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_stock_picking__HopeArriveDate
+msgid "HopeArriveDate"
+msgstr "預期送達日期"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__HullWeight
+msgid "HullWeight"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__HullYield
 msgid "HullYield"
 msgstr "粗糠成品率"
@@ -538,18 +876,69 @@ msgstr "粗糠成品率"
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__id
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__id
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__id
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__id
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__id
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__id
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__id
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storagematerials__id
 #: model:ir.model.fields,field_description:agriculture_app.field_crop_stage__id
 msgid "ID"
 msgstr "編號"
+
+#. module: agriculture_app
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_archived__message_needaction
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_archived__message_unread
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_crop__message_needaction
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_crop__message_unread
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_cropvariety__message_needaction
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_cropvariety__message_unread
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_member__message_needaction
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_member__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_archived__message_has_error
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_archived__message_has_sms_error
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_crop__message_has_error
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_crop__message_has_sms_error
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_cropvariety__message_has_error
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_cropvariety__message_has_sms_error
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_member__message_has_error
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_member__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__interest
 #: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_archived_additional_item
 msgid "Interest"
 msgstr "利息"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_is_follower
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_is_follower
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_is_follower
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_archived
+msgid "Is Overflow"
+msgstr "溢繳"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_partner__is_agriculture_member
+#: model:ir.model.fields,field_description:agriculture_app.field_res_users__is_agriculture_member
+msgid "Is an Agriculture Member"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__IsOverflowQTY
+msgid "Isoverflowqty"
+msgstr ""
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__item_kind
@@ -566,11 +955,19 @@ msgid "Item Name"
 msgstr "名稱"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__KoshihikariRice
+msgid "Koshihikari Rice"
+msgstr "越光米"
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived____last_update
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item____last_update
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt____last_update
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop____last_update
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety____last_update
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member____last_update
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage____last_update
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storagematerials____last_update
 #: model:ir.model.fields,field_description:agriculture_app.field_crop_stage____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -578,9 +975,12 @@ msgstr ""
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__write_uid
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__write_uid
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__write_uid
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__write_uid
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__write_uid
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__write_uid
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__write_uid
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storagematerials__write_uid
 #: model:ir.model.fields,field_description:agriculture_app.field_crop_stage__write_uid
 msgid "Last Updated by"
 msgstr ""
@@ -588,21 +988,83 @@ msgstr ""
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__write_date
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__write_date
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__write_date
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__write_date
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__write_date
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__write_date
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__write_date
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storagematerials__write_date
 #: model:ir.model.fields,field_description:agriculture_app.field_crop_stage__write_date
 msgid "Last Updated on"
 msgstr ""
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__LastCreationTime
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__LastCreationTime
 msgid "LastCreationTime"
-msgstr "最後編輯日期"
+msgstr "建立日期"
 
 #. module: agriculture_app
-#: model:res.groups,name:agriculture_app.agriculture_group_manager
-msgid "Manager"
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__LastEditTime
+msgid "LastEditTime"
+msgstr "更動日期"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+#: model_terms:ir.ui.view,arch_db:agriculture_app.crop_receipt_report
+msgid "Logo"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__MachineStatus
+msgid "MachineStatus"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__MachineTime
+msgid "MachineTime"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__MachineUses
+msgid "MachineUses"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_main_attachment_id
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_main_attachment_id
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_main_attachment_id
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,help:agriculture_app.field_res_config_settings__currency_id
+msgid "Main currency of the company."
+msgstr "公司的主幣別."
+
+#. module: agriculture_app
+#: model:ir.actions.act_window,name:agriculture_app.action_agriculture_materials
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__Crops
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__myList
+#: model:ir.ui.menu,name:agriculture_app.menu_agriculture_materials
+msgid "Materials"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__MaxPurchaseQTY
+msgid "MaxPurchaseQTY"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__maxPurchaseQTYPerHectare
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "MaxPurchaseQTYPerHectare"
+msgstr "每公頃合理收購量"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__MaxPurchaseQTY
+msgid "Maxpurchaseqty"
 msgstr ""
 
 #. module: agriculture_app
@@ -616,6 +1078,21 @@ msgid "Member of agriculture app"
 msgstr ""
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__MemberBankAccount
+msgid "Memberbankaccount"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__MemberBankAccountHolderName
+msgid "Memberbankaccountholdername"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__MemberBankName
+msgid "Memberbankname"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.actions.act_window,name:agriculture_app.action_agriculture_member
 #: model:ir.ui.menu,name:agriculture_app.menu_agriculture_member
 #: model_terms:ir.ui.view,arch_db:agriculture_app.member_list_template
@@ -623,8 +1100,44 @@ msgid "Members"
 msgstr "農民基本資料"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_has_error
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_has_error
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_has_error
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__multiplication
+msgid "Multiplication"
+msgstr "扣除額"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "Multiplication Price Bonus"
+msgstr "成品率不足扣除額(台幣/百台斤)"
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_crop_stage__name
 msgid "Name"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__NonLeasedArea
+msgid "NonLeasedArea"
+msgstr "非契作面積"
+
+#. module: agriculture_app
+#: model:ir.model.fields.selection,name:agriculture_app.selection__stock_picking__BlackcatState__none
+msgid "None"
 msgstr ""
 
 #. module: agriculture_app
@@ -633,19 +1146,117 @@ msgid "Nonleasedarea"
 msgstr "非契作面積"
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_archived
+msgid "Not Overflow"
+msgstr "未溢繳"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_needaction_counter
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_needaction_counter
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_needaction_counter
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_has_error_counter
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_has_error_counter
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_has_error_counter
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_archived__message_needaction_counter
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_crop__message_needaction_counter
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_cropvariety__message_needaction_counter
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_member__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_archived__message_has_error_counter
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_crop__message_has_error_counter
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_cropvariety__message_has_error_counter
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_member__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_archived__message_unread_counter
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_crop__message_unread_counter
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_cropvariety__message_unread_counter
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_member__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__seq_numbers
 msgid "Numbers of CropRecord"
 msgstr "應付稻穀款"
 
 #. module: agriculture_app
+#: model:ir.model.fields.selection,name:agriculture_app.selection__stock_picking__BlackcatState__obtrequested
+msgid "OBT Requested"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__OBTNumber
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_search_blackcat_obt
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_tree_blackcat_obt
+msgid "OBTNumber"
+msgstr "宅配單號"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__OrganiCertifiedArea
+msgid "OrganiCertifiedArea"
+msgstr "有機面積"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "Organic Crop Price Bonus"
+msgstr "有機品質加成"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__OrganicRice
+msgid "Organic Rice"
+msgstr "基本加成"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__OrganicRiceExtra
+msgid "Organic Rice Extra"
+msgstr "品質額外加成"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "Organic Transition or Isolated Area Price Bonus"
+msgstr "有機轉型/隔離帶加成"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__OrganicTransOrIso
+msgid "OrganicTransOrIso"
+msgstr "加成"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__OrganicVerifyDate
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__OrganicVerifyDate
 msgid "OrganicVerifyDate"
-msgstr "認證日期"
+msgstr "有機認證日期"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__OrganiCertifiedArea
 msgid "Organicertifiedarea"
 msgstr "有機認證面積"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__ShippingPdfFilename
+msgid "PDF Filename"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.ui.menu,name:agriculture_app.menu_agriculture_settings
+msgid "Price Estimated Settings"
+msgstr "收購設定"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__unit_price
@@ -658,9 +1269,25 @@ msgid "PriceState"
 msgstr "狀態"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__PrimeYieldIsOverAndEqualTo
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__final_PrimeYieldIsOverAndEqualTo
+msgid "Prime Yield Is Over And Equal To"
+msgstr "品質加成 成品率"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__PrimeWeight
+msgid "PrimeWeight"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__PrimeYield
 msgid "PrimeYield"
 msgstr "白米成品率"
+
+#. module: agriculture_app
+#: model:ir.model.fields.selection,name:agriculture_app.selection__stock_picking__BlackcatState__printrequested
+msgid "Print Requested"
+msgstr ""
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__Protein
@@ -668,20 +1295,41 @@ msgid "Protein"
 msgstr "蛋白質"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__RHafterDryer
+msgid "RHafterDryer"
+msgstr "烘乾後溫度"
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__RawHumidity
 msgid "RawHumidity"
 msgstr "稻穀濕度"
 
 #. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_crop
-msgid "Refresh"
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__RawTotalWeight
+msgid "RawTotalWeight"
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_archived
+msgid "Reasonable QTY"
+msgstr "合理收購總量"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__Region
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__Region
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__Region
 msgid "Region"
-msgstr "村名"
+msgstr "分區(村名)"
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_archived
+msgid "Remianing QTY"
+msgstr "剩餘可收購量"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__RemianingQTY
+msgid "Remianingqty"
+msgstr ""
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__RiceHumidity
@@ -689,29 +1337,46 @@ msgid "RiceHumidity"
 msgstr "白米濕度"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__SBRiceWeight
+msgid "SBRiceWeight"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__SBRiceYield
 msgid "SBRiceYield"
 msgstr "小碎米成品率"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_has_sms_error
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_has_sms_error
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_has_sms_error
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "Second Stage Condition"
+msgstr "等級二品質加成條件"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__SellerId
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__SellerId
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__SellerId
+#: model:ir.model.fields,field_description:agriculture_app.field_res_partner__SellerId
+#: model:ir.model.fields,field_description:agriculture_app.field_res_users__SellerId
 msgid "SellerId"
 msgstr "編號"
 
 #. module: agriculture_app
-#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__SellerId1
-msgid "SellerId1"
-msgstr "編號"
-
-#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__SellerName
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__SellerName
+#: model:ir.model.fields,field_description:agriculture_app.field_res_partner__Member
+#: model:ir.model.fields,field_description:agriculture_app.field_res_partner__SellerName
+#: model:ir.model.fields,field_description:agriculture_app.field_res_users__Member
+#: model:ir.model.fields,field_description:agriculture_app.field_res_users__SellerName
 msgid "SellerName"
 msgstr "姓名"
-
-#. module: agriculture_app
-#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__SellerId
-msgid "Sellerid"
-msgstr "編號"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__SellerName
@@ -729,6 +1394,42 @@ msgid "Sequence"
 msgstr ""
 
 #. module: agriculture_app
+#: model:ir.actions.act_window,name:agriculture_app.res_config_settings_menu_action
+msgid "Settings"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_inherit_form_stock_picking
+msgid "Shipment Date"
+msgstr "配送日期"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_stock_picking__ShipmentDate
+msgid "ShipmentDate"
+msgstr "配送日期"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_stock_picking__Shipping_method
+msgid "Shipping Method"
+msgstr "配送方式"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__ShippingPdf
+msgid "ShippingPdf"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "Spacial Crop Price Bonus"
+msgstr "特殊品種加成(台幣/百台斤)"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__SrvTranId
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_tree_blackcat_obt
+msgid "SrvTranId"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__stage_id
 msgid "Stage"
 msgstr ""
@@ -739,15 +1440,92 @@ msgid "Start Time"
 msgstr "開始檢測時間"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__StartTime_Date
+msgid "Start Time Date"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__StartTime_Time
+msgid "Start Time Time"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__state
 #: model:ir.model.fields,field_description:agriculture_app.field_crop_stage__state
+#: model:ir.model.fields,field_description:agriculture_app.field_stock_picking__BlackcatState
 msgid "State"
 msgstr "磅單狀態"
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_blackcat_obt
+msgid "Stock Picking"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_blackcat_obt__StockPickingId
+msgid "Stockpickingid"
+msgstr "庫存訂單號碼"
+
+#. module: agriculture_app
+#: model:ir.ui.menu,name:agriculture_app.menu_agriculture_storage
+msgid "Storage"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.actions.act_window,name:agriculture_app.action_agriculture_storage_area
+msgid "Storage Area"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.ui.menu,name:agriculture_app.menu_agriculture_storage_area
+msgid "Storage ID"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model,name:agriculture_app.model_agriculture_storage
+msgid "Storage of agriculture app"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__StorageId
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__StorageId
 msgid "StorageId"
 msgstr "儲存位置"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storagematerials__StorageId
+msgid "Storageid"
+msgstr ""
+
+#. module: agriculture_app
+#: code:addons/agriculture_app/models/agriculture_crop.py:0
+#: code:addons/agriculture_app/models/inherit_stock_picking.py:0
+#, python-format
+msgid "Success"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "TGAP Price Bonus"
+msgstr "TGAP加成(台幣/百台斤)"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__tgap_bonus
+msgid "TGAP bonus"
+msgstr "加成"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__TGAPArea
+msgid "TGAPArea"
+msgstr "TGAP面積"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ffs_TasteRatingIsOver
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__fs_TasteRatingIsOver
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ss_TasteRatingIsOver
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ts_TasteRatingIsOver
+msgid "Taste Rating Is Over"
+msgstr "食味值"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__TasteRating
@@ -760,6 +1538,11 @@ msgid "Tgaparea"
 msgstr "TGAP面積"
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "Third Stage Condition"
+msgstr "等級三品質加成條件"
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__total_price
 #: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_archived_additional_item
 #: model_terms:ir.ui.view,arch_db:agriculture_app.view_tree_archived_additional_item
@@ -767,9 +1550,49 @@ msgid "Total Price"
 msgstr "總價"
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_archived
+msgid "Total QTY"
+msgstr "收購總量"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_storage__TotalWeight
+msgid "Total Weight"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__TotalLoadWeight
+msgid "TotalLoadWeight"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__TotalPrice
 msgid "TotalPrice (新台幣)"
+msgstr "收購總價(TWD)"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__TotalActuallyPaid
+msgid "Totalactuallypaid"
+msgstr "總計(應付)"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__TotalExpenditure
+msgid "Totalexpenditure"
+msgstr "應付款項"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__TotalIncome
+msgid "Totalincome"
+msgstr "應收款項"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__TotalQTY
+msgid "Totalqty"
 msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model,name:agriculture_app.model_stock_picking
+msgid "Transfer"
+msgstr "調撥"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived_additional_item__transport_allowance
@@ -784,9 +1607,38 @@ msgid "Unit Price"
 msgstr "單價"
 
 #. module: agriculture_app
-#: model:res.groups,name:agriculture_app.agriculture_group_user
-msgid "User"
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_unread
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_unread
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_unread
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_unread
+msgid "Unread Messages"
 msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__message_unread_counter
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__message_unread_counter
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__message_unread_counter
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__ValidDocsRecived
+msgid "ValidDocsRecived"
+msgstr "驗證資料已繳交"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ffs_VolumeWeightIsOver
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__fs_VolumeWeightIsOver
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ss_VolumeWeightIsOver
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ts_VolumeWeightIsOver
+msgid "Volume Weight Is Over"
+msgstr "容重量"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__VolumeWeightIsOverAndEqualTo
+msgid "Volume Weight Is Over And Equal To"
+msgstr "品質加成 容重量"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__VolumeWeight
@@ -794,9 +1646,100 @@ msgid "VolumeWeight"
 msgstr "容重量"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WasteRatio
+msgid "WasteRatio"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_archived__website_message_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__website_message_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_cropvariety__website_message_ids
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_member__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_archived__website_message_ids
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_crop__website_message_ids
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_cropvariety__website_message_ids
+#: model:ir.model.fields,help:agriculture_app.field_agriculture_member__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WetDryRatio
+msgid "WetDryRatio"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WetToDryRatio
+msgid "WetToDryRatio"
+msgstr "乾溼穀折換率(%)"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WhiteAmylose
+msgid "WhiteAmylose"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WhiteColoredRatio
+msgid "WhiteColoredRatio"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WhiteCrackedRatio
+msgid "WhiteCrackedRatio"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WhiteDeadRatio
+msgid "WhiteDeadRatio"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WhiteImmatureRatio
+msgid "WhiteImmatureRatio"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WhiteIntactRatio
+msgid "WhiteIntactRatio"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WhiteMoisture
+msgid "WhiteMoisture"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WhitePestsRatio
+msgid "WhitePestsRatio"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WhiteProtein
+msgid "WhiteProtein"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__WhiteQEV
+msgid "WhiteQEV"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model,name:agriculture_app.model_crop_stage
 msgid "crop record Stage"
 msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__fs_bonus
+msgid "fs_bonus"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.res_config_settings_view_form
+msgid "is Contracted Price Bonus"
+msgstr "契作加成(台幣/百台斤)"
 
 #. module: agriculture_app
 #: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__isTGAP
@@ -804,23 +1747,45 @@ msgid "isTGAP"
 msgstr "TGAP"
 
 #. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__is_sp_type
+msgid "is_sp_type"
+msgstr "特殊品種"
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_agriculture_crop__nego_price
+msgid "nego_price"
+msgstr "價格調整"
+
+#. module: agriculture_app
+#: code:addons/agriculture_app/models/inherit_stock_picking.py:0
+#, python-format
+msgid "no carrier selected!"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ss_bonus
+msgid "ss_bonus"
+msgstr ""
+
+#. module: agriculture_app
+#: model:ir.model.fields,field_description:agriculture_app.field_res_config_settings__ts_bonus
+msgid "ts_bonus"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields.selection,name:agriculture_app.selection__agriculture_crop__CropStatus__dry
 msgid "乾穀"
 msgstr ""
 
 #. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
-msgid "交易日期"
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
+msgid "住址："
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
 #: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
 msgid "備註"
-msgstr ""
-
-#. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
-msgid "備註說明"
 msgstr ""
 
 #. module: agriculture_app
@@ -846,6 +1811,11 @@ msgid "單價"
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "單價(元/公斤)"
+msgstr ""
+
+#. module: agriculture_app
 #: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_crop
 msgid "單號"
 msgstr ""
@@ -856,8 +1826,18 @@ msgid "地址"
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "地址:"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields.selection,name:agriculture_app.selection__agriculture_member__FarmerType__contract
 msgid "契作農民"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "姓名:"
 msgstr ""
 
 #. module: agriculture_app
@@ -876,9 +1856,13 @@ msgid "對帳單"
 msgstr ""
 
 #. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
 #: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
-msgid "小記"
+msgid "小計"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "帳號:"
 msgstr ""
 
 #. module: agriculture_app
@@ -908,12 +1892,7 @@ msgstr ""
 
 #. module: agriculture_app
 #: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
-msgid "應付金額合計"
-msgstr ""
-
-#. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
-msgid "應收利息"
+msgid "應付金額(一)"
 msgstr ""
 
 #. module: agriculture_app
@@ -932,13 +1911,18 @@ msgid "應收金額"
 msgstr ""
 
 #. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
-msgid "所得淨額"
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "應收金額(二)"
 msgstr ""
 
 #. module: agriculture_app
 #: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
-msgid "搬運補助"
+msgid "戶名:"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
+msgid "所得淨額"
 msgstr ""
 
 #. module: agriculture_app
@@ -958,6 +1942,11 @@ msgid "數量"
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "日期"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields.selection,name:agriculture_app.selection__agriculture_crop__FarmingMethod__organic
 msgid "有機耕作"
 msgstr ""
@@ -973,13 +1962,8 @@ msgid "此欄稽徵機關填寫"
 msgstr ""
 
 #. module: agriculture_app
-#: model:ir.model.fields.selection,name:agriculture_app.selection__agriculture_crop__CropStatus__humi
+#: model:ir.model.fields.selection,name:agriculture_app.selection__agriculture_crop__CropStatus__wet
 msgid "濕穀"
-msgstr ""
-
-#. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
-msgid "烘乾補助"
 msgstr ""
 
 #. module: agriculture_app
@@ -988,23 +1972,13 @@ msgid "磅單基本資料"
 msgstr ""
 
 #. module: agriculture_app
-#: model:ir.actions.report,name:agriculture_app.action_agriculture_crop_dry_report
-msgid "秤量傳票(乾穀)"
-msgstr ""
-
-#. module: agriculture_app
-#: model:ir.actions.report,name:agriculture_app.action_agriculture_crop_wet_report
-msgid "秤量傳票(濕穀)"
+#: model:ir.actions.report,name:agriculture_app.action_agriculture_crop_receipt_report
+msgid "秤量傳票"
 msgstr ""
 
 #. module: agriculture_app
 #: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
 msgid "稅籍號碼"
-msgstr ""
-
-#. module: agriculture_app
-#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
-msgid "稻穀重量"
 msgstr ""
 
 #. module: agriculture_app
@@ -1018,6 +1992,11 @@ msgid "稻米詳細評估資料"
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
+msgid "簽章："
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields.selection,name:agriculture_app.selection__agriculture_crop__CropType__c
 msgid "糯米"
 msgstr ""
@@ -1025,6 +2004,11 @@ msgstr ""
 #. module: agriculture_app
 #: model:ir.model.fields.selection,name:agriculture_app.selection__agriculture_crop__CropType__b
 msgid "紅/黑糯米"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "編號"
 msgstr ""
 
 #. module: agriculture_app
@@ -1043,6 +2027,11 @@ msgid "計價完成資料"
 msgstr "品質評判後價格"
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_crop
+msgid "議價"
+msgstr "議價(台幣/百台斤)"
+
+#. module: agriculture_app
 #: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
 msgid "貨品(摘要)"
 msgstr ""
@@ -1058,13 +2047,34 @@ msgid "越光米"
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
+msgid "身分證字號："
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_archived
 #: model_terms:ir.ui.view,arch_db:agriculture_app.view_form_crop
 msgid "農友基本資料"
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "農友資訊"
+msgstr ""
+
+#. module: agriculture_app
 #: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
 msgid "農民出售農產物收據"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_receipt_report
+msgid "農民姓名："
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "重量(公斤)"
 msgstr ""
 
 #. module: agriculture_app
@@ -1074,8 +2084,18 @@ msgid "金額"
 msgstr ""
 
 #. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "銀行:"
+msgstr ""
+
+#. module: agriculture_app
 #: model:ir.model.fields.selection,name:agriculture_app.selection__agriculture_crop__FarmingAdaption__b
 msgid "隔離帶"
+msgstr ""
+
+#. module: agriculture_app
+#: model_terms:ir.ui.view,arch_db:agriculture_app.archived_billing_report
+msgid "電話:"
 msgstr ""
 
 #. module: agriculture_app
