@@ -21,3 +21,4 @@ from . import agriculture_invoice_send
 from . import agriculture_invoice_recieve
 from . import sale_order
 from . import account_payment
+from . import inherit_sale_order_line

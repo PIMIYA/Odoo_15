@@ -3,8 +3,8 @@
         <field name="name">Agriculture Crop B5</field>
         <field name="default" eval="True" />
         <field name="format">B5</field>
-        <field name="page_height">0</field>
-        <field name="page_width">0</field>
+        <!-- <field name="page_height">0</field> -->
+        <!-- <field name="page_width">0</field> -->
         <field name="orientation">Landscape</field>
         <field name="margin_top">5</field>
         <field name="margin_bottom">2</field>

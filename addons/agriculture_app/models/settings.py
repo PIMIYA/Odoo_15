@@ -86,6 +86,11 @@ class Preferences(models.TransientModel):
     final_PrimeYieldIsOverAndEqualTo = fields.Float(
         'Prime Yield Is Over And Equal To', default=70.0)
 
+    # Dryer base price
+    # ----------------------------------------------------------
+    dryer_base_price = fields.Monetary(
+        'Dryer base price', default=0.0, required=True)
+
     # Final multiplication
     # ----------------------------------------------------------
     multiplication = fields.Float('Multiplication', default=20)
@@ -161,7 +166,9 @@ class Preferences(models.TransientModel):
         icp.set_param('agriculture.multiplication', self.multiplication)
         icp.set_param('agriculture.maxPurchaseQTYPerHectare',
                       self.maxPurchaseQTYPerHectare)
-        
+
+        icp.set_param('agriculture.dryer_base_price', self.dryer_base_price)
+
         '''黑貓 configuration'''
         icp.set_param('agriculture.blackCat_customer_id',
                       self.blackCat_customer_id),
@@ -242,6 +249,9 @@ class Preferences(models.TransientModel):
         value_maxPurchaseQTYPerHectare = icp.sudo().get_param(
             'agriculture.maxPurchaseQTYPerHectare', default=6000.0)
 
+        value_dryer_base_price = icp.sudo().get_param(
+            'agriculture.dryer_base_price', default=0.0)
+
         '''黑貓 configuration'''
         value_blackCat_customer_id = icp.sudo().get_param(
             'agriculture.blackCat_customer_id')
@@ -294,5 +304,6 @@ class Preferences(models.TransientModel):
             ecan_api_token=value_ecan_api_token,
             ecan_api_url=value_ecan_api_url,
             ktj_customer_id=value_ktj_customer_id,
+            dryer_base_price=float(value_dryer_base_price),
         )
         return res

@@ -82,9 +82,9 @@
           <field name="state" widget="badge"/>
           <field name="extra_orders" />
           <field name="additional_items" />
-          <field name="TotalExpenditure" />
-          <field name="TotalIncome" />
-          <field name="TotalActuallyPaid" />
+          <field name="TotalExpenditure" sum="Total"/>
+          <field name="TotalIncome" sum="Total"/>
+          <field name="TotalActuallyPaid" sum="Total"/>
         </tree>
       </field>
     </record>

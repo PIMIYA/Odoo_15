@@ -23,7 +23,7 @@ class Crop(models.Model):
     # ******農夫的資訊從member中取得******
     # add domain to filter out non-agriculture member
     SellerName = fields.Many2one(
-        "res.partner", string="SellerName", domain = "[('is_agriculture_member','=',True)]", required=False)
+        "res.partner", string="SellerName", domain="[('is_agriculture_member','=',True)]", required=False)
     SellerId = fields.Char(
         "SellerId", related="SellerName.SellerId", required=False)
 
@@ -197,7 +197,7 @@ class Crop(models.Model):
 
     WetDryRatio = fields.Float('WetDryRatio', required=True, default=0.0)
 
-    DryingFee = fields.Float('DryingFee', required=True, default=0.0)
+    DryingFee = fields.Float('DryingFee')
 
     StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
     DryerId = fields.Char('DryerId', required=False)  # 洗米機編號
@@ -535,6 +535,13 @@ class Crop(models.Model):
                 rec.PriceState = 'draft'
                 rec.stage_id = self._default_stage()
 
+    @api.onchange('CropWeight', 'CropStatus')
+    def _onchange_CropWeight(self):
+        params = self.env['ir.config_parameter'].sudo()
+        self.DryingFee = float(params.get_param(
+            'agriculture.dryer_base_price'))
+        _logger.info(f"This is DryingFee: {self.DryingFee}")
+
     def unlink_archiveItem(self):
         self.PriceState = 'done'
         self.stage_id = self._done_stage()
@@ -590,7 +597,15 @@ class Crop(models.Model):
         else:
             return self.CropVariety.CropVariety_name if self.CropVariety else ''
 
-    # @api.model
-    # def default_get(self, fields):
-    #     res = super(Crop, self).default_get(fields)
-    #     return res
+    @api.model
+    def default_get(self, fields):
+        res = super(Crop, self).default_get(fields)
+        params = self.env['ir.config_parameter'].sudo()
+        test = float(params.get_param('agriculture.dryer_base_price'))
+        _logger.info(f"This is DryingFee: {test}")
+        res.update(
+            {
+                'DryingFee': float(params.get_param('agriculture.dryer_base_price'))
+            }
+        )
+        return res

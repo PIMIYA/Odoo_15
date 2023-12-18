@@ -150,10 +150,11 @@
         <field name="FarmingMethod" optional='show'/>
         <field name="CropStatus" optional='hide'/>
         <field name="CropWeight" optional='hide'/>
+        <field name="TotalPrice" optional='show' sum="Total"/>
         <field name="FinalPrice" optional='hide'/>
-        <field name="LastCreationTime" options="{'format': 'YYYY-MM-DD'}"/>
+        <field name="LastCreationTime" options="{'format': 'YYYY-MM-DD'}" optional='hide'/>
       </tree>
-    </field>
+    </field> 
   </record>
 
   <!-- explicit calender view definition -->
@@ -170,7 +171,7 @@
         <field name="FarmingMethod" />
         <field name="CropType" />
         <!-- <field name="CropStatus" /> -->
-        <field name="FinalPrice" />
+        <field name="TotalPrice" />
         <field name="LastCreationTime" widget="remaining_days"/>
       </calendar>
     </field>

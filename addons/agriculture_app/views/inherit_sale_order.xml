@@ -1,0 +1,12 @@
+<odoo>
+    <record model="ir.ui.view" id="view_inherit_form_sale_order">
+        <field name="name">view_inherit_form_sale_order</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="before">
+                <field name="barcode" groups="base.group_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

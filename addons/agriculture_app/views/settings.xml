@@ -58,6 +58,9 @@
                             <group string="TGAP Price Bonus">
                                 <field name="tgap_bonus" widget='monetary' options="{'currency_field': 'currency_id'}" />
                             </group>
+                            <group string="Dryer base price">
+                                <field name="dryer_base_price" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                            </group>
                             <group string="Final PrimeYield Price Bonus">
                                 <field name="final_PrimeYieldIsOverAndEqualTo" />
                             </group>

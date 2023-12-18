@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>	 
+
+<odoo>	 
+    <template id="sales_report_agriculture"  inherit_id="sale.report_saleorder_document">
+        <xpath expr="//th[@name='th_priceunit']" position="after">
+            <th name="th_package_qty" class="text-right">Quantity of Package</th>
+            <th name="th_package_id" class="text-right">Package</th> 
+        </xpath>
+        <xpath expr="//th[@name='th_taxes']" position="replace">
+        </xpath>
+        <xpath expr="//td[@name='td_taxes']" position="replace">
+        </xpath>
+        <xpath expr="//td[@name='td_priceunit']" position="after">
+            <td name="td_package_qty" class="text-right">
+                <span t-field="line.product_packaging_qty"/>
+            </td>
+            <td name="td_package_id" class="text-right">
+                <span t-field="line.product_packaging_id"/>
+            </td>
+        </xpath>
+    </template>
+</odoo>
