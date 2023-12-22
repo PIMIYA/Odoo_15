@@ -197,7 +197,8 @@ class Crop(models.Model):
 
     WetDryRatio = fields.Float('WetDryRatio', required=True, default=0.0)
 
-    DryingFee = fields.Float('DryingFee')
+    DryingFee = fields.Float('DryingFee', compute='_compute_drying_fee',
+                             store=True, required=True, default=0.0)
 
     StorageId = fields.Char('StorageId', required=False)  # 存放的倉庫編號
     DryerId = fields.Char('DryerId', required=False)  # 洗米機編號
@@ -535,12 +536,25 @@ class Crop(models.Model):
                 rec.PriceState = 'draft'
                 rec.stage_id = self._default_stage()
 
-    @api.onchange('CropWeight', 'CropStatus')
-    def _onchange_CropWeight(self):
-        params = self.env['ir.config_parameter'].sudo()
-        self.DryingFee = float(params.get_param(
-            'agriculture.dryer_base_price'))
-        _logger.info(f"This is DryingFee: {self.DryingFee}")
+    @api.depends('RawHumidity')
+    def _compute_drying_fee(self):
+        for rec in self:
+            if rec.RawHumidity < 25:
+                rec.DryingFee = 1.5  # Updated fee for humidity less than 25
+            elif rec.RawHumidity < 26:
+                rec.DryingFee = 1.55
+            elif rec.RawHumidity < 27:
+                rec.DryingFee = 1.6
+            elif rec.RawHumidity < 28:
+                rec.DryingFee = 1.65
+            elif rec.RawHumidity < 30:
+                rec.DryingFee = 1.7
+            elif rec.RawHumidity < 31:
+                rec.DryingFee = 1.8
+            elif rec.RawHumidity < 32:
+                rec.DryingFee = 1.85
+            else:                     # for humidity >= 32
+                rec.DryingFee = 2
 
     def unlink_archiveItem(self):
         self.PriceState = 'done'
@@ -597,15 +611,15 @@ class Crop(models.Model):
         else:
             return self.CropVariety.CropVariety_name if self.CropVariety else ''
 
-    @api.model
-    def default_get(self, fields):
-        res = super(Crop, self).default_get(fields)
-        params = self.env['ir.config_parameter'].sudo()
-        test = float(params.get_param('agriculture.dryer_base_price'))
-        _logger.info(f"This is DryingFee: {test}")
-        res.update(
-            {
-                'DryingFee': float(params.get_param('agriculture.dryer_base_price'))
-            }
-        )
-        return res
+    # @api.model
+    # def default_get(self, fields):
+    #     res = super(Crop, self).default_get(fields)
+    #     params = self.env['ir.config_parameter'].sudo()
+    #     test = float(params.get_param('agriculture.dryer_base_price'))
+    #     _logger.info(f"This is DryingFee: {test}")
+    #     res.update(
+    #         {
+    #             'DryingFee': float(params.get_param('agriculture.dryer_base_price'))
+    #         }
+    #     )
+    #     return res
