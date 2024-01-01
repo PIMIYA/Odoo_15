@@ -1,5 +1,5 @@
 # Install Office Odoo 15 on Ubuntu 20.04(focal)
-
+# installing without docker
 ```bash
 sudo apt-get update
 sudo apt-get upgrade -y
@@ -84,6 +84,6 @@ sudo service odoo restart
 使用 git clone 內的 odoo.conf，再將下列內容加入修改
 
 ```ini
-addons_path = /usr/lib/python3/dist-packages/odoo/addons, /opt/odoo-addons/Odoo_15/addons
+addons_path = /usr/lib/python3/dist-packages/odoo/addons, cd addons
 data_dir = /opt/odoo
 ```

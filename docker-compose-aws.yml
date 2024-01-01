@@ -1,34 +1,33 @@
-version: '3'
+version: '3.7'
 services:
-    odoo:
-        container_name: odoo
-        image: odoo:15.0
-        env_file: .env
-        volumes:
-            - ./addons:/mnt/extra-addons
-            - ./etc/odoo:/etc/odoo
-            - ./config:/etc/odoo
-            - odoo-web-data:/var/lib/odoo
-        ports:
-            - "8069:8069"
-        nginx:
-            container_name: nginx
-            image: nginx:latest
-            restart: unless-stopped
-        ports:
-            - 80:80
-            - 443:443
-        volumes:
-            - ./nginx/conf:/etc/nginx/conf.d
-            - ./certbot/conf:/etc/nginx/ssl
-            - ./certbot/data:/var/www/html
-        certbot:
-            container_name: certbot
-            image: certbot/certbot:latest
-            command: certonly --webroot --webroot-path=/var/www/html -- email youremail@mail.com --agree-tos --no-eff-email -d domain.com -d www.domain.com
-        volumes:
-            - ./certbot/conf:/etc/letsencrypt
-            - ./certbot/logs:/var/log/letsencrypt
-            - ./certbot/data:/var/www/html
+  odoo:
+    container_name: odoo
+    image: odoo:15.0
+    env_file: .env
+    volumes:
+        - ./addons:/mnt/extra-addons
+        - ./config:/etc/odoo
+        - odoo-web-data:/var/lib/odoo
+    ports:
+        - "8069:8069"
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    restart: unless-stopped
+    ports:
+        - 80:80
+        - 443:443
+    volumes:
+        - ./nginx/conf:/etc/nginx/conf.d
+        - ./certbot/conf:/etc/nginx/ssl
+        - ./certbot/data:/var/www/html
+  certbot:
+    container_name: certbot
+    image: certbot/certbot:latest
+    command: certonly --webroot --webroot-path=/var/www/html --email youremail@mail.com --agree-tos --no-eff-email --force-renewal -d domain.com -d www.domain.com
+    volumes:
+        - ./certbot/conf:/etc/letsencrypt
+        - ./certbot/logs:/var/log/letsencrypt
+        - ./certbot/data:/var/www/html
 volumes:
     odoo-web-data:
