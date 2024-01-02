@@ -34,21 +34,6 @@ apt-get install ttf-wqy-zenhei ttf-wqy-microhei -y
 
 
 ## Tips
-* Preview PDF File:
-  debug mode:
-  - Setting/Technical/Reporting/Reports
-  - Search Report(PDF) Name
-  - Config Report Type from PDF to HTML
-  
-  Example:
-  
-  ![image](https://github.com/PIMIYA/Odoo_15/assets/52248840/f7cf5ad2-d134-458e-ace8-084d0611ce06)
 
-* Pdf report options (Third Party Module)
-  Download Link: https://apps.odoo.com/apps/modules/15.0/report_pdf_options/
-  
-  Example:
-  
-  ![image](https://github.com/PIMIYA/Odoo_15/assets/52248840/871cde4b-cb25-492d-adaa-8005b2549a1a)
 
   

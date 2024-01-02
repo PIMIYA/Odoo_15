@@ -3,8 +3,7 @@
 ## Install apps
 
 - agriculture_app
-- sale_management
-- l10n_tw
+- ecpay_invoice_tw
 
 ## Enable development mode
 
