@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class Member(models.Model):
     # _name = 'agriculture.member'
-    _inherit = 'res.partner'
+    _inherit = ['res.partner']
     # _description = 'Member of agriculture app'
     # _rec_name = 'SellerName'
     # _order = "SellerName desc"
@@ -102,29 +102,32 @@ class Member(models.Model):
             result['bank_name'] = partnerData['bank_ids'][0].bank_name
             result['acc_holder_name'] = partnerData['bank_ids'][0].acc_holder_name
         return result
-    
+
     @api.model
     def create(self, fields):
         _logger.info('Start create method in Member model')
-        if fields["is_agriculture_member"] == True:
+        # add new check type is_agriculture_member
+        if fields.get("is_agriculture_member") == True:
             try:
                 if fields.get('SellerId', _('New')) == _('New'):
-                    fields['SellerId'] = self.env['ir.sequence'].next_by_code('new.sellerID') or _('New')
+                    fields['SellerId'] = self.env['ir.sequence'].next_by_code(
+                        'new.sellerID') or _('New')
                     _logger.info('SellerId: %s', fields['SellerId'])
             except Exception as e:
                 _logger.error('Error generating sequence: %s', str(e))
         else:
-            pass
+            fields['is_agriculture_member'] = False
 
         res = super(Member, self).create(fields)
         return res
-    
+
     def write(self, fields):
         _logger.info('Start write method in Member model')
         if fields.get('is_agriculture_member') == True and fields.get('SellerId') == _('New'):
             try:
                 if fields.get('SellerId', _('New')) == _('New'):
-                    fields['SellerId'] = self.env['ir.sequence'].next_by_code('new.sellerID') or _('New')
+                    fields['SellerId'] = self.env['ir.sequence'].next_by_code(
+                        'new.sellerID') or _('New')
                     _logger.info('SellerId: %s', fields['SellerId'])
             except Exception as e:
                 _logger.error('Error generating sequence: %s', str(e))
@@ -133,5 +136,3 @@ class Member(models.Model):
 
         res = super(Member, self).write(fields)
         return res
-
-
