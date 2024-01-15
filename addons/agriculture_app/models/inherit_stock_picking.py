@@ -43,7 +43,7 @@ class Inherit_stock_picking(models.Model):
         "HopeArriveDate", require=True, default=date.today() + timedelta(days=3))
 
     Shipping_method = fields.Char(
-        'Shipping_method', default='')
+        'Shipping_method', compute='_compute_shipping_method')
 
     Shipping_destination = fields.Char('Shipping_destination', default='')
 
@@ -495,7 +495,7 @@ class Inherit_stock_picking(models.Model):
         vals['Shipping_method'] = self.carrier_id.name
         vals['Shipping_destination'] = self.partner_id.state_id.name
         return super(Inherit_stock_picking, self).create(vals)
-    
+
     def write(self, vals):
         self.env.cr.commit()
         _logger.info("update stocking pick write")
@@ -503,6 +503,20 @@ class Inherit_stock_picking(models.Model):
         vals['Shipping_destination'] = self.partner_id.state_id.name
         return super(Inherit_stock_picking, self).write(vals)
 
-    # def default_get(self, fields):
-    #     res = super(Inherit_stock_picking, self).default_get(fields)
-    #     return res
+    @api.model
+    def default_get(self, fields_list):
+        defaults = super(Inherit_stock_picking, self).default_get(fields_list)
+
+        # This part assumes that there is carrier information available in context
+        default_carrier_id = self.env.context.get('default_carrier_id')
+
+        if default_carrier_id and 'Shipping_method' in fields_list:
+            # Make sure to only attempt to set the default if the field is in the view
+            carrier = self.env['delivery.carrier'].browse(default_carrier_id)
+            if carrier.exists():
+                defaults['Shipping_method'] = carrier.name
+            else:
+                _logger.warning(
+                    "Could not find default carrier for ID: %s", default_carrier_id)
+
+        return defaults
