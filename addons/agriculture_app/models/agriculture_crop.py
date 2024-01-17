@@ -596,6 +596,18 @@ class Crop(models.Model):
         return 1 if int(m) >= 1 and int(m) <= 9 else 2
 
     @api.model
+    def action_toggle_ValidDocsRecived(self):
+        """Toggle the 'ValidDocsRecived' field on the selected records."""
+        active_ids = self.env.context.get('active_ids', [])
+        crops = self.browse(active_ids)
+        for crop in crops:
+            crop.write({'ValidDocsRecived': True})
+            crop.write({'PriceState': 'done'})
+            crop.write({'stage_id': self._done_stage()})
+        # This will reload the view
+        return {'type': 'ir.actions.client', 'tag': 'reload'}
+
+    @api.model
     def create(self, fields):
         _logger.info(f"this write is {fields}")
         fields['SeqNumber'] = self._get_seqNumber()

@@ -157,6 +157,19 @@
     </field> 
   </record>
 
+<!-- add btn in action -->
+
+<record model="ir.actions.server" id="action_toggle_valid_docs_received">
+    <field name="name">Toggle Valid Docs Received</field>
+    <field name="model_id" ref="model_agriculture_crop"/>
+    <field name="binding_model_id" ref="model_agriculture_crop"/>
+    <field name="state">code</field>
+    <field name="code">
+      action = records.action_toggle_ValidDocsRecived()
+    </field>
+</record>
+
+
   <!-- explicit calender view definition -->
 
   <record id="view_calendar_crop" model="ir.ui.view">
