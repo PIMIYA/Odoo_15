@@ -473,35 +473,79 @@ class Inherit_stock_picking(models.Model):
             return self.no_carrier_notification()
         return True
 
+    # @api.onchange('carrier_id')
+    # def _onchange_(self):
+    #     for rec in self:
+    #         rec.Shipping_method = self.carrier_id.name
+    #         rec.Shipping_destination = self.partner_id.state_id.name
+    #         _logger.info(f"carrier_id name: {rec.Shipping_method}")
     @api.onchange('carrier_id')
-    def _onchange_(self):
+    def _onchange_carrier_id(self):
         for rec in self:
-            rec.Shipping_method = self.carrier_id.name
-            rec.Shipping_destination = self.partner_id.state_id.name
-            _logger.info(f"carrier_id name: {rec.Shipping_method}")
+            if rec.carrier_id:
+                rec.Shipping_method = rec.carrier_id.name
+                rec.Shipping_destination = rec.partner_id.state_id.name
+            else:
+                rec.Shipping_method = ''
+                rec.Shipping_destination = ''
 
+    # @api.depends('Shipping_method')
+    # def _compute_shipping_method(self):
+    #     for rec in self:
+    #         rec.Shipping_method = self.carrier_id.name
+    #         rec.Shipping_destination = self.partner_id.state_id.name
+    #         _logger.info(f"carrier_id name: {rec.Shipping_method}")
     @api.depends('Shipping_method')
     def _compute_shipping_method(self):
         for rec in self:
-            rec.Shipping_method = self.carrier_id.name
-            rec.Shipping_destination = self.partner_id.state_id.name
-            _logger.info(f"carrier_id name: {rec.Shipping_method}")
+            if rec.carrier_id:
+                rec.Shipping_method = rec.carrier_id.name
+                rec.Shipping_destination = rec.partner_id.state_id.name
+            else:
+                rec.Shipping_method = ''
+                rec.Shipping_destination = ''
 
+    # @api.model
+    # def create(self, vals):
+    #     self.env.cr.commit()
+    #     _logger.info("update stocking pick create")
+    #     _logger.info(f"carrier_id name: {self.carrier_id.name}")
+    #     vals['Shipping_method'] = self.carrier_id.name
+    #     vals['Shipping_destination'] = self.partner_id.state_id.name
+    #     return super(Inherit_stock_picking, self).create(vals)
+
+    # def write(self, vals):
+    #     self.env.cr.commit()
+    #     _logger.info("update stocking pick write")
+    #     vals['Shipping_method'] = self.carrier_id.name
+    #     vals['Shipping_destination'] = self.partner_id.state_id.name
+    #     return super(Inherit_stock_picking, self).write(vals)
     @api.model
     def create(self, vals):
-        self.env.cr.commit()
-        _logger.info("update stocking pick create")
-        _logger.info(f"carrier_id name: {self.carrier_id.name}")
-        vals['Shipping_method'] = self.carrier_id.name
-        vals['Shipping_destination'] = self.partner_id.state_id.name
-        return super(Inherit_stock_picking, self).create(vals)
+        if 'carrier_id' in vals:
+            carrier = self.env['delivery.carrier'].browse(vals['carrier_id'])
+            if carrier.exists():
+                vals['Shipping_method'] = carrier.name
+                # Assuming it's linked to partner, otherwise you have to adjust or handle this differently
+                # vals['Shipping_destination'] = carrier.partner_id.state_id.name
+            else:
+                vals['Shipping_method'] = ''
+                vals['Shipping_destination'] = ''
+        rec = super(Inherit_stock_picking, self).create(vals)
+        return rec
 
     def write(self, vals):
-        self.env.cr.commit()
-        _logger.info("update stocking pick write")
-        vals['Shipping_method'] = self.carrier_id.name
-        vals['Shipping_destination'] = self.partner_id.state_id.name
-        return super(Inherit_stock_picking, self).write(vals)
+        if 'carrier_id' in vals:
+            carrier = self.env['delivery.carrier'].browse(vals['carrier_id'])
+            if carrier.exists():
+                vals['Shipping_method'] = carrier.name
+                # Assuming it's linked to partner, otherwise you have to adjust or handle this differently
+                # vals['Shipping_destination'] = carrier.partner_id.state_id.name
+            else:
+                vals['Shipping_method'] = ''
+                vals['Shipping_destination'] = ''
+        result = super(Inherit_stock_picking, self).write(vals)
+        return result
 
     @api.model
     def default_get(self, fields_list):
