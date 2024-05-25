@@ -39,6 +39,8 @@ class Archived(models.Model):
         "NonLeasedArea", related="member.NonLeasedArea")
     MaxPurchaseQTY = fields.Float(
         "MaxPurchaseQTY", related="member.MaxPurchaseQTY")
+    is_agriculture_member = fields.Boolean(
+        "Is an Agriculture Member", related="member.is_agriculture_member")
 
     state = fields.Selection([
         ('none', 'None'),

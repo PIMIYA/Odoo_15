@@ -112,6 +112,7 @@
           <field name="member" />
           <field name="seq_numbers" />
           <field name="additional_items" />
+          <filter string="Is an Agriculture Member" name="is_agriculture_member" domain="[('is_agriculture_member','=',True)]" help="Filter for Agriculture Members"/>
         </search>
       </field>
     </record>
