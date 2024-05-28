@@ -150,6 +150,7 @@
         <field name="FarmingMethod" optional='show'/>
         <field name="CropStatus" optional='hide'/>
         <field name="CropWeight" optional='hide'/>
+        <field name="TotalDryingFee" optional='show'/>
         <field name="TotalPrice" optional='show' sum="Total"/>
         <field name="FinalPrice" optional='hide'/>
         <field name="LastCreationTime" options="{'format': 'YYYY-MM-DD'}" optional='hide'/>
@@ -208,6 +209,13 @@
         <filter name="filter_active" string="Archived" domain="[('PriceState', '=', 'archived')]"/>
       </search>
     </field>
+  </record>
+
+  <record id="seq_agriculture_crop" model="ir.sequence">
+      <field name="name">Agriculture Crop</field>
+      <field name="code">agriculture.crop</field>
+      <field name="padding">5</field>
+      <field name="company_id" eval="False"/>
   </record>
 
 </odoo>

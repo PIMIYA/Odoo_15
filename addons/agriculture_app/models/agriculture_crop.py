@@ -223,6 +223,15 @@ class Crop(models.Model):
     # active = fields.Boolean("Active?", default=True)
     archived_id = fields.Many2one("agriculture.archived")
 
+    # ******烘乾費用******
+    TotalDryingFee = fields.Float(
+        'TotalDryingFee', compute='_compute_total_drying_fee')
+
+    @api.depends('CropWeight', 'DryingFee')
+    def _compute_total_drying_fee(self):
+        for record in self:
+            record.TotalDryingFee = record.CropWeight * record.DryingFee
+
     # notification
 
     def create_notification(self):
@@ -575,7 +584,8 @@ class Crop(models.Model):
         return super(Crop, self).write(vals)
 
     def _get_seqNumber(self):
-        url = "http://ec2-34-215-20-244.us-west-2.compute.amazonaws.com:58809/api/Record"
+        # url = "http://ec2-34-215-20-244.us-west-2.compute.amazonaws.com:58809/api/Record"
+        url = "http://ec2-34-222-72-235.us-west-2.compute.amazonaws.com:58809/api/Record"
 
         data = {"CropStatus": ""}
         response = requests.post(url, json=data)
@@ -610,7 +620,10 @@ class Crop(models.Model):
     @api.model
     def create(self, fields):
         _logger.info(f"this write is {fields}")
-        fields['SeqNumber'] = self._get_seqNumber()
+        # fields['SeqNumber'] = self._get_seqNumber()
+        # create seqNumber from new record
+        seq_number = self.env['ir.sequence'].next_by_code('agriculture.crop')
+        fields['SeqNumber'] = seq_number
         fields['HarvestYear'] = self._get_year_to_kmtyear()
         fields['HarvestPeriod'] = self._get_year_to_period()
         fields['LastCreationTime'] = datetime.now()

@@ -247,6 +247,33 @@ class Archived(models.Model):
                 inv.with_context({'active_model': 'account.move', 'active_ids': inv.ids}).create(
                     {}).action_create_payments()
 
+    # 自動帶入每筆磅單烘乾費用
+    @api.depends('seq_numbers')
+    def _add_totalDryingFee_additional_items(self, vals):
+        for record in self:
+            for crop in record.seq_numbers:
+                item_name = '烘乾費-磅單編號- {}'.format(crop.SeqNumber)
+                # Check if an item with the same archived_id and item_name already exists
+                existing_item = self.env['agriculture.archived_additional_item'].search([
+                    ('archived_id', '=', record.id),
+                    ('item_name', '=', item_name),
+                ])
+                if existing_item:
+                    # If the item already exists, skip creating a new one
+                    continue
+                self.env['agriculture.archived_additional_item'].create({
+                    'archived_id': record.id,
+                    # set the datetime to the current date and time
+                    'datetime': fields.Datetime.now(),
+                    'item_name': item_name,  # set the item_name to a meaningful name
+                    'amount': 1,  # set the amount to 1
+                    # set the unit_price to the TotalDryingFee of the crop
+                    'unit_price': crop.TotalDryingFee,
+                    # set the total_price to the TotalDryingFee of the crop
+                    'total_price': crop.TotalDryingFee,
+                    'item_kind': 'income'  # set the item_kind to 'income'
+                })
+
 
 # 修正成單的序號刪除後，對應的成單也要刪除還原狀態
 
@@ -273,6 +300,9 @@ class Archived(models.Model):
             extra_order_total_amount = record.TotalExtraOrderAmount
             _logger.info('Extra_order_total_amount: %s',
                          extra_order_total_amount)
+
+            # add totalDryingFee to additional_items
+            self._add_totalDryingFee_additional_items(record)
 
             # set state to draft
             record.action_draft()
@@ -319,6 +349,9 @@ class Archived(models.Model):
             # for order in self.extra_orders:
             #     if order.invoice_status is 'to invoice':
             #         order._create_invoices()
+
+            # add totalDryingFee to additional_items
+            self._add_totalDryingFee_additional_items(res)
 
             _logger.info('End update method in Archived model')
             return res
