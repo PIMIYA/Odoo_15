@@ -129,7 +129,7 @@ class Crops(http.Controller):
         except Exception as e:
             return e
 
-    @http.route('/api/v1/agriculture/crop/<int:seqNumber>', type='json', auth="public", methods=['PUT'], csrf=False)
+    @http.route('/api/v1/agriculture/crop/<string:seqNumber>', type='json', auth="public", methods=['PUT'], csrf=False)
     def put_crop_record(self, seqNumber, **kwargs):
         try:
             data = kwargs['data']
