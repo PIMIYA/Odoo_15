@@ -548,22 +548,25 @@ class Crop(models.Model):
     @api.depends('RawHumidity')
     def _compute_drying_fee(self):
         for rec in self:
-            if rec.RawHumidity < 25:
-                rec.DryingFee = 1.5  # Updated fee for humidity less than 25
-            elif rec.RawHumidity < 26:
-                rec.DryingFee = 1.55
-            elif rec.RawHumidity < 27:
-                rec.DryingFee = 1.6
-            elif rec.RawHumidity < 28:
-                rec.DryingFee = 1.65
-            elif rec.RawHumidity < 30:
-                rec.DryingFee = 1.7
-            elif rec.RawHumidity < 31:
-                rec.DryingFee = 1.8
-            elif rec.RawHumidity < 32:
-                rec.DryingFee = 1.85
-            else:                     # for humidity >= 32
-                rec.DryingFee = 2
+            if rec.CropStatus == 'WET':
+                if rec.RawHumidity < 25:
+                    rec.DryingFee = 1.5  # Updated fee for humidity less than 25
+                elif rec.RawHumidity < 26:
+                    rec.DryingFee = 1.55
+                elif rec.RawHumidity < 27:
+                    rec.DryingFee = 1.6
+                elif rec.RawHumidity < 28:
+                    rec.DryingFee = 1.65
+                elif rec.RawHumidity < 30:
+                    rec.DryingFee = 1.7
+                elif rec.RawHumidity < 31:
+                    rec.DryingFee = 1.8
+                elif rec.RawHumidity < 32:
+                    rec.DryingFee = 1.85
+                else:                     # for humidity >= 32
+                    rec.DryingFee = 2
+            else:
+                rec.DryingFee = 0
 
     def unlink_archiveItem(self):
         self.PriceState = 'done'
