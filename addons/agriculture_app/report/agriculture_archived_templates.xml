@@ -4,6 +4,7 @@
   <template id="archived_billing_report">
     <t t-foreach="docs" t-as="doc">
       <t t-set="total_weight" t-value="0" />
+      <t t-set="total_weight_by_ratio" t-value="0" />
       <t t-set="total_income" t-value="0" />
       <t t-set="add_items" t-value="doc.mapped('additional_items')" />
 
@@ -97,6 +98,7 @@
               <t t-set="crops" t-value="doc.mapped('seq_numbers')" />
               <tr t-foreach="crops" t-as="crop">
                 <t t-set="total_weight" t-value="total_weight+crop.CropWeight" />
+                <t t-set="total_weight_by_ratio" t-value="total_weight_by_ratio+crop.CropWeight_by_ratio" />
                 <td style="white-space: nowrap; width: 55px;">
                   <span t-esc="idx" />
                 </td>
@@ -161,7 +163,7 @@
                 <td colspan="2">總重量</td>
                 <!-- 重量 -->
                 <td class="align-middle" colspan="2">
-                  <span t-esc="'{0:,.2f}'.format(total_weight)" />
+                  <span t-esc="'{0:,.2f}'.format(total_weight_by_ratio)" />
                   <span>（公斤）</span>
                 </td>
                 
