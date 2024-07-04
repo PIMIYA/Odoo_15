@@ -158,7 +158,14 @@
 
               <!-- 應付金額 -->
               <tr>
-                <td colspan="5">應付金額</td>
+                <td colspan="2">總重量</td>
+                <!-- 重量 -->
+                <td class="align-middle" colspan="2">
+                  <span t-esc="'{0:,.2f}'.format(total_weight)" />
+                  <span>（公斤）</span>
+                </td>
+                
+                <td colspan="2">應付金額</td>
                 <!-- 金額 -->
                 <td class="align-middle" colspan="2">
                   <span t-esc="'{0:,.0f}'.format(floor(doc.TotalExpenditure))" />
