@@ -150,6 +150,7 @@
         <field name="FarmingMethod" optional='show'/>
         <field name="CropStatus" optional='hide'/>
         <field name="CropWeight" optional='hide'/>
+        <field name="CropWeight_by_ratio" optional='hide'/>
         <field name="TotalDryingFee" optional='show'/>
         <field name="TotalPrice" optional='show' sum="Total"/>
         <field name="FinalPrice" optional='hide'/>

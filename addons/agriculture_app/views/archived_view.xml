@@ -22,9 +22,15 @@
             </group>
             <separator />
             <group name="group_calculate">
-              <field name="TotalExpenditure" />
-              <field name="TotalIncome" />
-              <field name="TotalActuallyPaid" />
+              <group name="group_left">
+                <field name="TotalExpenditure" />
+                <field name="TotalIncome" />
+                <field name="TotalActuallyPaid" />
+              </group>
+              <group name="group_right">
+                <field name="TotalWeightByRatioInTotal" />
+                <field name="DryingFeeInTotal" />
+              </group>
             </group>
             <separator />
             <group name="group_bottom">

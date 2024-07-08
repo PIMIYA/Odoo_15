@@ -159,24 +159,33 @@ class Archived(models.Model):
     IsOverflowQTY = fields.Boolean(compute='_compute_IsOverflowQTY')
     TotalExtraOrderAmount = fields.Float(compute='_compute_extra_order')
 
-    @api.depends('seq_numbers')
+    DryingFeeInTotal = fields.Float(
+        'DryingFeeInTotal', compute='_compute_DryingFeeInTotal')
+
+    TotalPriceInTotal = fields.Float(
+        'TotalPriceInTotal', compute='_compute_TotalPriceInTotal')
+
+    TotalWeightByRatioInTotal = fields.Float(
+        'TotalWeightByRatioInTotal', compute='_compute_TotalWeightByRatioInTotal')
+
+    @ api.depends('seq_numbers')
     def _compute_TotalQTY(self):
         for rec in self:
             rec.TotalQTY = 0
             for crop in rec.seq_numbers:
                 rec.TotalQTY += crop.CropWeight
 
-    @api.depends('TotalQTY', 'MaxPurchaseQTY')
+    @ api.depends('TotalQTY', 'MaxPurchaseQTY')
     def _compute_RemianingQTY(self):
         for rec in self:
             rec.RemianingQTY = rec.MaxPurchaseQTY - rec.TotalQTY
 
-    @api.onchange('RemianingQTY')
+    @ api.onchange('RemianingQTY')
     def _compute_IsOverflowQTY(self):
         for rec in self:
             rec.IsOverflowQTY = rec.RemianingQTY < 0
 
-    @api.depends('seq_numbers', 'additional_items', 'extra_orders')
+    @ api.depends('seq_numbers', 'additional_items', 'extra_orders')
     def _compute_TotalExpenditure(self):
         for rec in self:
             rec.TotalExpenditure = 0
@@ -188,7 +197,7 @@ class Archived(models.Model):
                     rec.TotalExpenditure += item.total_price
             rec.TotalExpenditure = math.floor(rec.TotalExpenditure)
 
-    @api.depends('additional_items', 'extra_orders')
+    @ api.depends('additional_items', 'extra_orders')
     def _compute_TotalIncome(self):
         for rec in self:
             rec.TotalIncome = 0
@@ -200,7 +209,7 @@ class Archived(models.Model):
                     rec.TotalIncome += order.amount_total
             rec.TotalIncome = math.floor(rec.TotalIncome)
 
-    @api.depends('extra_orders')
+    @ api.depends('extra_orders')
     def _compute_extra_order(self):
         extra_order_total_amount = 0
         for rec in self:
@@ -208,14 +217,35 @@ class Archived(models.Model):
                 extra_order_total_amount += order.amount_total
             rec.TotalExtraOrderAmount = extra_order_total_amount
 
-    @api.depends('TotalExpenditure', 'TotalIncome', 'seq_numbers', 'additional_items', 'extra_orders')
+    @ api.depends('TotalExpenditure', 'TotalIncome', 'seq_numbers', 'additional_items', 'extra_orders')
     def _compute_TotalActuallyPaid(self):
         for rec in self:
             rec.TotalActuallyPaid = math.floor(
                 rec.TotalExpenditure - rec.TotalIncome)
     ##########
 
-    @api.onchange('member')
+    @ api.depends('seq_numbers')
+    def _compute_DryingFeeInTotal(self):
+        for rec in self:
+            rec.DryingFeeInTotal = 0
+            for crop in rec.seq_numbers:
+                rec.DryingFeeInTotal += crop.TotalDryingFee
+
+    @ api.depends('seq_numbers')
+    def _compute_TotalPriceInTotal(self):
+        for rec in self:
+            rec.TotalPriceInTotal = 0
+            for crop in rec.seq_numbers:
+                rec.TotalPriceInTotal += crop.TotalPrice
+
+    @ api.depends('seq_numbers')
+    def _compute_TotalWeightByRatioInTotal(self):
+        for rec in self:
+            rec.TotalWeightByRatioInTotal = 0
+            for crop in rec.seq_numbers:
+                rec.TotalWeightByRatioInTotal += crop.CropWeight_by_ratio
+
+    @ api.onchange('member')
     def _onchange_member(self):
         for seq in self.seq_numbers:
             if seq.SellerName.id != self.member.id:
@@ -273,7 +303,6 @@ class Archived(models.Model):
                     'total_price': crop.TotalDryingFee,
                     'item_kind': 'income'  # set the item_kind to 'income'
                 })
-
 
 # 修正成單的序號刪除後，對應的成單也要刪除還原狀態
 
