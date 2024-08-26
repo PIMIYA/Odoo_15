@@ -17,6 +17,12 @@ class Member(models.Model):
 
     # channel_ids = fields.Many2many('partner_id', 'channel_id', copy=False)
 
+    fax = fields.Char(
+        string='Fax',
+        help="Fax number of the contact",
+        required=False
+    )
+
     SellerName = fields.Char(related='name', required=False)
     SellerId = fields.Char(string='SellerId', required=True,
                            readonly=True, default=lambda self: _('New'))

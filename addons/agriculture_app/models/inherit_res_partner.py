@@ -7,6 +7,12 @@ class Inherit_res_partner(models.Model):
     is_agriculture_member = fields.Boolean(string='Is an Agriculture Member', default=False,
                                            help="Check if the contact is a agriculture_member, otherwise it is a person or company", required=False)
 
+    fax = fields.Char(
+        string='Fax',
+        help="Fax number of the contact",
+        required=False
+    )
+
     # Member = fields.Many2one("agriculture.member",
     #                          string="SellerName", required=False)
 

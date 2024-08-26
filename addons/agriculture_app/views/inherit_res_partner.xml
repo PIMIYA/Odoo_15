@@ -12,6 +12,10 @@
               <!-- <field name="Member" attrs="{'invisible': [('is_agriculture_member', '=', False)]}" /> -->
             </group>
           </xpath>
+
+          <xpath expr="//field[@name='vat']" position="after">
+                <field name="fax" widget="phone"/>
+          </xpath>
           
           <xpath expr="//div[contains(@class, 'oe_title mb24')]" position="after">
             <div>
