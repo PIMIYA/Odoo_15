@@ -47,6 +47,8 @@
                             <span>
                                 <stong t-field="o.partner_id.name"/>   收</span>
                             <br/>
+                            <spam t-if="o.partner_id.mobile" t-field="o.partner_id.mobile"/>
+                            <spam t-else="" t-field="o.partner_id.phone"/>
                         </div>
                     </div>
                 </t>
