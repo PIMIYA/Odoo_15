@@ -100,7 +100,7 @@
 
                         <!-- info -->
                         <main style="flex: 1;">
-                            <table id="info" style="width: 100%; font-size: 18px; margin-bottom: 5px;">
+                            <table id="info" style="width: 100%; font-size: 16px; margin-bottom: 5px;">
                                 <tbody>
                                     <tr>
                                         <td>
@@ -151,7 +151,12 @@
                                         <td>
                                             <div class="shipment_date">
                             出貨日期：
-                                                <span t-field="o.ShipmentDate"/>
+                                                <t t-if="o.state != 'done'">
+                                                    <span t-field="o.date_deadline"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span t-field="o.date_done"/>
+                                                </t>
                                             </div>
                                         </td>
                                     </tr>
@@ -414,7 +419,7 @@
                                     <tr>
                                         <td>
                                             <strong>出貨單金額合計 : </strong>
-                                            <span t-esc="sum(line.sale_line_id.price_subtotal for line in lines)"/>
+                                            <span t-esc="round(sum(line.sale_line_id.price_subtotal for line in lines))"/>
                                         </td>
                                         <td colspan="8" style="text-align: right;">
                                             <strong> 合計（訂單）:</strong>

@@ -100,7 +100,7 @@
 
                         <!-- info -->
                         <main style="flex: 1;">
-                            <table id="info" style="width: 100%; font-size: 18px; margin-bottom: 5px;">
+                            <table id="info" style="width: 100%; font-size: 16px; margin-bottom: 5px;">
                                 <tbody>
                                     <tr>
                                         <td>
@@ -150,7 +150,12 @@
                                         <td>
                                             <div class="shipment_date">
                             出貨日期：
-                                                <span t-field="o.ShipmentDate"/>
+                                                <t t-if="o.state != 'done'">
+                                                    <span t-field="o.date_deadline"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span t-field="o.date_done"/>
+                                                </t>
                                             </div>
                                         </td>
                                     </tr>
