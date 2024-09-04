@@ -418,8 +418,13 @@
                                     <t t-set="tax_totals" t-value="o.sale_id.tax_totals_json and json.loads(o.sale_id.tax_totals_json)"/>
                                     <tr>
                                         <td>
-                                            <strong>出貨單金額合計 : </strong>
-                                            <span t-esc="round(sum(line.sale_line_id.price_subtotal for line in lines))"/>
+                                            <t t-if="o.move_line_ids and o.state=='done'">
+                                            <!-- 完成出貨流程 無總金額 -->
+                                            </t>
+                                            <t t-else="">
+                                                <strong>出貨單金額合計 : </strong>
+                                                <span t-esc="round(sum(line.sale_line_id.price_subtotal for line in lines))"/>
+                                            </t>
                                         </td>
                                         <td colspan="8" style="text-align: right;">
                                             <strong> 合計（訂單）:</strong>
