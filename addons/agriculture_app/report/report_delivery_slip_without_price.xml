@@ -100,7 +100,7 @@
 
                         <!-- info -->
                         <main style="flex: 1;">
-                            <table id="info" style="width: 100%; font-size: 16px; margin-bottom: 5px;">
+                            <table id="info" style="width: 100%; font-size: 18px; margin-bottom: 5px;">
                                 <tbody>
                                     <tr>
                                         <td>
@@ -154,7 +154,7 @@
                                                     <span t-field="o.date_deadline"/>
                                                 </t>
                                                 <t t-else="">
-                                                    <span t-field="o.date_done"/>
+                                                    <span t-field="o.scheduled_date"/>
                                                 </t>
                                             </div>
                                         </td>
@@ -188,7 +188,7 @@
                                         </td>
                                         <td>
                                             <div class="order_number">
-                            貨單編號
+                            訂單編號
                                                 <span t-field="o.origin"/>
                                             </div>
                                         </td>
@@ -217,8 +217,10 @@
                                         </td>
                                         <td>
                                             <div class="note">
-                                                <span>備註：</span>
-                                                <span t-field="o.note"/>
+                                                <span>訂單備註：</span>
+                                                <t t-if="o.sale_id.note">
+                                                    <span t-field="o.sale_id.note"/>
+                                                </t>
                                             </div>
                                         </td>
                                         <td>
@@ -276,7 +278,7 @@
                                 <tr>
                                     <td>
                                         <div class="note">
-                                            <span>備註：</span>
+                                            <span>貨單備註：</span>
                                             <span t-field="o.note"/>
                                         </div>
                                     </td>
