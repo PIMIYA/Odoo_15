@@ -13,7 +13,7 @@
         <field name="margin_right">10</field>
         <field name="header_line" eval="False" />
         <field name="header_spacing">0</field>
-        <field name="dpi">200</field>
+        <field name="dpi">180</field>
     </record>
     <!-- Add Report Action -->
     <record id="action_report_delivery_slip_with_price" model="ir.actions.report">
@@ -38,7 +38,7 @@
 
                     <div class="wrapper" style="height: 100vh; display: flex; flex-direction: column;">
                         <!-- header -->
-                        <table id="custom_header" style="width: 100%; font-size: 36px; margin-bottom: 10px;">
+                        <table id="custom_header" style="width: 100%; font-size: 32px; margin-bottom: 10px;">
                             <tbody>
                                 <tr>
                                     <td>
@@ -100,7 +100,7 @@
 
                         <!-- info -->
                         <main style="flex: 1;">
-                            <table id="info" style="width: 100%; font-size: 36px; margin-bottom: 5px;">
+                            <table id="info" style="width: 100%; font-size: 32px; margin-bottom: 5px;">
                                 <tbody>
                                     <tr>
                                         <td>
@@ -235,7 +235,7 @@
                             </table>
 
                             <!-- product details -->
-                            <table id="product_details" name="stock_move_table" style="width: 100%; font-size: 36px;">
+                            <table id="product_details" name="stock_move_table" style="width: 100%; font-size: 32px;">
                                 <thead style="border-top: 1px solid black; border-bottom: 1px solid black;">
                                     <tr>
                                         <th>商品編號</th>
@@ -324,7 +324,7 @@
 
 
                             <!-- note:  -->
-                             <table style="width: 100%; font-size: 36px; border-top: 1px solid black;">
+                             <table style="width: 100%; font-size: 32px; border-top: 1px solid black;">
                                 <tr>
                                     <td>
                                         <div class="note">
@@ -338,7 +338,7 @@
 
                             <!-- price totals -->
 
-                            <table id="price_totals" name="price_totals_of_list_of_orders" style="width: 100%; font-size: 36px; border-top: 1px solid black;">
+                            <table id="price_totals" name="price_totals_of_list_of_orders" style="width: 100%; font-size: 32px; border-top: 1px solid black;">
                                 <tbody>
                                     <!-- Total Price Row -->
                                     <t t-set="tax_totals" t-value="o.sale_id.tax_totals_json and json.loads(o.sale_id.tax_totals_json)"/>
@@ -381,7 +381,7 @@
                         <!-- footer -->
                         <div class="footer">
                             <!-- sign -->
-                            <table id="custom_footer" style="width: 100%; font-size: 36px; margin-top: 5px; margin-bottom: 5px;">
+                            <table id="custom_footer" style="width: 100%; font-size: 32px; margin-top: 5px; margin-bottom: 5px;">
                                 <tbody>
                                     <tr>
                                         <td>
