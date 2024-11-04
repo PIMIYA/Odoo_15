@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+import pytz
 from odoo import api, fields, models
 from odoo.tools.translate import _
 import logging
@@ -128,12 +129,9 @@ class Crop(models.Model):
     HarvestPeriod = fields.Integer(
         'HarvestPeriod', required=True, default=0)  # 期數
 
-    # LastCreationTime = fields.Datetime(
-    #     'LastCreationTime')  # 收購時間
-    LastCreationTime = fields.Datetime(
-        string='LastCreationTime',
-        default=fields.Datetime.now
-    )  # 收購時間
+
+    LastCreationTime = fields.Datetime('LastCreationTime')  # 收購時間
+
     CropWeight = fields.Float(
         'CropWeight', compute='_compute_crop_weight', store=True, required=True, default=0.0)  # 稻穀總重量
 
@@ -577,7 +575,7 @@ class Crop(models.Model):
 
     def write(self, vals):
         _logger.info(f"this write is {fields}")
-        vals['LastEditTime'] = datetime.now()
+        vals['LastEditTime'] = self._get_user_datetime(datetime.now())
         key = 'archived_id'
         if key in vals:
             archivedId = vals[key]
@@ -610,6 +608,12 @@ class Crop(models.Model):
         d = datetime.now()
         m = d.strftime("%m")
         return 1 if int(m) >= 1 and int(m) <= 9 else 2
+    
+    # get date and time by user timezone
+    def _get_user_datetime(self, datetime):
+        user_tz = pytz.timezone(self.env.user.tz)
+        datetime = datetime.astimezone(user_tz)
+        return datetime.strftime('%Y-%m-%d %H:%M:%S')
 
     @api.model
     def action_toggle_ValidDocsRecived(self):
@@ -632,7 +636,7 @@ class Crop(models.Model):
         fields['SeqNumber'] = seq_number
         fields['HarvestYear'] = self._get_year_to_kmtyear()
         fields['HarvestPeriod'] = self._get_year_to_period()
-        # fields['LastCreationTime'] = datetime.now()
+        fields['LastCreationTime'] = self._get_user_datetime(datetime.now())
 
         return super(Crop, self).create(fields)
 
