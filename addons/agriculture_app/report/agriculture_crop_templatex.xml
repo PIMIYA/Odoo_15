@@ -91,8 +91,8 @@
                     </td>
                     <td colspan="4">
                         <!-- <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')" /> -->
-                        <!-- <span t-field="doc.LastCreationTime" t-options="{'widget': 'datetime'}"/> -->
-                        <span t-esc="doc.LastCreationTime.strftime('%Y-%m-%d %H:%M')"/>
+                        <span t-field="doc.LastCreationTime" t-options="{'widget': 'datetime'}"/>
+                        <!-- <span t-esc="doc.LastCreationTime.strftime('%Y-%m-%d %H:%M')"/> -->
                         <!-- <span t-field="doc.create_date" t-options="{'widget': 'datetime'}" /> -->
                     </td>
                     <td colspan="6">
@@ -275,8 +275,8 @@
                     </td>
                     <td colspan="4">
                         <!-- <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')" /> -->
-                        <!-- <span t-field="doc.LastCreationTime" t-options="{'widget': 'datetime'}"/> -->
-                        <span t-esc="doc.LastCreationTime.strftime('%Y-%m-%d %H:%M')"/>
+                        <span t-field="doc.LastCreationTime" t-options="{'widget': 'datetime'}"/>
+                        <!-- <span t-esc="doc.LastCreationTime.strftime('%Y-%m-%d %H:%M')"/> -->
                     </td>
                     <td colspan="2" class="text-left">
                         <span>烘乾桶：</span>

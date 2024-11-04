@@ -575,7 +575,7 @@ class Crop(models.Model):
 
     def write(self, vals):
         _logger.info(f"this write is {fields}")
-        vals['LastEditTime'] = self._get_user_datetime(datetime.now())
+        vals['LastEditTime'] = datetime.now()
         key = 'archived_id'
         if key in vals:
             archivedId = vals[key]
@@ -639,7 +639,7 @@ class Crop(models.Model):
         fields['SeqNumber'] = seq_number
         fields['HarvestYear'] = self._get_year_to_kmtyear()
         fields['HarvestPeriod'] = self._get_year_to_period()
-        fields['LastCreationTime'] = self._get_user_datetime(datetime.now())
+        fields['LastCreationTime'] = datetime.now()
 
         return super(Crop, self).create(fields)
 

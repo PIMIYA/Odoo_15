@@ -17,8 +17,8 @@
                 <group name="group_left">
                   <h3>單號</h3>
                   <field name="SeqNumber"/>
-                  <field name="LastCreationTime" readonly='1'/>
-                  <field name="LastEditTime" readonly='1'/>
+                  <field name="LastCreationTime" widget="datetime" readonly='1'/>
+                  <field name="LastEditTime" widget="datetime" readonly='1'/>
                   <!-- <field name="StartTime" /> -->
                   <!-- <field name="EndTime" /> -->
                 </group>
@@ -154,7 +154,7 @@
         <field name="TotalDryingFee" optional='show'/>
         <field name="TotalPrice" optional='show' sum="Total"/>
         <field name="FinalPrice" optional='hide'/>
-        <field name="LastCreationTime" options="{'format': 'YYYY-MM-DD'}" optional='hide'/>
+        <field name="LastCreationTime" options="{'widget': 'datetime'}" optional='hide'/>
       </tree>
     </field> 
   </record>
@@ -201,7 +201,7 @@
       <search>
         <field name="SellerName"/>
         <field name="CropVariety"/>
-        <field name="LastCreationTime"/>
+        <field name="LastCreationTime" widget="datetime"/>
         <field name="CarCropWeight"/>
         <field name="CarWeight" />
         <field name="HarvestPeriod" />
