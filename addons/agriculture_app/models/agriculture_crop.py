@@ -611,9 +611,12 @@ class Crop(models.Model):
     
     # get date and time by user timezone
     def _get_user_datetime(self, datetime):
-        user_tz = pytz.timezone(self.env.user.tz)
-        datetime = datetime.astimezone(user_tz)
-        return datetime.strftime('%Y-%m-%d %H:%M:%S')
+        user_tz = self.env.user.tz or 'UTC'
+        user_timezone = pytz.timezone(user_tz)
+        utc_datetime = fields.Datetime.from_string(datetime)
+        user_datetime = utc_datetime.astimezone(user_timezone)
+        return user_datetime.strftime('%Y-%m-%d %H:%M:%S')
+    
 
     @api.model
     def action_toggle_ValidDocsRecived(self):
