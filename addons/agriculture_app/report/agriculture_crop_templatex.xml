@@ -90,8 +90,8 @@
                         <span>日期：</span>
                     </td>
                     <td colspan="4">
-                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')" />
-                        <!-- <span t-esc="doc.LastCreationTime.strftime('%Y-%m-%d %H:%M')"/> -->
+                        <!-- <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')" /> -->
+                        <span t-field="doc.LastCreationTime" t-options='{"format": "yyyy-MM-dd HH:mm"}'/>
                     </td>
                     <td colspan="6">
                         <span></span>
@@ -272,8 +272,8 @@
                         <span>日期：</span>
                     </td>
                     <td colspan="4">
-                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')" />
-                        <!-- <span t-esc="doc.LastCreationTime.strftime('%Y-%m-%d %H:%M')"/> -->
+                        <!-- <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')" /> -->
+                        <span t-field="doc.LastCreationTime" t-options='{"format": "yyyy-MM-dd HH:mm"}'/>
                     </td>
                     <td colspan="2" class="text-left">
                         <span>烘乾桶：</span>

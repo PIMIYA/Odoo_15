@@ -128,9 +128,12 @@ class Crop(models.Model):
     HarvestPeriod = fields.Integer(
         'HarvestPeriod', required=True, default=0)  # 期數
 
+    # LastCreationTime = fields.Datetime(
+    #     'LastCreationTime')  # 收購時間
     LastCreationTime = fields.Datetime(
-        'LastCreationTime')  # 收購時間
-
+        string='LastCreationTime',
+        default=fields.Datetime.now
+    )  # 收購時間
     CropWeight = fields.Float(
         'CropWeight', compute='_compute_crop_weight', store=True, required=True, default=0.0)  # 稻穀總重量
 
@@ -629,7 +632,7 @@ class Crop(models.Model):
         fields['SeqNumber'] = seq_number
         fields['HarvestYear'] = self._get_year_to_kmtyear()
         fields['HarvestPeriod'] = self._get_year_to_period()
-        fields['LastCreationTime'] = datetime.now()
+        # fields['LastCreationTime'] = datetime.now()
 
         return super(Crop, self).create(fields)
 
